@@ -1,16 +1,14 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/track_me.dart';
-import 'package:blind_companion/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'ocr.dart';
 
 class MyTraceMeOcr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return (Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -18,7 +16,7 @@ class MyTraceMeOcr extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              AppTexts.trace_me_ocr,
+              'Trace Me/OCR'.tr,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -36,7 +34,7 @@ class MyTraceMeOcr extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppTexts.discover,
+                            'Discover the Community. See the World Together'.tr,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
@@ -45,7 +43,7 @@ class MyTraceMeOcr extends StatelessWidget {
                             height: 40,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.track_me,
+                            text: 'Track Me'.tr,
                             image: 'images/detective_icon.png',
                             color: Colors.deepOrange,
                             ontap: () {
@@ -56,7 +54,7 @@ class MyTraceMeOcr extends StatelessWidget {
                             height: 30,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.ocr,
+                            text: 'OCR'.tr,
                             image: 'images/ocr.png',
                             color: Colors.deepOrange,
                             ontap: () {

@@ -1,13 +1,11 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:blind_companion/screens/trace_me_OCR.dart';
 import 'package:blind_companion/screens/volunteer_help.dart';
 import 'package:flutter/material.dart';
-
-import 'ocr.dart';
+import 'package:get/get.dart';
 
 class MyBlindScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -35,13 +33,13 @@ class MyBlindScreen extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                AppTexts.volunteer,
+                'Volunteer'.tr,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
               titleTextStyle: const TextStyle(color: Colors.deepOrange),
               subtitle: Text(
-                AppTexts.volunteer_email,
-                style: TextStyle(
+                'emmanuelpriest@gmail.com'.tr,
+                style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                     color: Colors.black),
@@ -56,31 +54,31 @@ class MyBlindScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        AppTexts.discover,
+                        'Discover the Community. See the World Together'.tr,
                         textAlign: TextAlign.left,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ]),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   MyDoubleIconTextButton(
-                    text: AppTexts.self_help,
+                    text: 'Self Help'.tr,
                     image: 'images/self_help_icon.png',
                     color: Colors.deepOrange,
                     ontap: () {
                       AppNavigation.push(context, MyTraceMeOcr());
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   MyDoubleIconTextButton(
-                    text: AppTexts.volunteer_help,
+                    text: 'Self/Volunteer Help'.tr,
                     image: 'images/volunteer_icon.png',
                     color: Colors.deepOrange,
                     ontap: () {
@@ -104,14 +102,14 @@ class MyBlindScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    AppTexts.volunteer,
+                    'Volunteer'.tr,
                     style: const TextStyle(
                       color: Colors.deepOrange,
                       fontSize: 18,
                     ),
                   ),
                   Text(
-                    AppTexts.volunteer_email,
+                    'emmanuelpriest@gmail.com'.tr,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -122,7 +120,7 @@ class MyBlindScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: Text(AppTexts.edit_profile),
+              title: Text('Edit Profile'.tr),
               onTap: () {
                 // Handle item 1 press
                 AppNavigation.push(context, MyEditProfile());
@@ -131,7 +129,7 @@ class MyBlindScreen extends StatelessWidget {
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),
-              title: Text(AppTexts.logout),
+              title: Text('Logout'.tr),
               onTap: () {
                 // Handle item 2 press
                 AppNavigation.push(context, MySigninScreen());

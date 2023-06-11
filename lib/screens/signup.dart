@@ -1,9 +1,9 @@
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/otp.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Assets/Navigation.dart';
 
@@ -25,7 +25,8 @@ class _MySignupScreenState extends State<MySignupScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(color: Color.fromARGB(255, 248, 243, 239)),
+          decoration:
+              const BoxDecoration(color: Color.fromARGB(255, 248, 243, 239)),
           // decoration: BoxDecoration(
           //     image: DecorationImage(
           //         image: AssetImage('images/background.jpg'), fit: BoxFit.cover)),
@@ -34,7 +35,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
@@ -42,21 +43,20 @@ class _MySignupScreenState extends State<MySignupScreen> {
                     height: screenHeight * 0.25,
                     child: Image.asset('images/logo.png'),
                   ),
-                  MyTextField(hint: AppTexts.name, label: AppTexts.name),
-                  SizedBox(
+                  MyTextField(hint: 'Name'.tr, label: 'Name'.tr),
+                  const SizedBox(
                     height: 30,
                   ),
                   MyTextField(
-                      hint: AppTexts.email_address,
-                      label: AppTexts.email_address),
-                  SizedBox(
+                      hint: 'Email Address'.tr, label: 'Email Address'.tr),
+                  const SizedBox(
                     height: 30,
                   ),
                   MyTextField(
-                      hint: AppTexts.password,
-                      label: AppTexts.password,
+                      hint: 'Old Password'.tr,
+                      label: 'New Password'.tr,
                       obsecure: true),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   SingleChildScrollView(
@@ -71,7 +71,8 @@ class _MySignupScreenState extends State<MySignupScreen> {
                           },
                         ),
                         Text(
-                          AppTexts.account_creation,
+                          'By creating account you\'re accepting terms and conditions'
+                              .tr,
                           style: TextStyle(fontSize: screenWidth * 0.03),
                         )
                       ],
@@ -81,7 +82,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                     height: screenHeight * 0.05,
                   ),
                   MyTextButton(
-                    text: AppTexts.signup,
+                    text: 'Sign Up'.tr,
                     color: Colors.deepOrange,
                     ontap: () => showDialog<String>(
                       context: context,
@@ -92,7 +93,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                           color: Colors.deepOrange,
                         ),
                         content: Text(
-                          AppTexts.otp,
+                          'We have sent you a 4 digit OTP Code'.tr,
                           textAlign: TextAlign.center,
                         ),
                         actions: <Widget>[
@@ -104,7 +105,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                   builder: (BuildContext context) =>
                                       AlertDialog(
                                     title: Text(
-                                      AppTexts.enter_otp,
+                                      'Enter OTP'.tr,
                                       textAlign: TextAlign.center,
                                     ),
                                     content: Container(
@@ -122,30 +123,29 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                             AppNavigation.push(
                                                 context, MySigninScreen());
                                           },
-                                          text: AppTexts.confirm),
+                                          text: 'Confirm Password'.tr),
                                     ],
                                   ),
                                 );
                                 // AppNavigation.push(context, MySigninScreen());
                               },
-                              text: AppTexts.next),
+                              text: 'Next'.tr),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        AppTexts.have_account,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        'Have an account?'.tr,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      TextButton(
-                          onPressed: () {}, child: Text(AppTexts.signin)),
-                      Spacer()
+                      TextButton(onPressed: () {}, child: Text('Sign In'.tr)),
+                      const Spacer()
                     ],
                   )
                 ],

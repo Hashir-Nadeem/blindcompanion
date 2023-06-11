@@ -1,7 +1,7 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/screens/call.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyBlindCallRequestContainer extends StatelessWidget {
   const MyBlindCallRequestContainer({super.key});
@@ -30,7 +30,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                     width: screenWidth * 0.1,
                   ),
                   Text(
-                    AppTexts.scam_likely,
+                    'Scam Likely'.tr,
                     style: const TextStyle(
                         fontSize: 18, fontWeight: FontWeight.w500),
                   ),
@@ -46,7 +46,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                   ),
                   Wrap(children: [
                     Text(
-                      AppTexts.scam_likely_requesting,
+                      'Scam Likely is requesting for help'.tr,
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: screenWidth * 0.05,
@@ -72,7 +72,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                 child: Text(
-                  AppTexts.accept,
+                  'Accept',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: screenWidth * 0.06,
@@ -87,7 +87,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                 child: Text(
-                  AppTexts.reject,
+                  'Reject',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: screenWidth * 0.06,

@@ -1,15 +1,14 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 int turn = 0;
 
 class MySelfVolunteerHelp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return (Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -17,7 +16,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              AppTexts.Self_Volunteer_Help,
+              'Self/Volunteer Help'.tr,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -35,7 +34,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppTexts.discover,
+                            'Discover the Community. See the World Together'.tr,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
@@ -44,7 +43,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                             height: 40,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.i_blind,
+                            text: 'I am a Blind'.tr,
                             image: 'images/blind_icon.png',
                             color: Colors.deepOrange,
                             ontap: () {
@@ -56,7 +55,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                             height: 30,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.i_volunteer,
+                            text: 'I am a Volunteer'.tr,
                             image: 'images/volunteer_icon.png',
                             color: Colors.deepOrange,
                             ontap: () {

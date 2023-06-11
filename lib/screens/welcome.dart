@@ -4,6 +4,7 @@ import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyWelcomeScreen extends StatelessWidget {
   @override
@@ -25,22 +26,22 @@ class MyWelcomeScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: AppTexts.welcome_to,
-                        style: TextStyle(
+                        text: 'Welcome To'.tr,
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: AppTexts.blind,
-                        style: TextStyle(
+                        text: 'Help Request From Blind'.tr,
+                        style: const TextStyle(
                             color: Colors.orange,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: AppTexts.companion,
-                        style: TextStyle(
+                        text: 'Companion'.tr,
+                        style: const TextStyle(
                             color: Colors.black,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
@@ -51,7 +52,7 @@ class MyWelcomeScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                Center(
+                const Center(
                   child: Text(
                     'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
                     textAlign: TextAlign.center,
@@ -78,7 +79,7 @@ class MyWelcomeScreen extends StatelessWidget {
                   text: 'Sign Up',
                   color: Colors.orangeAccent,
                   ontap: () {
-                    AppNavigation.push(context, MyEmailScreen());
+                    AppNavigation.push(context, const MyEmailScreen());
                   },
                 )
               ],
