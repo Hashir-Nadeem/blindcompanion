@@ -66,13 +66,32 @@ class AppTexts extends Translations {
           'Location permissions are denied': 'Location permissions are denied',
           'Location permissions are permanently denied, we cannot request permissions':
               'Location permissions are permanently denied, we cannot request permissions',
-          'You are present at': 'You are present at'
+          'You are present at': 'You are present at',
+          'Select Language': 'Select Language',
+          'Choose One': 'Choose One',
+          'English': 'English',
+          'Urdu': 'Urdu',
+          'Map': 'Map',
+          'Current Location': 'Current Location',
+          'By continuing, I confirm I am atleast 15 Years old,and I agree to and accept the  ':
+              'By continuing, I confirm I am atleast 15 Years old,and I agree to and accept the  ',
+          ' Terms & Privacy Policy': ' Terms & Privacy Policy',
+          'Continue with Email': 'Continue with Email',
+          'Continue with Google': 'Continue with Google',
+          ' Help Request From Blind': ' Help Request From Blind',
+          ' Companion': ' Companion',
+          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.':
+              'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+          'Your request for extended help call is submitted succesfully, You will be notified shortly':
+              'Your request for extended help call is submitted succesfully, You will be notified shortly',
+          'Your request for brief help call is submitted succesfully, You will be notified shortly':
+              'Your request for brief help call is submitted succesfully, You will be notified shortly'
         },
         'ur_PK': {
           'Sign In': 'سائن ان کریں',
           'Sign Up': 'سائن اپ کریں',
           'We have sent you a 4 digit OTP Code':
-              'ہم نے آپ کو ایک چار ہندسہ ون ٹائم پاس کوڈ بھیجا ہے',
+              'ہم نے آپ کو ایک چار ہندسہ کا  ون ٹائم پاس کوڈ بھیجا ہے',
           'Next': 'اگلا',
           'Have an account?': 'کیا آپ کا اکاؤنٹ ہے؟',
           'emmanuelpriest@gmail.com': 'emmanuelpriest@gmail.com',
@@ -80,7 +99,7 @@ class AppTexts extends Translations {
           'Edit Profile': 'پروفائل میں ترمیم کریں',
           'Logout': 'لاگ آؤٹ',
           'Resend': 'دوبارہ بھیجیں',
-          'Help Request From Blind': 'ابلاغ مشکل کی درخواست',
+          'Help Request From Blind': 'نابینا افراد کی  مدد کی درخواست',
           'Scam Likely': 'ممکنہ دھوکہ',
           'Scam Likely is requesting for help': 'ممکنہ دھوکہ کی مدد کی درخواست',
           'Name': 'نام',
@@ -101,21 +120,21 @@ class AppTexts extends Translations {
           'Confirm': 'تصدیق کریں',
           'Get Started': 'شروع کریں',
           'Welcome To': 'خوش آمدید',
-          'Blind': 'ابلاغ مشکل',
-          "Don't have an account?": "آپ کا کوئی اکاؤنٹ نہیں ہے؟",
+          'Blind': 'نابینا',
+          'Dont have an account?': "آپ کا کوئی اکاؤنٹ نہیں ہے؟",
           'Self/Volunteer Help': 'خود/رضاکار مدد',
           'Volunteer Help': 'رضاکار مدد',
           'Discover the Community. See the World Together':
               'کمیونٹی کی دریافت کریں۔ دنیا کو ساتھ دیکھیں',
-          'I am a Blind': 'میں ابلاغ مشکل ہوں',
+          'I am a Blind': 'میں نابینا ہوں',
           'I am a Volunteer': 'میں رضاکار ہوں',
           'Companion': 'ساتھی',
           'Password': 'پاس ورڈ',
           'Forget Password?': 'پاس ورڈ بھول گئے؟',
-          'Self Help': 'خود مدد',
-          'Trace Me/OCR': 'میرا پتہ تلاش کریں/OCR',
-          'Track Me': 'میری پیچھے لگیں',
-          'OCR': 'OCR',
+          'Self Help': 'اپنی مَدَد آپ',
+          'Trace Me/OCR': 'میرا پتہ تلاش کریں/حروفی تشخیص',
+          'Track Me': 'مجھے ٹریک کریں',
+          'OCR': 'حروفی تشخیص',
           'By creating an account, you are accepting the terms and conditions':
               'ایک اکاؤنٹ بنانے کے ذریعے، آپ شرائط و ضوابط قبول کر رہے ہیں',
           'Scan': 'اسکین کریں',
@@ -123,15 +142,35 @@ class AppTexts extends Translations {
           'Speech In Progress': 'تقریر جاری ہے',
           'Stop': 'روکیں',
           'An error occurred when scanning text':
-              'متن کو اسکین کرتے وقت ایک خرابی رو نما ہوگئی',
+              'ٹیکسٹ  کو اسکین کرتے وقت ایک خرابی رو نما ہوگئی',
           'Camera permission denied': 'کیمرہ کی اجازت مسترد کر دی گئی',
           'Location services are disabled. Please enable the services':
               'مقام کی خدمات غیر فعال ہیں۔ براہ کرم خدمات کو فعال کریں',
           'Location permissions are denied':
               'مقام کی اجازتیں مسترد کر دی گئی ہیں',
           'Location permissions are permanently denied, we cannot request permissions':
-              'مقام کی اجازتیں مستدام طور پر مسترد کر دی گئی ہیں، ہم اجازتیں درخواست نہیں کر سکتے',
-          'You are present at': 'آپ حاضر ہیں'
+              'مقام کی اجازتیں مستقل طور پر منسوخ کردی گئی  ہیں، ہم اجازتیں درخواست نہیں کر سکتے',
+          'You are present at': 'آپ حاضر ہیں',
+          'Select Language': 'زبان منتخب کریں',
+          'Choose One': 'ایک منتخب کریں',
+          'English': 'انگریزی',
+          'Urdu': 'اردو',
+          'Map': 'نقشہ',
+          'Current Location': 'موجودہ مقام',
+          'Don\'t have an account?': 'کیا آپ کا اکاؤنٹ نہیں ہے؟',
+          'By continuing, I confirm I am atleast 15 Years old,and I agree to and accept the  ':
+              'جاری رکھنے سے پہلے میں تصدیق کرتا ہوں کہ میری عمر 15 سال سے کم نہیں ہے، اور میں راضی ہوں اور قبول کرتا ہوں',
+          ' Terms & Privacy Policy': 'ضوابط اور رازداری کی پالیسی',
+          'Continue with Email': 'ای میل کے ساتھ جاری رکھیں',
+          'Continue with Google': 'گوگل کے ساتھ جاری رکھیں',
+          'Your request for extended help call is submitted succesfully, You will be notified shortly':
+              'آپ کی درخواست توسیع شدہ مدد کال کیلئے کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد ہی مطلع کیا جائے گا۔',
+          ' Help Request From Blind': 'نابینا سے مدد کی درخواست',
+          ' Companion': 'ساتھی',
+          'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.':
+              'یہ ایک مستقل حقیقت ہے کہ جب صفحے کی ترتیب دیکھتے ہیں تو قارئین کو صفحے کے قابل پڑھنے کی موجودہ مواد پر توجہ دینے سے مشغول کردیا جاتا ہے"',
+          'Your request for brief help call is submitted succesfully, You will be notified shortly':
+              'آپ کی کم وقتی مدد کی درخواست کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد ہی مطلع کیا جائے گا۔'
         },
       };
 }

@@ -15,10 +15,6 @@ class MyVolunteerHelp extends StatelessWidget {
     // TODO: implement build
     return (Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Self/Volunteer Help'.tr,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
         centerTitle: true,
       ),
       body: Padding(

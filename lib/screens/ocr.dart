@@ -79,7 +79,7 @@ class _MyOcrState extends State<MyOcr> with WidgetsBindingObserver {
             Scaffold(
               appBar: AppBar(
                 title: Text(
-                  'Trace Me/OCR'.tr,
+                  'OCR'.tr,
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,

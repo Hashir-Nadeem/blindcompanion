@@ -85,8 +85,8 @@ class _MyTrackMeState extends State<MyTrackMe> {
       _markers.add(Marker(
         markerId: const MarkerId("1"),
         position: LatLng(value.latitude, value.longitude),
-        infoWindow: const InfoWindow(
-          title: 'Current Location',
+        infoWindow: InfoWindow(
+          title: 'Current Location'.tr,
         ),
       ));
 
@@ -130,7 +130,7 @@ class _MyTrackMeState extends State<MyTrackMe> {
     final screenWidth = screenSize.width;
     return (Scaffold(
         appBar: AppBar(
-          title: Text("Map"),
+          title: Text('Map'.tr),
           backgroundColor: Colors.transparent,
         ),
         body: SizedBox(

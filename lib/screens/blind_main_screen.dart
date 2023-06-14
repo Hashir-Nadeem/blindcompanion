@@ -1,5 +1,6 @@
 import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
+import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:blind_companion/screens/trace_me_OCR.dart';
@@ -126,6 +127,8 @@ class MyBlindScreen extends StatelessWidget {
                 AppNavigation.push(context, MyEditProfile());
               },
             ),
+            const Divider(),
+            LanguageDropdown(),
             const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),

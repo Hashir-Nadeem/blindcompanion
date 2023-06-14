@@ -1,5 +1,4 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/signIn.dart';
@@ -33,14 +32,14 @@ class MyWelcomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: 'Help Request From Blind'.tr,
+                        text: ' Help Request From Blind'.tr,
                         style: const TextStyle(
                             color: Colors.orange,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
-                        text: 'Companion'.tr,
+                        text: ' Companion'.tr,
                         style: const TextStyle(
                             color: Colors.black,
                             fontSize: 32,
@@ -52,9 +51,10 @@ class MyWelcomeScreen extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.02,
                 ),
-                const Center(
+                Center(
                   child: Text(
-                    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
+                    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.'
+                        .tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -69,14 +69,14 @@ class MyWelcomeScreen extends StatelessWidget {
                   ontap: () {
                     AppNavigation.push(context, MySigninScreen());
                   },
-                  text: 'Sign In',
+                  text: 'Sign In'.tr,
                   color: Colors.deepOrange,
                 ),
                 SizedBox(
                   height: screenHeight * 0.05,
                 ),
                 MyTextButton(
-                  text: 'Sign Up',
+                  text: 'Sign Up'.tr,
                   color: Colors.orangeAccent,
                   ontap: () {
                     AppNavigation.push(context, const MyEmailScreen());

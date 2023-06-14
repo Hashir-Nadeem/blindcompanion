@@ -1,5 +1,6 @@
 import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/blind_call_request_container.dart';
+import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +120,8 @@ class MyVolunteerScreen extends StatelessWidget {
               },
             ),
             const Divider(),
+            LanguageDropdown(),
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),
               title: Text('Logout'.tr),
@@ -127,7 +130,6 @@ class MyVolunteerScreen extends StatelessWidget {
                 AppNavigation.push(context, MySigninScreen());
               },
             ),
-            const Divider(),
           ],
         ),
       ),

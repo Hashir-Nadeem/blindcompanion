@@ -18,10 +18,6 @@ class MySigninScreen extends StatelessWidget {
     return (Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Sign In'.tr,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
         backgroundColor: const Color.fromARGB(255, 248, 243, 239),
       ),
       body: Container(
@@ -45,9 +41,7 @@ class MySigninScreen extends StatelessWidget {
                   height: 30,
                 ),
                 MyTextField(
-                    hint: 'Old Password'.tr,
-                    label: 'New Password'.tr,
-                    obsecure: true),
+                    hint: 'Password'.tr, label: 'Password'.tr, obsecure: true),
                 Row(
                   children: [
                     const Spacer(),

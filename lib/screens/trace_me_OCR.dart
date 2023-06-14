@@ -15,10 +15,6 @@ class MyTraceMeOcr extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(
-              'Trace Me/OCR'.tr,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(
               height: 150,
               child: Image.asset('images/logo.png'),
