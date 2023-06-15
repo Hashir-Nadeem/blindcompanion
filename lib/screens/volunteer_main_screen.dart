@@ -53,7 +53,11 @@ class MyVolunteerScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [
+                children: [Container(height: screenHeight*0.06,width: screenWidth*0.8,decoration: BoxDecoration(color: Colors.orange.shade50,shape: BoxShape.rectangle),
+                  child: TextButton(onPressed: () {
+
+                  }, child: Text('Learn to answer a call')),
+                ),
                   Row(
                     children: [
                       Text(

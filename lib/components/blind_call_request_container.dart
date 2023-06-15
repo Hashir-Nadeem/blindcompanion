@@ -12,7 +12,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
     return (Container(
-      height: screenHeight * 0.2,
+      height: screenHeight * 0.3,
       width: screenWidth * 1,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
