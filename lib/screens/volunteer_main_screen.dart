@@ -1,9 +1,10 @@
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/blind_call_request_container.dart';
+import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyVolunteerScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -35,13 +36,14 @@ class MyVolunteerScreen extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                AppTexts.volunteer,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                'emmanuelpriest@gmail.com'.tr,
+                style:
+                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
               titleTextStyle: const TextStyle(color: Colors.deepOrange),
               subtitle: Text(
-                AppTexts.volunteer_email,
-                style: TextStyle(
+                'emmanuelpriest@gmail.com'.tr,
+                style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
                     color: Colors.black),
@@ -51,11 +53,15 @@ class MyVolunteerScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [
+                children: [Container(height: screenHeight*0.06,width: screenWidth*0.8,decoration: BoxDecoration(color: Colors.orange.shade50,shape: BoxShape.rectangle),
+                  child: TextButton(onPressed: () {
+
+                  }, child: Text('Learn to answer a call')),
+                ),
                   Row(
                     children: [
                       Text(
-                        AppTexts.help_request,
+                        'Help Request From Blind'.tr,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: screenWidth * 0.07,
@@ -93,14 +99,14 @@ class MyVolunteerScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    AppTexts.volunteer,
+                    'Self/Volunteer Help'.tr,
                     style: const TextStyle(
                       color: Colors.deepOrange,
                       fontSize: 18,
                     ),
                   ),
                   Text(
-                    AppTexts.volunteer_email,
+                    'emmanuelpriest@gmail.com'.tr,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -111,22 +117,23 @@ class MyVolunteerScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.edit),
-              title: Text(AppTexts.edit_profile),
+              title: Text('Edit Profile'.tr),
               onTap: () {
                 // Handle item 1 press
                 AppNavigation.push(context, MyEditProfile());
               },
             ),
             const Divider(),
+            LanguageDropdown(),
+            const Divider(),
             ListTile(
               leading: const Icon(Icons.logout),
-              title: Text(AppTexts.logout),
+              title: Text('Logout'.tr),
               onTap: () {
                 // Handle item 2 press
                 AppNavigation.push(context, MySigninScreen());
               },
             ),
-            const Divider(),
           ],
         ),
       ),

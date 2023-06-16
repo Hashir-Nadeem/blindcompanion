@@ -1,8 +1,8 @@
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Assets/Navigation.dart';
 import 'blind_main_screen.dart';
@@ -11,11 +11,10 @@ import 'self_volunteerHelp.dart';
 class MyEditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return (Scaffold(
       appBar: AppBar(
         title: Text(
-          AppTexts.edit_profile,
+          'Edit Profile'.tr,
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -29,25 +28,25 @@ class MyEditProfile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                MyTextField(hint: AppTexts.name, label: AppTexts.name),
+                MyTextField(hint: 'Name'.tr, label: 'Name'.tr),
                 const SizedBox(
                   height: 20,
                 ),
                 MyTextField(
-                    hint: AppTexts.email_address,
-                    label: AppTexts.email_address),
+                    hint: 'Email Address'.tr, label: 'Email Address'.tr),
                 const SizedBox(
                   height: 20,
                 ),
-                MyTextField(hint: AppTexts.old_pwd, label: AppTexts.old_pwd),
+                MyTextField(hint: 'Old Password'.tr, label: 'Old Password'.tr),
                 const SizedBox(
                   height: 20,
                 ),
-                MyTextField(hint: AppTexts.new_pwd, label: AppTexts.new_pwd),
+                MyTextField(hint: 'New Password'.tr, label: 'New Password'.tr),
                 const SizedBox(
                   height: 20,
                 ),
-                MyTextField(hint: AppTexts.cfm_pwd, label: AppTexts.cfm_pwd),
+                MyTextField(
+                    hint: 'Confirm Password'.tr, label: 'Confirm Password'.tr),
                 const SizedBox(
                   height: 20,
                 ),
@@ -58,7 +57,7 @@ class MyEditProfile extends StatelessWidget {
             height: 50,
           ),
           MyTextButton(
-            text: AppTexts.save,
+            text: 'Save'.tr,
             color: Colors.deepOrange,
             ontap: () {
               if (turn == 2) {

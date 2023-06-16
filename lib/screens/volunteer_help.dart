@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
-import 'package:blind_companion/screens/track_me.dart';
-import 'package:blind_companion/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'call.dart';
-import 'ocr.dart';
 
 class MyVolunteerHelp extends StatelessWidget {
   const MyVolunteerHelp({super.key});
@@ -18,10 +15,6 @@ class MyVolunteerHelp extends StatelessWidget {
     // TODO: implement build
     return (Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppTexts.volunteer_help,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -43,7 +36,7 @@ class MyVolunteerHelp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppTexts.discover,
+                            'Discover the Community. See the World Together'.tr,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
@@ -52,7 +45,7 @@ class MyVolunteerHelp extends StatelessWidget {
                             height: 40,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.brief_help,
+                            text: 'Brief Help'.tr,
                             image: 'images/brief_icon.png',
                             color: const Color.fromRGBO(255, 87, 34, 1),
                             ontap: () {
@@ -60,19 +53,22 @@ class MyVolunteerHelp extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Icon(
+                                    title: const Icon(
                                       Icons.call,
                                       color: Colors.deepOrange,
                                       size: 30,
                                     ),
-                                    content: Wrap(
-                                        children: [Text(AppTexts.brief_call)]),
+                                    content: Wrap(children: [
+                                      Text(
+                                          'Your request for brief help call is submitted succesfully, You will be notified shortly'
+                                              .tr)
+                                    ]),
                                   );
                                 },
                               );
 
                               // Delay the navigation to the next screen
-                              Timer(Duration(seconds: 3), () {
+                              Timer(const Duration(seconds: 3), () {
                                 AppNavigation.push(context, MyCall());
                               });
                             },
@@ -81,7 +77,7 @@ class MyVolunteerHelp extends StatelessWidget {
                             height: 30,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.extended_help,
+                            text: 'Extended Help'.tr,
                             image: 'images/extended_help.png',
                             color: Colors.deepOrange,
                             ontap: () {
@@ -89,20 +85,22 @@ class MyVolunteerHelp extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Icon(
+                                    title: const Icon(
                                       Icons.call,
                                       color: Colors.deepOrange,
                                       size: 30,
                                     ),
                                     content: Wrap(children: [
-                                      Text(AppTexts.extended_call)
+                                      Text(
+                                          'Your request for extended help call is submitted succesfully, You will be notified shortly'
+                                              .tr)
                                     ]),
                                   );
                                 },
                               );
 
                               // Delay the navigation to the next screen
-                              Timer(Duration(seconds: 3), () {
+                              Timer(const Duration(seconds: 3), () {
                                 AppNavigation.push(context, MyCall());
                               });
                             },

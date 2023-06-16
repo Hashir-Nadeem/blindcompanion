@@ -33,7 +33,7 @@ class MyDoubleIconTextButton extends StatelessWidget {
                 child: Container(
                   height: screenHeight * 0.1,
                   decoration: BoxDecoration(
-                      color: color, borderRadius: BorderRadius.circular(8.0)),
+                      color: color, borderRadius: BorderRadius.circular(1.0)),
                   child: Row(
                     children: [
                       Padding(
