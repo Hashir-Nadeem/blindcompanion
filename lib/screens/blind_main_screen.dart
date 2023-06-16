@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/components/languageDropdown.dart';
@@ -10,7 +9,6 @@ import 'package:blind_companion/screens/track_me.dart';
 import 'package:blind_companion/screens/volunteer_help.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'call.dart';
 import 'ocr.dart';
 
@@ -70,27 +68,103 @@ class MyBlindScreen extends StatelessWidget {
                       ),
                     ),
                   ]),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: screenHeight * 0.02,
                   ),
-                  MyDoubleIconTextButton(
-                    text: 'Track Me'.tr,
-                    image: 'images/detective_icon.png',
-                    color: Colors.deepOrange,
-                    ontap: () {
-                      AppNavigation.push(context, MyTrackMe());
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  MyDoubleIconTextButton(
-                    text: 'OCR'.tr,
-                    image: 'images/ocr.png',
-                    color: Colors.deepOrange,
-                    ontap: () {
-                      AppNavigation.push(context, MyOcr());
-                    },
+                  Card(
+                    elevation: 10,
+                    child: Container(
+                        height: screenHeight * 0.65,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              MyDoubleIconTextButton(
+                                text: 'Track Me'.tr,
+                                image: 'images/detective_icon.png',
+                                color: Colors.deepOrange,
+                                ontap: () {
+                                  AppNavigation.push(context, MyTrackMe());
+                                },
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              MyDoubleIconTextButton(
+                                text: 'OCR'.tr,
+                                image: 'images/ocr.png',
+                                color: Colors.deepOrange,
+                                ontap: () {
+                                  AppNavigation.push(context, MyOcr());
+                                },
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              MyDoubleIconTextButton(
+                                text: 'Brief Help'.tr,
+                                image: 'images/brief_icon.png',
+                                color: const Color.fromRGBO(255, 87, 34, 1),
+                                ontap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Icon(
+                                          Icons.call,
+                                          color: Colors.deepOrange,
+                                          size: 30,
+                                        ),
+                                        content: Wrap(children: [
+                                          Text(
+                                              'Your request for brief help call is submitted succesfully, You will be notified shortly'
+                                                  .tr)
+                                        ]),
+                                      );
+                                    },
+                                  );
+
+                                  // Delay the navigation to the next screen
+                                  Timer(const Duration(seconds: 3), () {
+                                    AppNavigation.push(context, MyCall());
+                                  });
+                                },
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              MyDoubleIconTextButton(
+                                text: 'Extended Help'.tr,
+                                image: 'images/extended_help.png',
+                                color: Colors.deepOrange,
+                                ontap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Icon(
+                                          Icons.call,
+                                          color: Colors.deepOrange,
+                                          size: 30,
+                                        ),
+                                        content: Wrap(children: [
+                                          Text(
+                                              'Your request for extended help call is submitted succesfully, You will be notified shortly'
+                                                  .tr)
+                                        ]),
+                                      );
+                                    },
+                                  );
+
+                                  // Delay the navigation to the next screen
+                                  Timer(const Duration(seconds: 3), () {
+                                    AppNavigation.push(context, MyCall());
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        )),
                   ),
                   // MyDoubleIconTextButton(
                   //   text: 'Self Help'.tr,
@@ -100,9 +174,7 @@ class MyBlindScreen extends StatelessWidget {
                   //     AppNavigation.push(context, MyTraceMeOcr());
                   //   },
                   // ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+
                   // MyDoubleIconTextButton(
                   //   text: 'Self/Volunteer Help'.tr,
                   //   image: 'images/volunteer_icon.png',
@@ -111,67 +183,6 @@ class MyBlindScreen extends StatelessWidget {
                   //     AppNavigation.push(context, MyVolunteerHelp());
                   //   },
                   // )
-                  MyDoubleIconTextButton(
-                    text: 'Brief Help'.tr,
-                    image: 'images/brief_icon.png',
-                    color: const Color.fromRGBO(255, 87, 34, 1),
-                    ontap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Icon(
-                              Icons.call,
-                              color: Colors.deepOrange,
-                              size: 30,
-                            ),
-                            content: Wrap(children: [
-                              Text(
-                                  'Your request for brief help call is submitted succesfully, You will be notified shortly'
-                                      .tr)
-                            ]),
-                          );
-                        },
-                      );
-
-                      // Delay the navigation to the next screen
-                      Timer(const Duration(seconds: 3), () {
-                        AppNavigation.push(context, MyCall());
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  MyDoubleIconTextButton(
-                    text: 'Extended Help'.tr,
-                    image: 'images/extended_help.png',
-                    color: Colors.deepOrange,
-                    ontap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Icon(
-                              Icons.call,
-                              color: Colors.deepOrange,
-                              size: 30,
-                            ),
-                            content: Wrap(children: [
-                              Text(
-                                  'Your request for extended help call is submitted succesfully, You will be notified shortly'
-                                      .tr)
-                            ]),
-                          );
-                        },
-                      );
-
-                      // Delay the navigation to the next screen
-                      Timer(const Duration(seconds: 3), () {
-                        AppNavigation.push(context, MyCall());
-                      });
-                    },
-                  )
                 ],
               ),
             ),

@@ -45,6 +45,8 @@ dependencies:
   map_launcher: ^2.5.0+1
   get: ^4.6.5
   translator: ^0.1.7
+  animated_flip_counter: ^0.2.5
+  countup: ^0.1.4
 
 dev_dependencies:
   flutter_test:

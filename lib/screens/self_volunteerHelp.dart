@@ -3,6 +3,7 @@ import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:countup/countup.dart';
 
 int turn = 0;
 
@@ -20,8 +21,68 @@ class MySelfVolunteerHelp extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: screenHeight*0.2,
+                height: screenHeight * 0.2,
                 child: Image.asset('images/logo.png'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          'US',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 7500,
+                          duration: Duration(seconds: 3),
+                          separator: ',',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      children: [
+                        Text(
+                          'UK',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 8000,
+                          duration: Duration(seconds: 3),
+                          separator: ',',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Column(
+                      children: [
+                        Text(
+                          'PK',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Countup(
+                          begin: 0,
+                          end: 10000,
+                          duration: Duration(seconds: 3),
+                          separator: ',',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -34,13 +95,14 @@ class MySelfVolunteerHelp extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Discover the Community. See the World Together'.tr,
+                              'Discover the Community. See the World Together'
+                                  .tr,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),
-                             SizedBox(
-                              height: screenHeight*0.05,
+                            SizedBox(
+                              height: screenHeight * 0.05,
                             ),
                             MyDoubleIconTextButton(
                               text: 'I am a Blind'.tr,
@@ -51,8 +113,8 @@ class MySelfVolunteerHelp extends StatelessWidget {
                                 AppNavigation.push(context, MyWelcomeScreen());
                               },
                             ),
-                             SizedBox(
-                              height:screenHeight*0.05,
+                            SizedBox(
+                              height: screenHeight * 0.05,
                             ),
                             MyDoubleIconTextButton(
                               text: 'I am a Volunteer'.tr,
