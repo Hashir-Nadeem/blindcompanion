@@ -10,11 +10,15 @@ import 'package:get/get.dart';
 import '../Assets/Navigation.dart';
 
 class MySigninScreen extends StatelessWidget {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+
     return (Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,13 +39,42 @@ class MySigninScreen extends StatelessWidget {
                   height: 200,
                   child: Image.asset('images/logo.png'),
                 ),
-                MyTextField(
-                    hint: 'Email Address'.tr, label: 'Email Address'.tr),
-                const SizedBox(
-                  height: 30,
+                Form(
+                  key: formKey,
+                  child: Column(children: [
+                    MyTextField(
+                      hint: 'Email Address'.tr,
+                      prefixIcon: const Icon(Icons.email_outlined),
+                      controller: emailController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email address';
+                        }
+                        if (!isEmailValid(value)) {
+                          return 'Please enter a valid email address';
+                        }
+
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    MyTextField(
+                      hint: 'Password'.tr,
+                      prefixIcon: const Icon(Icons.password_outlined),
+                      obscure: true,
+                      controller: passwordController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        }
+
+                        return null;
+                      },
+                    ),
+                  ]),
                 ),
-                MyTextField(
-                    hint: 'Password'.tr, label: 'Password'.tr, obsecure: true),
                 Row(
                   children: [
                     const Spacer(),
@@ -61,11 +94,13 @@ class MySigninScreen extends StatelessWidget {
                   text: 'Sign In'.tr,
                   color: Colors.deepOrange,
                   ontap: () {
-                    if (turn == 2) {
-                      AppNavigation.push(context, MyVolunteerScreen());
-                    }
-                    if (turn == 1) {
-                      AppNavigation.push(context, MyBlindScreen());
+                    if (formKey.currentState!.validate()) {
+                      if (turn == 2) {
+                        AppNavigation.push(context, MyVolunteerScreen());
+                      }
+                      if (turn == 1) {
+                        AppNavigation.push(context, MyBlindScreen());
+                      }
                     }
                   },
                 ),
@@ -93,5 +128,12 @@ class MySigninScreen extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  bool isEmailValid(String email) {
+    // Simple email validation using a regular expression pattern
+    const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
+    final regex = RegExp(pattern);
+    return regex.hasMatch(email);
   }
 }

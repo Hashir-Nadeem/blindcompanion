@@ -15,49 +15,85 @@ class MySignupScreen extends StatefulWidget {
 class _MySignupScreenState extends State<MySignupScreen> {
   bool _isChecked = false;
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    // TODO: implement build
-    return (Scaffold(
+
+    return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
         child: Container(
-          decoration:
-              const BoxDecoration(color: Color.fromARGB(255, 248, 243, 239)),
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //         image: AssetImage('images/background.jpg'), fit: BoxFit.cover)),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 248, 243, 239),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  const Text(
-                    'Sign Up',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
                   SizedBox(
                     height: screenHeight * 0.25,
                     child: Image.asset('images/logo.png'),
                   ),
-                  MyTextField(hint: 'Name'.tr, label: 'Name'.tr),
-                  const SizedBox(
-                    height: 30,
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        MyTextField(
+                          hint: 'Name'.tr,
+                          controller: nameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyTextField(
+                          hint: 'Email Address'.tr,
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email address';
+                            }
+                            if (!isEmailValid(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyTextField(
+                          hint: 'Password'.tr,
+                          obscure: true,
+                          controller: passwordController,
+                          prefixIcon: const Icon(Icons.password_outlined),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  MyTextField(
-                      hint: 'Email Address'.tr, label: 'Email Address'.tr),
                   const SizedBox(
-                    height: 30,
-                  ),
-                  MyTextField(
-                      hint: 'Old Password'.tr,
-                      label: 'New Password'.tr,
-                      obsecure: true),
-                  const SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -66,15 +102,16 @@ class _MySignupScreenState extends State<MySignupScreen> {
                         Checkbox(
                           value: _isChecked,
                           onChanged: (value) {
-                            setState(() {});
-                            _isChecked = !_isChecked;
+                            setState(() {
+                              _isChecked = value ?? false;
+                            });
                           },
                         ),
                         Text(
                           'By creating account you\'re accepting terms and conditions'
                               .tr,
                           style: TextStyle(fontSize: screenWidth * 0.03),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -84,59 +121,85 @@ class _MySignupScreenState extends State<MySignupScreen> {
                   MyTextButton(
                     text: 'Sign Up'.tr,
                     color: Colors.deepOrange,
-                    ontap: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Icon(
-                          Icons.email,
-                          size: 50,
-                          color: Colors.deepOrange,
-                        ),
-                        content: Text(
-                          'We have sent you a 4 digit OTP Code'.tr,
-                          textAlign: TextAlign.center,
-                        ),
-                        actions: <Widget>[
-                          MyTextButton(
-                              color: Colors.deepOrange,
-                              ontap: () {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: Text(
-                                      'Enter OTP'.tr,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    content: Container(
-                                        height: screenHeight * 0.2,
-                                        width: screenWidth * 1,
-                                        child: Column(
-                                          children: [
-                                            MyOTP(),
-                                          ],
-                                        )),
-                                    actions: <Widget>[
-                                      MyTextButton(
-                                          color: Colors.deepOrange,
-                                          ontap: () {
-                                            AppNavigation.push(
-                                                context, MySigninScreen());
-                                          },
-                                          text: 'Confirm Password'.tr),
-                                    ],
-                                  ),
-                                );
-                                // AppNavigation.push(context, MySigninScreen());
-                              },
-                              text: 'Next'.tr),
-                        ],
-                      ),
-                    ),
+                    ontap: () {
+                      if (formKey.currentState!.validate()) {
+                        if (!_isChecked) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                'Please accept the terms and conditions',
+                              ),
+                              actions: <Widget>[
+                                MyTextButton(
+                                  color: Colors.deepOrange,
+                                  ontap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  text: 'OK',
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        } else {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Icon(
+                                Icons.email,
+                                size: 50,
+                                color: Colors.deepOrange,
+                              ),
+                              content: Text(
+                                'We have sent you a 4 digit OTP Code'.tr,
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: <Widget>[
+                                MyTextButton(
+                                  color: Colors.deepOrange,
+                                  ontap: () {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          'Enter OTP'.tr,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        content: Container(
+                                          height: screenHeight * 0.2,
+                                          width: screenWidth * 1,
+                                          child: Column(
+                                            children: [
+                                              MyOTP(),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          MyTextButton(
+                                            color: Colors.deepOrange,
+                                            ontap: () {
+                                              AppNavigation.push(
+                                                  context, MySigninScreen());
+                                            },
+                                            text: 'Confirm Password'.tr,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  text: 'Next'.tr,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      }
+                    },
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 15),
                   Row(
                     children: [
                       const Spacer(),
@@ -144,16 +207,27 @@ class _MySignupScreenState extends State<MySignupScreen> {
                         'Have an account?'.tr,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      TextButton(onPressed: () {}, child: Text('Sign In'.tr)),
-                      const Spacer()
+                      TextButton(
+                          onPressed: () {
+                            AppNavigation.push(context, MySigninScreen());
+                          },
+                          child: Text('Sign In'.tr)),
+                      const Spacer(),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
           ),
         ),
       ),
-    ));
+    );
+  }
+
+  bool isEmailValid(String email) {
+    // Simple email validation using a regular expression pattern
+    const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
+    final regex = RegExp(pattern);
+    return regex.hasMatch(email);
   }
 }
