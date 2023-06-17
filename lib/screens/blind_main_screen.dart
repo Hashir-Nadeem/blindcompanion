@@ -51,6 +51,10 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
         child: Column(
           children: [
             ListTile(
+              title: Text(
+                _user!.displayName.toString().toUpperCase(),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              ),
               titleTextStyle: const TextStyle(color: Colors.deepOrange),
               subtitle: Text(
                 _user!.email.toString(),
@@ -191,41 +195,68 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.deepOrange, // Customize the background color
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(
+                      'images/profile.jpg', // Replace with your image URL
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   Text(
-                    _user!.email.toString(),
-                    style: const TextStyle(
-                      color: Colors.black,
+                    _user!.displayName
+                        .toString()
+                        .toUpperCase(), // Replace with user's name
+                    style: TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.edit),
-              title: Text('Edit Profile'.tr),
+              leading: Icon(Icons.edit),
+              title: Text(
+                'Edit Profile'.tr,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               onTap: () {
                 // Handle item 1 press
                 AppNavigation.push(context, MyEditProfile());
               },
             ),
-            const Divider(),
-            LanguageDropdown(),
-            const Divider(),
+            Divider(
+              color: Colors.grey, // Customize the divider color
+            ),
+            LanguageDropdown(), // Assuming LanguageDropdown is a custom widget
+            Divider(
+              color: Colors.grey,
+            ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text('Logout'.tr),
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout'.tr,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               onTap: () {
-                // Handle item 2 press
+                // Handle Logout tap
                 AppNavigation.push(context, MySigninScreen());
               },
             ),
-            const Divider(),
+            Divider(
+              color: Colors.grey,
+            ),
           ],
         ),
       ),

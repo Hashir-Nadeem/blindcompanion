@@ -21,7 +21,8 @@ class MyWelcomeScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height:screenHeight * 0.23,
+                  SizedBox(
+                    height: screenHeight * 0.23,
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
@@ -66,7 +67,6 @@ class MyWelcomeScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     height: screenHeight * 0.03,
-
                   ),
                   MyTextButton(
                     ontap: () {
@@ -82,7 +82,7 @@ class MyWelcomeScreen extends StatelessWidget {
                     text: 'Sign Up'.tr,
                     color: Colors.orangeAccent,
                     ontap: () {
-                      AppNavigation.push(context, const MyEmailScreen());
+                      AppNavigation.push(context, MyEmailScreen());
                     },
                   )
                 ],

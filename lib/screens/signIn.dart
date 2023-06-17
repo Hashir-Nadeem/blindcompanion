@@ -88,7 +88,9 @@ class _MySigninScreenState extends State<MySigninScreen> {
                   children: [
                     const Spacer(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _resetPassword();
+                      },
                       child: Text(
                         'Forget Password?'.tr,
                         style: const TextStyle(
@@ -119,6 +121,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                         }
                       }).catchError((error) {
                         // Sign-in error
+                        print(error.toString());
                         Fluttertoast.showToast(
                           msg: error.toString(),
                           toastLength: Toast.LENGTH_LONG,
@@ -142,7 +145,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        AppNavigation.push(context, const MyEmailScreen());
+                        AppNavigation.push(context, MyEmailScreen());
                       },
                       child: Text('Sign Up'.tr),
                     ),
@@ -162,5 +165,29 @@ class _MySigninScreenState extends State<MySigninScreen> {
     const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
     final regex = RegExp(pattern);
     return regex.hasMatch(email);
+  }
+
+  void _resetPassword() async {
+    final String email = emailController.text.trim();
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+
+      Fluttertoast.showToast(
+        msg: 'Please Check Your Mail',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Must Enter Your Email',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
   }
 }

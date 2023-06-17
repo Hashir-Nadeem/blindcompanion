@@ -4,18 +4,21 @@ import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:blind_companion/screens/test_call_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyVolunteerScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  MyVolunteerScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+    final User? _user = _auth.currentUser;
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -37,28 +40,36 @@ class MyVolunteerScreen extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                'emmanuelpriest@gmail.com'.tr,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                _user?.displayName?.toString().toUpperCase() ?? '',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
               titleTextStyle: const TextStyle(color: Colors.deepOrange),
               subtitle: Text(
-                'emmanuelpriest@gmail.com'.tr,
+                _user?.email?.toString() ?? '',
                 style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.black),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
               tileColor: const Color.fromARGB(31, 154, 153, 153),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                children: [Container(height: screenHeight*0.06,width: screenWidth*0.8,decoration: BoxDecoration(color: Colors.orange.shade50,shape: BoxShape.rectangle),
-                  child: TextButton(onPressed: () {
-                    AppNavigation.push(context, TestCall());
-                  }, child: Text('Learn to answer a call')),
-                ),
+                children: [
+                  Container(
+                    height: screenHeight * 0.06,
+                    width: screenWidth * 0.8,
+                    decoration: BoxDecoration(
+                        color: Colors.orange.shade50,
+                        shape: BoxShape.rectangle),
+                    child: TextButton(
+                        onPressed: () {
+                          AppNavigation.push(context, TestCall());
+                        },
+                        child: Text('Learn to answer a call')),
+                  ),
                   Row(
                     children: [
                       Text(
@@ -94,46 +105,67 @@ class MyVolunteerScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.deepOrange, // Customize the background color
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Self/Volunteer Help'.tr,
-                    style: const TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 18,
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(
+                      'images/profile.jpg', // Replace with your image URL
                     ),
                   ),
+                  SizedBox(height: 10),
                   Text(
-                    'emmanuelpriest@gmail.com'.tr,
-                    style: const TextStyle(
-                      color: Colors.black,
+                    _user!.displayName
+                        .toString()
+                        .toUpperCase(), // Replace with user's name
+                    style: TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
             ),
             ListTile(
-              leading: const Icon(Icons.edit),
-              title: Text('Edit Profile'.tr),
+              leading: Icon(Icons.edit),
+              title: Text(
+                'Edit Profile'.tr,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               onTap: () {
                 // Handle item 1 press
                 AppNavigation.push(context, MyEditProfile());
               },
             ),
-            const Divider(),
-            LanguageDropdown(),
-            const Divider(),
+            Divider(
+              color: Colors.grey, // Customize the divider color
+            ),
+            LanguageDropdown(), // Assuming LanguageDropdown is a custom widget
+            Divider(
+              color: Colors.grey,
+            ),
             ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text('Logout'.tr),
+              leading: Icon(Icons.logout),
+              title: Text(
+                'Logout'.tr,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
               onTap: () {
-                // Handle item 2 press
+                // Handle Logout tap
                 AppNavigation.push(context, MySigninScreen());
               },
+            ),
+            Divider(
+              color: Colors.grey,
             ),
           ],
         ),
