@@ -85,7 +85,11 @@ class AppTexts extends Translations {
           'Your request for extended help call is submitted succesfully, You will be notified shortly':
               'Your request for extended help call is submitted succesfully, You will be notified shortly',
           'Your request for brief help call is submitted succesfully, You will be notified shortly':
-              'Your request for brief help call is submitted succesfully, You will be notified shortly'
+              'Your request for brief help call is submitted succesfully, You will be notified shortly',
+          'Receiving a call': 'Receiving a call',
+          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.' 
+              :'When someon is requesting you help, you will receieve notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.'
+          
         },
         'ur_PK': {
           'Sign In': 'سائن ان کریں',
@@ -170,7 +174,10 @@ class AppTexts extends Translations {
           'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.':
               'یہ ایک مستقل حقیقت ہے کہ جب صفحے کی ترتیب دیکھتے ہیں تو قارئین کو صفحے کے قابل پڑھنے کی موجودہ مواد پر توجہ دینے سے مشغول کردیا جاتا ہے"',
           'Your request for brief help call is submitted succesfully, You will be notified shortly':
-              'آپ کی کم وقتی مدد کی درخواست کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد ہی مطلع کیا جائے گا۔'
+              'آپ کی کم وقتی مدد کی درخواست کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد ہی مطلع کیا جائے گا۔',
+          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.' :
+            'جب کوئی آپ سے مدد کی درخواست کر رہا ہے تو ، اگر آپ کی آواز آن ہے تو آپ کو اطلاع موصول ہوگی اور رنگ ٹون سنیں گے۔ جواب دینے کے لئے ، صرف نوٹیفکیشن دبائیں اور آپ کو کال پر لے جایا جائے گا۔',
+          'Receiving a call': 'کال موصول ہو رہی ہے'    
         },
       };
 }

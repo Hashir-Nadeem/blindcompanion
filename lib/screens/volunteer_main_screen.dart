@@ -3,6 +3,7 @@ import 'package:blind_companion/components/blind_call_request_container.dart';
 import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
 import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/test_call_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,7 +56,7 @@ class MyVolunteerScreen extends StatelessWidget {
               child: Column(
                 children: [Container(height: screenHeight*0.06,width: screenWidth*0.8,decoration: BoxDecoration(color: Colors.orange.shade50,shape: BoxShape.rectangle),
                   child: TextButton(onPressed: () {
-
+                    AppNavigation.push(context, TestCall());
                   }, child: Text('Learn to answer a call')),
                 ),
                   Row(

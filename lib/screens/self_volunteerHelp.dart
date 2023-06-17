@@ -32,7 +32,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                       children: [
                         Text(
                           'US',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Countup(
                           begin: 0,
@@ -40,7 +40,9 @@ class MySelfVolunteerHelp extends StatelessWidget {
                           duration: Duration(seconds: 3),
                           separator: ',',
                           style: TextStyle(
-                            fontSize: 18,
+                            color: Colors.orange,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -50,7 +52,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                       children: [
                         Text(
                           'UK',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Countup(
                           begin: 0,
@@ -58,6 +60,8 @@ class MySelfVolunteerHelp extends StatelessWidget {
                           duration: Duration(seconds: 3),
                           separator: ',',
                           style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),
@@ -68,7 +72,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                       children: [
                         Text(
                           'PK',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Countup(
                           begin: 0,
@@ -76,6 +80,8 @@ class MySelfVolunteerHelp extends StatelessWidget {
                           duration: Duration(seconds: 3),
                           separator: ',',
                           style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
                         ),
