@@ -4,6 +4,8 @@ import 'package:blind_companion/components/textfield.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Assets/Navigation.dart';
 
@@ -19,6 +21,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +132,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                             builder: (BuildContext context) => AlertDialog(
                               title: const Text('Error'),
                               content: const Text(
-                                'Please accept the terms and conditions',
-                              ),
+                                  'Please accept the terms and conditions'),
                               actions: <Widget>[
                                 MyTextButton(
                                   color: Colors.deepOrange,
@@ -144,77 +146,36 @@ class _MySignupScreenState extends State<MySignupScreen> {
                           );
                           return;
                         } else {
-                          showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                              title: const Icon(
-                                Icons.email,
-                                size: 50,
-                                color: Colors.deepOrange,
-                              ),
-                              content: Text(
-                                'We have sent you a 4 digit OTP Code'.tr,
-                                textAlign: TextAlign.center,
-                              ),
-                              actions: <Widget>[
-                                MyTextButton(
-                                  color: Colors.deepOrange,
-                                  ontap: () {
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          'Enter OTP'.tr,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        content: Container(
-                                          height: screenHeight * 0.2,
-                                          width: screenWidth * 1,
-                                          child: Column(
-                                            children: [
-                                              MyOTP(),
-                                            ],
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          MyTextButton(
-                                            color: Colors.deepOrange,
-                                            ontap: () {
-                                              AppNavigation.push(
-                                                  context, MySigninScreen());
-                                            },
-                                            text: 'Confirm Password'.tr,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  text: 'Next'.tr,
-                                ),
-                              ],
-                            ),
-                          );
+                          _auth
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text.toString(),
+                                  password: emailController.text.toString())
+                              .then((value) {
+                            // Save user's name along with email and password
+                            final user = value.user;
+                            user?.updateDisplayName(nameController.text);
+
+                            Fluttertoast.showToast(
+                              msg: 'Sign up successful',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                            );
+                            AppNavigation.push(context, MySigninScreen());
+                          }).catchError((error) {
+                            Fluttertoast.showToast(
+                              msg: error.toString(),
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                            );
+                          });
                         }
                       }
                     },
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    children: [
-                      const Spacer(),
-                      Text(
-                        'Have an account?'.tr,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            AppNavigation.push(context, MySigninScreen());
-                          },
-                          child: Text('Sign In'.tr)),
-                      const Spacer(),
-                    ],
-                  ),
+                  )
                 ],
               ),
             ),

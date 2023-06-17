@@ -47,6 +47,9 @@ dependencies:
   animated_flip_counter: ^0.2.5
   countup: ^0.1.4
   firebase_core: ^2.14.0
+  firebase_auth: ^4.6.3
+  fluttertoast: ^8.2.2
+  modal_progress_hud_nsn: ^0.4.0
 
 dev_dependencies:
   flutter_test:

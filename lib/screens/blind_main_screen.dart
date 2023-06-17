@@ -7,15 +7,28 @@ import 'package:blind_companion/screens/signIn.dart';
 import 'package:blind_companion/screens/trace_me_OCR.dart';
 import 'package:blind_companion/screens/track_me.dart';
 import 'package:blind_companion/screens/volunteer_help.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'call.dart';
 import 'ocr.dart';
 
-class MyBlindScreen extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+class MyBlindScreen extends StatefulWidget {
+  @override
+  _MyBlindScreenState createState() => _MyBlindScreenState();
+}
 
-  MyBlindScreen({super.key});
+class _MyBlindScreenState extends State<MyBlindScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _auth.currentUser;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -27,27 +40,25 @@ class MyBlindScreen extends StatelessWidget {
         toolbarHeight: screenHeight * 0.1,
         actions: [
           IconButton(
-              onPressed: () {
-                _scaffoldKey.currentState?.openEndDrawer();
-              },
-              icon: const Icon(Icons.menu))
+            onPressed: () {
+              _scaffoldKey.currentState?.openEndDrawer();
+            },
+            icon: const Icon(Icons.menu),
+          ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             ListTile(
-              title: Text(
-                'Volunteer'.tr,
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-              ),
               titleTextStyle: const TextStyle(color: Colors.deepOrange),
               subtitle: Text(
-                'emmanuelpriest@gmail.com'.tr,
+                _user!.email.toString(),
                 style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    color: Colors.black),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
               ),
               tileColor: const Color.fromARGB(31, 154, 153, 153),
             ),
@@ -74,115 +85,101 @@ class MyBlindScreen extends StatelessWidget {
                   Card(
                     elevation: 10,
                     child: Container(
-                        height: screenHeight * 0.65,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              MyDoubleIconTextButton(
-                                text: 'Track Me'.tr,
-                                image: 'images/detective_icon.png',
-                                color: Colors.deepOrange,
-                                ontap: () {
-                                  AppNavigation.push(context, MyTrackMe());
-                                },
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              MyDoubleIconTextButton(
-                                text: 'OCR'.tr,
-                                image: 'images/ocr.png',
-                                color: Colors.deepOrange,
-                                ontap: () {
-                                  AppNavigation.push(context, MyOcr());
-                                },
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              MyDoubleIconTextButton(
-                                text: 'Brief Help'.tr,
-                                image: 'images/brief_icon.png',
-                                color: const Color.fromRGBO(255, 87, 34, 1),
-                                ontap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Icon(
-                                          Icons.call,
-                                          color: Colors.deepOrange,
-                                          size: 30,
+                      height: screenHeight * 0.65,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            MyDoubleIconTextButton(
+                              text: 'Track Me'.tr,
+                              image: 'images/detective_icon.png',
+                              color: Colors.deepOrange,
+                              ontap: () {
+                                AppNavigation.push(context, MyTrackMe());
+                              },
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            MyDoubleIconTextButton(
+                              text: 'OCR'.tr,
+                              image: 'images/ocr.png',
+                              color: Colors.deepOrange,
+                              ontap: () {
+                                AppNavigation.push(context, MyOcr());
+                              },
+                            ),
+                            const SizedBox(
+                              height: 40,
+                            ),
+                            MyDoubleIconTextButton(
+                              text: 'Brief Help'.tr,
+                              image: 'images/brief_icon.png',
+                              color: const Color.fromRGBO(255, 87, 34, 1),
+                              ontap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Icon(
+                                        Icons.call,
+                                        color: Colors.deepOrange,
+                                        size: 30,
+                                      ),
+                                      content: Wrap(children: [
+                                        Text(
+                                          'Your request for brief help call is submitted successfully. You will be notified shortly'
+                                              .tr,
                                         ),
-                                        content: Wrap(children: [
-                                          Text(
-                                              'Your request for brief help call is submitted succesfully, You will be notified shortly'
-                                                  .tr)
-                                        ]),
-                                      );
-                                    },
-                                  );
+                                      ]),
+                                    );
+                                  },
+                                );
 
-                                  // Delay the navigation to the next screen
-                                  Timer(const Duration(seconds: 3), () {
-                                    AppNavigation.push(context, MyCall());
-                                  });
-                                },
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              MyDoubleIconTextButton(
-                                text: 'Extended Help'.tr,
-                                image: 'images/extended_help.png',
-                                color: Colors.deepOrange,
-                                ontap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: const Icon(
-                                          Icons.call,
-                                          color: Colors.deepOrange,
-                                          size: 30,
+                                // Delay the navigation to the next screen
+                                Timer(const Duration(seconds: 3), () {
+                                  AppNavigation.push(context, MyCall());
+                                });
+                              },
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            MyDoubleIconTextButton(
+                              text: 'Extended Help'.tr,
+                              image: 'images/extended_help.png',
+                              color: Colors.deepOrange,
+                              ontap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Icon(
+                                        Icons.call,
+                                        color: Colors.deepOrange,
+                                        size: 30,
+                                      ),
+                                      content: Wrap(children: [
+                                        Text(
+                                          'Your request for extended help call is submitted successfully. You will be notified shortly'
+                                              .tr,
                                         ),
-                                        content: Wrap(children: [
-                                          Text(
-                                              'Your request for extended help call is submitted succesfully, You will be notified shortly'
-                                                  .tr)
-                                        ]),
-                                      );
-                                    },
-                                  );
+                                      ]),
+                                    );
+                                  },
+                                );
 
-                                  // Delay the navigation to the next screen
-                                  Timer(const Duration(seconds: 3), () {
-                                    AppNavigation.push(context, MyCall());
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        )),
+                                // Delay the navigation to the next screen
+                                Timer(const Duration(seconds: 3), () {
+                                  AppNavigation.push(context, MyCall());
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
-                  // MyDoubleIconTextButton(
-                  //   text: 'Self Help'.tr,
-                  //   image: 'images/self_help_icon.png',
-                  //   color: Colors.deepOrange,
-                  //   ontap: () {
-                  //     AppNavigation.push(context, MyTraceMeOcr());
-                  //   },
-                  // ),
-
-                  // MyDoubleIconTextButton(
-                  //   text: 'Self/Volunteer Help'.tr,
-                  //   image: 'images/volunteer_icon.png',
-                  //   color: Colors.deepOrange,
-                  //   ontap: () {
-                  //     AppNavigation.push(context, MyVolunteerHelp());
-                  //   },
-                  // )
                 ],
               ),
             ),
@@ -200,14 +197,7 @@ class MyBlindScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Volunteer'.tr,
-                    style: const TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    'emmanuelpriest@gmail.com'.tr,
+                    _user!.email.toString(),
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,

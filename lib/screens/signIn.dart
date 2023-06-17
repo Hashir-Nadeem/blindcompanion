@@ -5,31 +5,38 @@ import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Assets/Navigation.dart';
 
-class MySigninScreen extends StatelessWidget {
+class MySigninScreen extends StatefulWidget {
+  @override
+  _MySigninScreenState createState() => _MySigninScreenState();
+}
+
+class _MySigninScreenState extends State<MySigninScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
 
-    return (Scaffold(
+    return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 248, 243, 239),
       ),
       body: Container(
-        height: screenHeight, width: screenWidth,
+        height: screenHeight,
+        width: screenWidth,
         color: const Color.fromARGB(255, 248, 243, 239),
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage('images/background.jpg'), fit: BoxFit.cover)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -41,50 +48,53 @@ class MySigninScreen extends StatelessWidget {
                 ),
                 Form(
                   key: formKey,
-                  child: Column(children: [
-                    MyTextField(
-                      hint: 'Email Address'.tr,
-                      prefixIcon: const Icon(Icons.email_outlined),
-                      controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email address';
-                        }
-                        if (!isEmailValid(value)) {
-                          return 'Please enter a valid email address';
-                        }
+                  child: Column(
+                    children: [
+                      MyTextField(
+                        hint: 'Email Address'.tr,
+                        prefixIcon: const Icon(Icons.email_outlined),
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          if (!isEmailValid(value)) {
+                            return 'Please enter a valid email address';
+                          }
 
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    MyTextField(
-                      hint: 'Password'.tr,
-                      prefixIcon: const Icon(Icons.password_outlined),
-                      obscure: true,
-                      controller: passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      MyTextField(
+                        hint: 'Password'.tr,
+                        prefixIcon: const Icon(Icons.password_outlined),
+                        obscure: true,
+                        controller: passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
 
-                        return null;
-                      },
-                    ),
-                  ]),
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
                     const Spacer(),
                     TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forget Password?'.tr,
-                          style: const TextStyle(
-                              decoration: TextDecoration.underline),
-                        )),
+                      onPressed: () {},
+                      child: Text(
+                        'Forget Password?'.tr,
+                        style: const TextStyle(
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -95,12 +105,28 @@ class MySigninScreen extends StatelessWidget {
                   color: Colors.deepOrange,
                   ontap: () {
                     if (formKey.currentState!.validate()) {
-                      if (turn == 2) {
-                        AppNavigation.push(context, MyVolunteerScreen());
-                      }
-                      if (turn == 1) {
-                        AppNavigation.push(context, MyBlindScreen());
-                      }
+                      _auth
+                          .signInWithEmailAndPassword(
+                              email: emailController.text.toString(),
+                              password: passwordController.text.toString())
+                          .then((value) {
+                        // Sign-in successful
+                        if (turn == 2) {
+                          AppNavigation.push(context, MyVolunteerScreen());
+                        }
+                        if (turn == 1) {
+                          AppNavigation.push(context, MyBlindScreen());
+                        }
+                      }).catchError((error) {
+                        // Sign-in error
+                        Fluttertoast.showToast(
+                          msg: error.toString(),
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                        );
+                      });
                     }
                   },
                 ),
@@ -115,19 +141,20 @@ class MySigninScreen extends StatelessWidget {
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     TextButton(
-                        onPressed: () {
-                          AppNavigation.push(context, const MyEmailScreen());
-                        },
-                        child: Text('Sign Up'.tr)),
-                    const Spacer()
+                      onPressed: () {
+                        AppNavigation.push(context, const MyEmailScreen());
+                      },
+                      child: Text('Sign Up'.tr),
+                    ),
+                    const Spacer(),
                   ],
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
-    ));
+    );
   }
 
   bool isEmailValid(String email) {
