@@ -51,6 +51,7 @@ dependencies:
   fluttertoast: ^8.2.2
   modal_progress_hud_nsn: ^0.4.0
   google_sign_in: ^6.1.4
+  cloud_firestore: ^4.8.1
 
 dev_dependencies:
   flutter_test:

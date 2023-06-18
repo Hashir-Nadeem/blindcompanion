@@ -1,12 +1,14 @@
 import 'package:blind_companion/components/otp.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
+import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../Assets/Navigation.dart';
 
@@ -24,6 +26,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -153,9 +156,22 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                   email: emailController.text.toString(),
                                   password: passwordController.text.toString())
                               .then((value) {
-                            // Save user's name along with email and password
                             final user = value.user;
                             user?.updateDisplayName(nameController.text);
+
+                            if (turn == 1) {
+                              // Add user to blind_users collection
+                              _firestore
+                                  .collection('blind_users')
+                                  .doc(user?.uid)
+                                  .set({'uid': user?.uid});
+                            } else if (turn == 2) {
+                              // Add user to volunteer_users collection
+                              _firestore
+                                  .collection('volunteer_users')
+                                  .doc(user?.uid)
+                                  .set({'uid': user?.uid});
+                            }
 
                             Fluttertoast.showToast(
                               msg: 'Sign up successful',
@@ -188,7 +204,6 @@ class _MySignupScreenState extends State<MySignupScreen> {
   }
 
   bool isEmailValid(String email) {
-    // Simple email validation using a regular expression pattern
     const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
     final regex = RegExp(pattern);
     return regex.hasMatch(email);
