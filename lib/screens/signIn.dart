@@ -107,11 +107,11 @@ class _MySigninScreenState extends State<MySigninScreen> {
                   color: Colors.deepOrange,
                   ontap: () {
                     if (formKey.currentState!.validate()) {
-                      _auth
-                          .signInWithEmailAndPassword(
-                              email: emailController.text.toString(),
-                              password: passwordController.text.toString())
-                          .then((value) {
+                      final credential = EmailAuthProvider.credential(
+                        email: emailController.text.toString(),
+                        password: passwordController.text.toString(),
+                      );
+                      _auth.signInWithCredential(credential).then((value) {
                         // Sign-in successful
                         if (turn == 2) {
                           AppNavigation.push(context, MyVolunteerScreen());
@@ -121,7 +121,6 @@ class _MySigninScreenState extends State<MySigninScreen> {
                         }
                       }).catchError((error) {
                         // Sign-in error
-                        print(error.toString());
                         Fluttertoast.showToast(
                           msg: error.toString(),
                           toastLength: Toast.LENGTH_LONG,

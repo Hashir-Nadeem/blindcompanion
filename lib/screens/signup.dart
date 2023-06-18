@@ -151,7 +151,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                           _auth
                               .createUserWithEmailAndPassword(
                                   email: emailController.text.toString(),
-                                  password: emailController.text.toString())
+                                  password: passwordController.text.toString())
                               .then((value) {
                             // Save user's name along with email and password
                             final user = value.user;
