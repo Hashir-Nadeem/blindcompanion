@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "276707124771",
+    "project_id": "blind-companion-6e045",
+    "storage_bucket": "blind-companion-6e045.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:276707124771:android:da4e79776e45d5a966b396",
+        "android_client_info": {
+          "package_name": "com.example.blind_companion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "276707124771-u2i6oor0ocmjp3nkta4cbinlstmke3hf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJu80_-QwpCKGrGrAPt-lYeSFt2K8N_II"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "276707124771-c18mu9rkcnp4l3rj6j0gmo8piig0ccjd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "276707124771-aerfqul73j1apaitj167lat7719jshgh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.blindCompanion.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
