@@ -6,17 +6,16 @@ class MyCall extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    // TODO: implement build
     return (Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
         ),
         body: Container(
           height: screenHeight,
           width: screenWidth,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('images/call.jpg'), fit: BoxFit.fill)),
         )));

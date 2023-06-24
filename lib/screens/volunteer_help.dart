@@ -1,27 +1,40 @@
 import 'dart:async';
 
 import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
-import 'package:blind_companion/screens/track_me.dart';
-import 'package:blind_companion/screens/welcome.dart';
+import 'package:blind_companion/screens/videocalling.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import '../backend.dart/getDocuments.dart';
+import '../components/blind_call_request_container.dart';
+import 'blind_main_screen.dart';
 import 'call.dart';
-import 'ocr.dart';
 
-class MyVolunteerHelp extends StatelessWidget {
+class MyVolunteerHelp extends StatefulWidget {
   const MyVolunteerHelp({super.key});
+
+  @override
+  State<MyVolunteerHelp> createState() => _MyVolunteerHelpState();
+}
+
+class _MyVolunteerHelpState extends State<MyVolunteerHelp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
+  List documentsData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _user = _auth.currentUser;
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return (Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppTexts.volunteer_help,
-          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -43,7 +56,7 @@ class MyVolunteerHelp extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppTexts.discover,
+                            'Discover the Community. See the World Together'.tr,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w600),
@@ -52,7 +65,7 @@ class MyVolunteerHelp extends StatelessWidget {
                             height: 40,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.brief_help,
+                            text: 'Brief Help'.tr,
                             image: 'images/brief_icon.png',
                             color: const Color.fromRGBO(255, 87, 34, 1),
                             ontap: () {
@@ -60,20 +73,29 @@ class MyVolunteerHelp extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Icon(
+                                    title: const Icon(
                                       Icons.call,
                                       color: Colors.deepOrange,
                                       size: 30,
                                     ),
-                                    content: Wrap(
-                                        children: [Text(AppTexts.brief_call)]),
+                                    content: Wrap(children: [
+                                      Text(
+                                        'Your request for brief help call is submitted successfully. You will be notified shortly'
+                                            .tr,
+                                      ),
+                                    ]),
                                   );
                                 },
                               );
+                              isBriefCall = true;
 
                               // Delay the navigation to the next screen
-                              Timer(Duration(seconds: 3), () {
-                                AppNavigation.push(context, MyCall());
+                              Timer(const Duration(seconds: 3), () {
+                                checkcall = 1;
+                                updateCallStatus();
+                                GetDocuments.getDocumentsData();
+                                AppNavigation.push(
+                                    context, CallPage(callID: _user?.uid));
                               });
                             },
                           ),
@@ -81,7 +103,7 @@ class MyVolunteerHelp extends StatelessWidget {
                             height: 30,
                           ),
                           MyDoubleIconTextButton(
-                            text: AppTexts.extended_help,
+                            text: 'Extended Help'.tr,
                             image: 'images/extended_help.png',
                             color: Colors.deepOrange,
                             ontap: () {
@@ -89,24 +111,32 @@ class MyVolunteerHelp extends StatelessWidget {
                                 context: context,
                                 builder: (BuildContext context) {
                                   return AlertDialog(
-                                    title: Icon(
+                                    title: const Icon(
                                       Icons.call,
                                       color: Colors.deepOrange,
                                       size: 30,
                                     ),
                                     content: Wrap(children: [
-                                      Text(AppTexts.extended_call)
+                                      Text(
+                                        'Your request for extended help call is submitted successfully. You will be notified shortly'
+                                            .tr,
+                                      ),
                                     ]),
                                   );
                                 },
                               );
+                              isBriefCall = false;
 
                               // Delay the navigation to the next screen
-                              Timer(Duration(seconds: 3), () {
-                                AppNavigation.push(context, MyCall());
+                              Timer(const Duration(seconds: 3), () {
+                                checkcall = 2;
+                                updateCallStatus();
+                                GetDocuments.getDocumentsData();
+                                AppNavigation.push(
+                                    context, CallPage(callID: _user?.uid));
                               });
                             },
-                          )
+                          ),
                         ],
                       ),
                     )),
@@ -116,5 +146,39 @@ class MyVolunteerHelp extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  void updateCallStatus() {
+    // Get the Firestore instance
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Specify the collection and document ID
+    String collection = 'blind_users';
+    String? documentId = _user?.uid;
+
+    // Update the document
+    if (checkcall == 1) {
+      firestore.collection(collection).doc(documentId).update({
+        'brief call': true,
+        'extended call': false,
+        'call': true,
+        'call type': 'brief call'
+      }).then((value) {
+        print('Document updated successfully.');
+      }).catchError((error) {
+        print('Failed to update document: $error');
+      });
+    } else if (checkcall == 2) {
+      firestore.collection(collection).doc(documentId).update({
+        'extended call': true,
+        'call': true,
+        'call type': 'extended call',
+        'brief call': false
+      }).then((value) {
+        print('Document updated successfully.');
+      }).catchError((error) {
+        print('Failed to update document: $error');
+      });
+    }
   }
 }

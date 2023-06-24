@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>276707124771-d1olc3d7fm9edlhp8nh9794tlghs79fb.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.276707124771-d1olc3d7fm9edlhp8nh9794tlghs79fb</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>276707124771-hpg6ukd5rtpt7eaa66855p6k96ejtt26.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBbTb9YcyFBJeqS-oRNQaiYV5dWbSDpKKk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>276707124771</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.blindcompanion.iOS</string>
+	<key>PROJECT_ID</key>
+	<string>blind-companion-6e045</string>
+	<key>STORAGE_BUCKET</key>
+	<string>blind-companion-6e045.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:276707124771:ios:7bd05e9dab3b85e266b396</string>
+</dict>
+</plist>

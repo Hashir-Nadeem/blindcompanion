@@ -1,11 +1,27 @@
-import 'package:blind_companion/Assets/Navigation.dart';
-import 'package:blind_companion/Assets/texts.dart';
-import 'package:blind_companion/screens/call.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MyBlindCallRequestContainer extends StatelessWidget {
-  const MyBlindCallRequestContainer({super.key});
+class MyBlindCallRequestContainer extends StatefulWidget {
+  const MyBlindCallRequestContainer(
+      {super.key,
+      required this.text,
+      required this.callType,
+      required this.uid,
+      required this.ontap,
+      required this.ontaprej});
+  final String text;
+  final String? callType;
+  final uid;
+  final void Function() ontap;
+  final void Function() ontaprej;
 
+  @override
+  State<MyBlindCallRequestContainer> createState() =>
+      _MyBlindCallRequestContainerState();
+}
+
+class _MyBlindCallRequestContainerState
+    extends State<MyBlindCallRequestContainer> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -21,7 +37,7 @@ class MyBlindCallRequestContainer extends StatelessWidget {
         children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Row(
@@ -30,13 +46,13 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                     width: screenWidth * 0.1,
                   ),
                   Text(
-                    AppTexts.scam_likely,
+                    widget.text.capitalize ?? 'Error',
                     style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w500),
+                        fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Row(
@@ -46,10 +62,10 @@ class MyBlindCallRequestContainer extends StatelessWidget {
                   ),
                   Wrap(children: [
                     Text(
-                      AppTexts.scam_likely_requesting,
-                      style: TextStyle(
+                      widget.callType?.capitalize ?? 'Error',
+                      style: const TextStyle(
                         color: Colors.grey,
-                        fontSize: screenWidth * 0.05,
+                        fontSize: 18,
                       ),
                     ),
                   ]),
@@ -64,15 +80,26 @@ class MyBlindCallRequestContainer extends StatelessWidget {
             children: [
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  AppNavigation.push(context, MyCall());
-                },
+                onPressed: widget.ontap
+                // () {
+                //   Globalcheck.brief = false;
+                //   setState(() {
+                //     updateBriefCallStatus();
+                //     GetDocuments.getDocumentsData();
+                //   });
+                //   AppNavigation.push(
+                //       context,
+                //       CallPage(
+                //         callID: widget.uid,
+                //       ));
+                // },
+                ,
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                 child: Text(
-                  AppTexts.accept,
+                  'Accept',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: screenWidth * 0.06,
@@ -81,13 +108,22 @@ class MyBlindCallRequestContainer extends StatelessWidget {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: widget.ontaprej
+                //  () {
+                //   updateBriefCallStatus();
+                //   setState(() {
+                //     GetDocuments.getDocumentsData();
+                //   });
+                //   Navigator.pop(context);
+                //   AppNavigation.push(context, MyVolunteerScreen());
+                // }
+                ,
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                 child: Text(
-                  AppTexts.reject,
+                  'Reject',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: screenWidth * 0.06,
@@ -104,4 +140,8 @@ class MyBlindCallRequestContainer extends StatelessWidget {
       ),
     ));
   }
+}
+
+class Globalcheck {
+  static bool brief = false;
 }

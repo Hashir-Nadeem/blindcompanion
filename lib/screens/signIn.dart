@@ -1,4 +1,4 @@
-import 'package:blind_companion/Assets/texts.dart';
+import 'package:blind_companion/backend.dart/getDocuments.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
 import 'package:blind_companion/screens/blind_main_screen.dart';
@@ -6,31 +6,64 @@ import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Assets/Navigation.dart';
+import '../components/double_icontextButton.dart';
+import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
-class MySigninScreen extends StatelessWidget {
+class MySigninScreen extends StatefulWidget {
+  @override
+  _MySigninScreenState createState() => _MySigninScreenState();
+}
+
+class _MySigninScreenState extends State<MySigninScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late List<Map<String, dynamic>> blindData = [];
+  late List<Map<String, dynamic>> volunteerData = [];
+  var isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    GetDocuments.getBlindData().then((data) {
+      setState(() {
+        blindData = data;
+      });
+    }).catchError((error) {
+      // Handle error
+      print(error);
+    });
+    GetDocuments.getVolunteerData().then((data) {
+      setState(() {
+        volunteerData = data;
+      });
+    }).catchError((error) {
+      // Handle error
+      print(error);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    // TODO: implement build
-    return (Scaffold(
+
+    return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          AppTexts.signin,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-        backgroundColor: Color.fromARGB(255, 248, 243, 239),
+        backgroundColor: const Color.fromARGB(255, 248, 243, 239),
       ),
       body: Container(
-        height: screenHeight, width: screenWidth,
-        color: Color.fromARGB(255, 248, 243, 239),
-        // decoration: BoxDecoration(
-        //     image: DecorationImage(
-        //         image: AssetImage('images/background.jpg'), fit: BoxFit.cover)),
+        height: screenHeight,
+        width: screenWidth,
+        color: const Color.fromARGB(255, 248, 243, 239),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
@@ -40,66 +73,222 @@ class MySigninScreen extends StatelessWidget {
                   height: 200,
                   child: Image.asset('images/logo.png'),
                 ),
-                MyTextField(
-                    hint: AppTexts.email_address,
-                    label: AppTexts.email_address),
-                SizedBox(
-                  height: 30,
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      MyTextField(
+                        hint: 'Email Address'.tr,
+                        prefixIcon: const Icon(Icons.email_outlined),
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email address';
+                          }
+                          if (!isEmailValid(value)) {
+                            return 'Please enter a valid email address';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      MyTextField(
+                        hint: 'Password'.tr,
+                        prefixIcon: const Icon(Icons.password_outlined),
+                        obscure: true,
+                        controller: passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                MyTextField(
-                    hint: AppTexts.password,
-                    label: AppTexts.password,
-                    obsecure: true),
                 Row(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          AppTexts.forget_pwd,
-                          style:
-                              TextStyle(decoration: TextDecoration.underline),
-                        )),
+                      onPressed: () {
+                        _resetPassword();
+                      },
+                      child: Text(
+                        'Forget Password?'.tr,
+                        style: const TextStyle(
+                            decoration: TextDecoration.underline),
+                      ),
+                    ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 MyTextButton(
-                  text: AppTexts.signin,
+                  text: 'Sign In'.tr,
                   color: Colors.deepOrange,
                   ontap: () {
-                    if (turn == 2) {
-                      AppNavigation.push(context, MyVolunteerScreen());
-                    }
-                    if (turn == 1) {
-                      AppNavigation.push(context, MyBlindScreen());
+                    if (formKey.currentState!.validate()) {
+                      final credential = EmailAuthProvider.credential(
+                        email: emailController.text.toString(),
+                        password: passwordController.text.toString(),
+                      );
+                      _auth.signInWithCredential(credential).then((value) {
+                        // Sign-in successful
+                        if (turn == 2) {
+                          GetDocuments.getDocumentsData();
+                          AppNavigation.push(context, MyVolunteerScreen());
+                        }
+                        if (turn == 1) {
+                          AppNavigation.push(context, MyBlindScreen());
+                        }
+                      }).catchError((error) {
+                        // Sign-in error
+                        Fluttertoast.showToast(
+                          msg: error.toString(),
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                        );
+                      });
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
+                isLoading
+                    ? Center(
+                        child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: Colors.deepOrange,
+                          strokeWidth: 3,
+                        ),
+                      ))
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          appleSignInAvailable.isAvailable
+                              ? MyDoubleIconTextButton(
+                                  text: 'Continue with Apple',
+                                  image: 'images/appleLogo.png',
+                                  color:
+                                      const Color.fromARGB(255, 179, 169, 169),
+                                  ontap: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    if (await GetDocuments.signInWithApple(
+                                        context)) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      navigate(context);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          appleSignInAvailable.isAvailable
+                              ? const SizedBox(
+                                  height: 10,
+                                )
+                              : Container(),
+                          MyDoubleIconTextButton(
+                            text: 'Continue with Google',
+                            image: 'images/g_icon.png',
+                            color: const Color.fromARGB(255, 179, 169, 169),
+                            ontap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (await GetDocuments.signInWithGoogle(
+                                  context)) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                navigate(context);
+                              } else {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            },
+                          )
+                        ],
+                      ),
                 Row(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Text(
-                      AppTexts.dont_have_account,
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      'Don\'t have an account?'.tr,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                     TextButton(
-                        onPressed: () {
-                          AppNavigation.push(context, MyEmailScreen());
-                        },
-                        child: Text(AppTexts.signup)),
-                    Spacer()
+                      onPressed: () {
+                        AppNavigation.push(context, MyEmailScreen());
+                      },
+                      child: Text('Sign Up'.tr),
+                    ),
+                    const Spacer(),
                   ],
-                )
+                ),
               ],
             ),
           ),
         ),
       ),
-    ));
+    );
+  }
+
+  bool isEmailValid(String email) {
+    // Simple email validation using a regular expression pattern
+    const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
+    final regex = RegExp(pattern);
+    return regex.hasMatch(email);
+  }
+
+  void _resetPassword() async {
+    final String email = emailController.text.trim();
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+
+      Fluttertoast.showToast(
+        msg: 'Please Check Your Mail',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+      );
+    } catch (error) {
+      Fluttertoast.showToast(
+        msg: 'Must Enter Your Email',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+      );
+    }
+  }
+
+  void navigate(BuildContext context) {
+    if (turn == 2) {
+      AppNavigation.push(context, MyVolunteerScreen());
+    }
+    if (turn == 1) {
+      AppNavigation.push(context, MyBlindScreen());
+    }
   }
 }

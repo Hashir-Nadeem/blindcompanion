@@ -17,7 +17,6 @@ class MyDoubleIconTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
-    final screenWidth = screenSize.width;
     // TODO: implement build
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
@@ -27,13 +26,14 @@ class MyDoubleIconTextButton extends StatelessWidget {
             fontSize: fontSize, color: textcolor, fontWeight: FontWeight.bold);
 
         return FractionallySizedBox(
-            widthFactor: 0.9, // Adjust the width factor as per your preference
+            // widthFactor: 0.9, // Adjust the width factor as per your preference
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.08,
+                  width: screenSize.width * 0.8,
                   decoration: BoxDecoration(
-                      color: color, borderRadius: BorderRadius.circular(8.0)),
+                      color: color, borderRadius: BorderRadius.circular(1.0)),
                   child: Row(
                     children: [
                       Padding(
@@ -44,13 +44,13 @@ class MyDoubleIconTextButton extends StatelessWidget {
                           height: screenHeight * 0.06,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
                         this.text,
                         style: textStyle,
                       ),
-                      Spacer(),
-                      Icon(
+                      const Spacer(),
+                      const Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,
                       )

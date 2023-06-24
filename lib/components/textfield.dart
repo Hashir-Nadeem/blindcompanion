@@ -1,39 +1,60 @@
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget {
-  const MyTextField(
-      {super.key,
-      required this.hint,
-      required this.label,
-      this.obsecure = false});
-  final String hint, label;
-  final bool obsecure;
+  final String hint;
+  final TextEditingController controller;
+  final bool obscure;
+  final FormFieldValidator<String>? validator;
+  final TextInputType keyboardType;
+  final Icon prefixIcon;
+
+  MyTextField(
+      {required this.hint,
+      required this.controller,
+      this.obscure = false,
+      this.validator,
+      this.keyboardType = TextInputType.text,
+      this.prefixIcon = const Icon(Icons.abc_outlined)});
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return (TextField(
-        obscureText: obsecure,
-        decoration: InputDecoration(
-          fillColor: Colors.white,
-          hintText: hint,
-          hintStyle: const TextStyle(
-              fontSize: 17, color: Colors.grey, fontWeight: FontWeight.w400),
-          filled: true,
-          labelText: label,
-          labelStyle: const TextStyle(
-              fontSize: 17, color: Colors.grey, fontWeight: FontWeight.w400),
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1, color: Colors.black12)),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 0.5, color: Colors.black12)),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1, color: Colors.black12)),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(width: 1, color: Colors.black12)),
-        )));
+    return TextFormField(
+      controller: controller,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        prefixIcon: prefixIcon,
+        fillColor: Colors.white,
+        hintText: hint,
+        hintStyle: const TextStyle(
+          fontSize: 17,
+          color: Colors.grey,
+          fontWeight: FontWeight.w400,
+        ),
+        filled: true,
+        labelStyle: const TextStyle(
+          fontSize: 17,
+          color: Colors.grey,
+          fontWeight: FontWeight.w400,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(width: 1, color: Colors.black12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(width: 0.5, color: Colors.black12),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(width: 1, color: Colors.black12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(width: 1, color: Colors.black12),
+        ),
+      ),
+      validator: validator,
+      keyboardType: keyboardType,
+    );
   }
 }

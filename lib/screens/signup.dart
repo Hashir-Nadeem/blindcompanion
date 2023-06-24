@@ -1,9 +1,13 @@
-import 'package:blind_companion/Assets/texts.dart';
-import 'package:blind_companion/components/otp.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
+import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../Assets/Navigation.dart';
 
@@ -15,49 +19,88 @@ class MySignupScreen extends StatefulWidget {
 class _MySignupScreenState extends State<MySignupScreen> {
   bool _isChecked = false;
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    // TODO: implement build
-    return (Scaffold(
+
+    return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(color: Color.fromARGB(255, 248, 243, 239)),
-          // decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //         image: AssetImage('images/background.jpg'), fit: BoxFit.cover)),
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 248, 243, 239),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Text(
-                    'Sign Up',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
                   SizedBox(
                     height: screenHeight * 0.25,
                     child: Image.asset('images/logo.png'),
                   ),
-                  MyTextField(hint: AppTexts.name, label: AppTexts.name),
-                  SizedBox(
-                    height: 30,
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        MyTextField(
+                          hint: 'Name'.tr,
+                          controller: nameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your name';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyTextField(
+                          hint: 'Email Address'.tr,
+                          controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email address';
+                            }
+                            if (!isEmailValid(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        MyTextField(
+                          hint: 'Password'.tr,
+                          obscure: true,
+                          controller: passwordController,
+                          prefixIcon: const Icon(Icons.password_outlined),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                  MyTextField(
-                      hint: AppTexts.email_address,
-                      label: AppTexts.email_address),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  MyTextField(
-                      hint: AppTexts.password,
-                      label: AppTexts.password,
-                      obsecure: true),
-                  SizedBox(
-                    height: 30,
+                  const SizedBox(
+                    height: 20,
                   ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -66,14 +109,16 @@ class _MySignupScreenState extends State<MySignupScreen> {
                         Checkbox(
                           value: _isChecked,
                           onChanged: (value) {
-                            setState(() {});
-                            _isChecked = !_isChecked;
+                            setState(() {
+                              _isChecked = value ?? false;
+                            });
                           },
                         ),
                         Text(
-                          AppTexts.account_creation,
+                          'By creating account you\'re accepting terms and conditions'
+                              .tr,
                           style: TextStyle(fontSize: screenWidth * 0.03),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -81,72 +126,84 @@ class _MySignupScreenState extends State<MySignupScreen> {
                     height: screenHeight * 0.05,
                   ),
                   MyTextButton(
-                    text: AppTexts.signup,
+                    text: 'Sign Up'.tr,
                     color: Colors.deepOrange,
-                    ontap: () => showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Icon(
-                          Icons.email,
-                          size: 50,
-                          color: Colors.deepOrange,
-                        ),
-                        content: Text(
-                          AppTexts.otp,
-                          textAlign: TextAlign.center,
-                        ),
-                        actions: <Widget>[
-                          MyTextButton(
-                              color: Colors.deepOrange,
-                              ontap: () {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: Text(
-                                      AppTexts.enter_otp,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    content: Container(
-                                        height: screenHeight * 0.2,
-                                        width: screenWidth * 1,
-                                        child: Column(
-                                          children: [
-                                            MyOTP(),
-                                          ],
-                                        )),
-                                    actions: <Widget>[
-                                      MyTextButton(
-                                          color: Colors.deepOrange,
-                                          ontap: () {
-                                            AppNavigation.push(
-                                                context, MySigninScreen());
-                                          },
-                                          text: AppTexts.confirm),
-                                    ],
-                                  ),
-                                );
-                                // AppNavigation.push(context, MySigninScreen());
-                              },
-                              text: AppTexts.next),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Spacer(),
-                      Text(
-                        AppTexts.have_account,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                          onPressed: () {}, child: Text(AppTexts.signin)),
-                      Spacer()
-                    ],
+                    ontap: () {
+                      if (formKey.currentState!.validate()) {
+                        if (!_isChecked) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Error'),
+                              content: const Text(
+                                  'Please accept the terms and conditions'),
+                              actions: <Widget>[
+                                MyTextButton(
+                                  color: Colors.deepOrange,
+                                  ontap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  text: 'OK',
+                                ),
+                              ],
+                            ),
+                          );
+                          return;
+                        } else {
+                          _auth
+                              .createUserWithEmailAndPassword(
+                                  email: emailController.text.toString(),
+                                  password: passwordController.text.toString())
+                              .then((value) {
+                            final user = value.user;
+                            user?.updateDisplayName(nameController.text);
+
+                            if (turn == 1) {
+                              // Add user to blind_users collection
+                              _firestore
+                                  .collection('blind_users')
+                                  .doc(user?.uid)
+                                  .set({
+                                'uid': user?.uid,
+                                'name': nameController.text,
+                                'email': user?.email,
+                                'call': false,
+                                'brief call': false,
+                                'extended call': false,
+                                'call type': null
+                              });
+                            } else if (turn == 2) {
+                              // Add user to volunteer_users collection
+                              _firestore
+                                  .collection('volunteer_users')
+                                  .doc(user?.uid)
+                                  .set({
+                                'uid': user?.uid,
+                                'name': nameController.text,
+                                'email': user?.email,
+                              });
+                            }
+
+                            Fluttertoast.showToast(
+                              msg: 'Sign up successful',
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.green,
+                              textColor: Colors.white,
+                            );
+                            AppNavigation.push(context, MySigninScreen());
+                          }).catchError((error) {
+                            Fluttertoast.showToast(
+                              msg: error.toString(),
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                            );
+                          });
+                        }
+                      }
+                    },
                   )
                 ],
               ),
@@ -154,6 +211,12 @@ class _MySignupScreenState extends State<MySignupScreen> {
           ),
         ),
       ),
-    ));
+    );
+  }
+
+  bool isEmailValid(String email) {
+    const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
+    final regex = RegExp(pattern);
+    return regex.hasMatch(email);
   }
 }
