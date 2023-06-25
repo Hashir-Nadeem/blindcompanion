@@ -47,12 +47,12 @@ class _CountdownTimerState extends State<CountdownTimer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Countdown Timer'),
+        title: Text('Countdown Timer'),
       ),
       body: Center(
         child: Text(
           formatDuration(Duration(seconds: _secondsRemaining)),
-          style: const TextStyle(fontSize: 32),
+          style: TextStyle(fontSize: 32),
         ),
       ),
     );

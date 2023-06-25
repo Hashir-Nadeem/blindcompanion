@@ -48,16 +48,17 @@ class _MyOTPState extends State<MyOTP> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+    final screenSquare = screenHeight * screenWidth;
 
     return Column(
       children: [
         Row(
           children: [
-            const Spacer(),
+            Spacer(),
             SizedBox(
               height: screenHeight * 0.075,
               width: screenWidth * 0.1,
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -72,7 +73,7 @@ class _MyOTPState extends State<MyOTP> {
             SizedBox(
               height: screenHeight * 0.075,
               width: screenWidth * 0.1,
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -87,7 +88,7 @@ class _MyOTPState extends State<MyOTP> {
             SizedBox(
               height: screenHeight * 0.075,
               width: screenWidth * 0.1,
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -102,7 +103,7 @@ class _MyOTPState extends State<MyOTP> {
             SizedBox(
               height: screenHeight * 0.075,
               width: screenWidth * 0.1,
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -111,7 +112,7 @@ class _MyOTPState extends State<MyOTP> {
                 ),
               ),
             ),
-            const Spacer(),
+            Spacer(),
           ],
         ),
         SizedBox(
@@ -122,15 +123,15 @@ class _MyOTPState extends State<MyOTP> {
           width: screenWidth * 0.3,
           child: ElevatedButton(
             onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
             child: Text(
               'Resend',
               style: TextStyle(
                 fontSize: screenWidth * 0.03,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
           ),
@@ -140,7 +141,7 @@ class _MyOTPState extends State<MyOTP> {
         ),
         Text(
           formatDuration(Duration(seconds: _secondsRemaining)),
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green),
         ),
       ],

@@ -8,6 +8,8 @@ class MyTextIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
+    final screenWidth = screenSize.width;
+    // TODO: implement build
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         double fontSize = constraints.maxWidth *
@@ -28,13 +30,13 @@ class MyTextIconButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0)),
                   child: Row(
                     children: [
-                      const Spacer(),
+                      Spacer(),
                       Text(
-                        text,
+                        this.text,
                         style: textStyle,
                       ),
-                      const Spacer(),
-                      const Icon(
+                      Spacer(),
+                      Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,
                       )

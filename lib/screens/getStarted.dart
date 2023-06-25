@@ -1,8 +1,8 @@
 import 'package:blind_companion/Assets/Navigation.dart';
+import 'package:blind_companion/Assets/texts.dart';
 import 'package:blind_companion/components/text_icon_button.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MyGetStarted extends StatelessWidget {
   @override
@@ -18,7 +18,7 @@ class MyGetStarted extends StatelessWidget {
               child: Image.asset('images/logo.png'),
             ),
             MyTextIconButton(
-              text: 'Get Started'.tr,
+              text: AppTexts.get_started,
               ontap: () {
                 AppNavigation.push(context, MySelfVolunteerHelp());
               },

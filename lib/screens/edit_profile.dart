@@ -1,159 +1,76 @@
+import 'package:blind_companion/Assets/texts.dart';
+import 'package:blind_companion/components/textbutton.dart';
+import 'package:blind_companion/components/textfield.dart';
+import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Assets/Navigation.dart';
-import 'signIn.dart';
-import '../components/textbutton.dart';
-import '../components/textfield.dart';
+import 'blind_main_screen.dart';
+import 'self_volunteerHelp.dart';
 
-class MyEditProfile extends StatefulWidget {
-  const MyEditProfile({super.key});
-
-  @override
-  _MyEditProfileState createState() => _MyEditProfileState();
-}
-
-class _MyEditProfileState extends State<MyEditProfile> {
-  final emailController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-  final nameController = TextEditingController();
-  final oldPasswordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _user = _auth.currentUser;
-    nameController.text = _user?.displayName ?? '';
-    emailController.text = _user?.email ?? '';
-  }
-
+class MyEditProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    // TODO: implement build
+    return (Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Edit Profile',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        title: Text(
+          AppTexts.edit_profile,
+          style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: isLoading,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: formKey,
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                const SizedBox(height: 30),
-                MyTextField(
-                  hint: 'Name',
-                  controller: nameController,
+                MyTextField(hint: AppTexts.name, label: AppTexts.name),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 10),
                 MyTextField(
-                  hint: 'Email Address',
-                  prefixIcon: const Icon(Icons.email_outlined),
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
+                    hint: AppTexts.email_address,
+                    label: AppTexts.email_address),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  hint: 'Old Password',
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  controller: oldPasswordController,
-                  obscure: true,
+                MyTextField(hint: AppTexts.old_pwd, label: AppTexts.old_pwd),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  hint: 'New Password',
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  controller: newPasswordController,
-                  obscure: true,
+                MyTextField(hint: AppTexts.new_pwd, label: AppTexts.new_pwd),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 10),
-                MyTextField(
-                  hint: 'Confirm Password',
-                  prefixIcon: const Icon(Icons.password_outlined),
-                  obscure: true,
-                  controller: confirmPasswordController,
-                ),
-                const SizedBox(height: 5),
-                MyTextButton(
-                  text: 'Save',
-                  color: Colors.deepOrange,
-                  ontap: () {
-                    if (formKey.currentState!.validate()) {
-                      updateProfile();
-                    }
-                  },
+                MyTextField(hint: AppTexts.cfm_pwd, label: AppTexts.cfm_pwd),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),
           ),
-        ),
+          const SizedBox(
+            height: 50,
+          ),
+          MyTextButton(
+            text: AppTexts.save,
+            color: Colors.deepOrange,
+            ontap: () {
+              if (turn == 2) {
+                AppNavigation.push(context, MyVolunteerScreen());
+              }
+              if (turn == 1) {
+                AppNavigation.push(context, MyBlindScreen());
+              }
+            },
+          )
+        ],
       ),
-    );
-  }
-
-  Future<void> updateProfile() async {
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      final displayName = nameController.text;
-      final email = emailController.text;
-      final password = newPasswordController.text;
-      final credential = EmailAuthProvider.credential(
-        email: _user?.email ?? '',
-        password: oldPasswordController.text,
-      );
-
-      if (password.isNotEmpty) {
-        await _user?.reauthenticateWithCredential(credential);
-        await _user?.updatePassword(password);
-      }
-
-      if (displayName != _user!.displayName) {
-        await _user?.updateDisplayName(displayName).then((value) => null);
-      }
-      if (email != _user!.email) {
-        await _user?.updateEmail(email);
-      }
-      Fluttertoast.showToast(
-        msg: 'Profile Updated Successfully',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
-      AppNavigation.push(context, MySigninScreen());
-    } catch (error) {
-      Fluttertoast.showToast(
-        msg: error.toString(),
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  bool isEmailValid(String email) {
-    const pattern = r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$';
-    final regex = RegExp(pattern);
-    return regex.hasMatch(email);
+    ));
   }
 }

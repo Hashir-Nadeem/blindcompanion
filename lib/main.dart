@@ -1,17 +1,16 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:blind_companion/screens/blind_main_screen.dart';
+import 'package:blind_companion/screens/edit_profile.dart';
+import 'package:blind_companion/screens/getStarted.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
-import 'Assets/texts.dart';
-import 'backend.dart/apple_sign_in_available.dart';
-import 'firebase_options.dart';
+import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/email.dart';
+import 'package:blind_companion/screens/signup.dart';
+import 'package:blind_companion/screens/volunteer_main_screen.dart';
+import 'package:blind_companion/screens/welcome.dart';
+import 'package:flutter/material.dart';
 
-Future<void> main() async {
+void main() {
   runApp(const MyApp());
-  appleSignInAvailable.check();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,16 +19,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      translations: AppTexts(),
-      locale: Locale('en', 'US'),
       title: 'Blind Companion',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: MySelfVolunteerHelp(),
+      home: MyGetStarted(),
     );
   }
 }
