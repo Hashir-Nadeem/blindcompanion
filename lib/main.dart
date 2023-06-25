@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'Assets/texts.dart';
+import 'backend.dart/apple_sign_in_available.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
+  appleSignInAvailable.check();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

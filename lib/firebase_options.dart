@@ -61,13 +61,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBbTb9YcyFBJeqS-oRNQaiYV5dWbSDpKKk',
-    appId: '1:276707124771:ios:225516ae069a6f3f66b396',
+    appId: '1:276707124771:ios:7bd05e9dab3b85e266b396',
     messagingSenderId: '276707124771',
     projectId: 'blind-companion-6e045',
     storageBucket: 'blind-companion-6e045.appspot.com',
     iosClientId:
         '276707124771-celee0fo1pbqc9hdn8t5ruhtaakarh13.apps.googleusercontent.com',
-    iosBundleId: 'com.example.blindCompanion',
+    iosBundleId: 'com.blindcompanion.iOS',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

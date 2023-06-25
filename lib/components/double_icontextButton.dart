@@ -26,11 +26,12 @@ class MyDoubleIconTextButton extends StatelessWidget {
             fontSize: fontSize, color: textcolor, fontWeight: FontWeight.bold);
 
         return FractionallySizedBox(
-            widthFactor: 0.9, // Adjust the width factor as per your preference
+            // widthFactor: 0.9, // Adjust the width factor as per your preference
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.08,
+                  width: screenSize.width * 0.8,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(1.0)),
                   child: Row(

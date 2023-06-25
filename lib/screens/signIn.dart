@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Assets/Navigation.dart';
+import '../components/double_icontextButton.dart';
+import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
 class MySigninScreen extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   late List<Map<String, dynamic>> blindData = [];
   late List<Map<String, dynamic>> volunteerData = [];
+  var isLoading = false;
 
   @override
   void initState() {
@@ -160,6 +163,71 @@ class _MySigninScreenState extends State<MySigninScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                isLoading
+                    ? Center(
+                        child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: Colors.deepOrange,
+                          strokeWidth: 3,
+                        ),
+                      ))
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          appleSignInAvailable.isAvailable
+                              ? MyDoubleIconTextButton(
+                                  text: 'Continue with Apple',
+                                  image: 'images/appleLogo.png',
+                                  color:
+                                      const Color.fromARGB(255, 179, 169, 169),
+                                  ontap: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    if (await GetDocuments.signInWithApple(
+                                        context)) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      navigate(context);
+                                    } else {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    }
+                                  },
+                                )
+                              : Container(),
+                          appleSignInAvailable.isAvailable
+                              ? const SizedBox(
+                                  height: 10,
+                                )
+                              : Container(),
+                          MyDoubleIconTextButton(
+                            text: 'Continue with Google',
+                            image: 'images/g_icon.png',
+                            color: const Color.fromARGB(255, 179, 169, 169),
+                            ontap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (await GetDocuments.signInWithGoogle(
+                                  context)) {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                navigate(context);
+                              } else {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+                            },
+                          )
+                        ],
+                      ),
                 Row(
                   children: [
                     const Spacer(),
@@ -212,6 +280,15 @@ class _MySigninScreenState extends State<MySigninScreen> {
         backgroundColor: Colors.red,
         textColor: Colors.white,
       );
+    }
+  }
+
+  void navigate(BuildContext context) {
+    if (turn == 2) {
+      AppNavigation.push(context, MyVolunteerScreen());
+    }
+    if (turn == 1) {
+      AppNavigation.push(context, MyBlindScreen());
     }
   }
 }
