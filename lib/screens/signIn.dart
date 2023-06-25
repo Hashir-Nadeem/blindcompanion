@@ -12,6 +12,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Assets/Navigation.dart';
 
+bool isLoggedIn = false;
+
 class MySigninScreen extends StatefulWidget {
   @override
   _MySigninScreenState createState() => _MySigninScreenState();
@@ -51,6 +53,23 @@ class _MySigninScreenState extends State<MySigninScreen> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+    // Check if the user is already authenticated
+    if (_auth.currentUser != null && !isLoggedIn) {
+      // User is already signed in, update the isLoggedIn variable
+      Future.delayed(Duration.zero, () {
+        setState(() {
+          isLoggedIn = true;
+        });
+
+        // Navigate to the appropriate screen based on the turn value
+        if (turn == 2) {
+          GetDocuments.getDocumentsData();
+          AppNavigation.push(context, MyVolunteerScreen());
+        } else if (turn == 1) {
+          AppNavigation.push(context, MyBlindScreen());
+        }
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -137,6 +156,9 @@ class _MySigninScreenState extends State<MySigninScreen> {
                       );
                       _auth.signInWithCredential(credential).then((value) {
                         // Sign-in successful
+                        setState(() {
+                          isLoggedIn = true;
+                        });
                         if (turn == 2) {
                           GetDocuments.getDocumentsData();
                           AppNavigation.push(context, MyVolunteerScreen());

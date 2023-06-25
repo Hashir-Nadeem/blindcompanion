@@ -95,7 +95,7 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
                   Card(
                     elevation: 10,
                     child: Container(
-                      height: screenHeight * 0.5,
+                      height: screenHeight * 0.6,
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

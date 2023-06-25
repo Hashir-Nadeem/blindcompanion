@@ -30,7 +30,7 @@ class MyDoubleIconTextButton extends StatelessWidget {
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.1,
+                  height: screenHeight * 0.2,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(1.0)),
                   child: Row(
