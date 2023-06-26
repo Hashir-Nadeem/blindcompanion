@@ -21,7 +21,7 @@ class MyDoubleIconTextButton extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         double fontSize = constraints.maxWidth *
-            0.04; // Adjust the multiplication factor as per your preference
+            0.06; // Adjust the multiplication factor as per your preference
         TextStyle textStyle = TextStyle(
             fontSize: fontSize, color: textcolor, fontWeight: FontWeight.bold);
 
