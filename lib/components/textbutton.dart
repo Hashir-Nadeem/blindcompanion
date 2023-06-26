@@ -20,7 +20,7 @@ class MyTextButton extends StatelessWidget {
       onTap: ontap,
       child: Container(
         alignment: Alignment.center,
-        height: screenHeight * 0.08,
+        height: screenHeight * 0.1,
         width: screenWidth * 0.8,
         decoration: BoxDecoration(
             color: color, borderRadius: BorderRadius.circular(8.0)),
