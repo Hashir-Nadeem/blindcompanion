@@ -101,28 +101,27 @@ class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ZegoUIKitPrebuiltCall(
-        appID: 646391929,
-        appSign:
-            '4fc04bda50567666c3bee6a781cfe490c3ce7af9ac5f13da0decbf1900803e55',
-        userID: localUserID,
-        userName: "user_$localUserID",
-        callID: widget.callID,
-        config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
-          ..onHangUp = () {
-            // Cancel the call timer when the call is manually ended
-            _callTimer?.cancel();
-            updateBriefCallStatus();
+        child: ZegoUIKitPrebuiltCall(
+      appID: 646391929,
+      appSign:
+          '4fc04bda50567666c3bee6a781cfe490c3ce7af9ac5f13da0decbf1900803e55',
+      userID: localUserID,
+      userName: "user_$localUserID",
+      callID: widget.callID,
+      config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
+        ..onHangUp = () {
+          // Cancel the call timer when the call is manually ended
+          _callTimer?.cancel();
+          updateBriefCallStatus();
 
-            Navigator.of(context).pop();
-          }
-          ..onOnlySelfInRoom = (context) {
-            // Cancel the call timer when there is only the current user in the room
-            _callTimer?.cancel();
-            Navigator.of(context).pop();
-          },
-      ),
-    );
+          Navigator.of(context).pop();
+        }
+        ..onOnlySelfInRoom = (context) {
+          // Cancel the call timer when there is only the current user in the room
+          _callTimer?.cancel();
+          Navigator.of(context).pop();
+        },
+    ));
   }
 
   void updateBriefCallStatus() {

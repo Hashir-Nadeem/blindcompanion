@@ -4,6 +4,7 @@ import 'package:blind_companion/screens/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:countup/countup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 int turn = 0;
 
@@ -12,6 +13,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
+
     return (Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -97,7 +99,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                 child: Card(
                   elevation: 10,
                   child: SizedBox(
-                      height: screenHeight * 0.45,
+                      height: screenHeight * 0.6,
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -118,6 +120,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                               color: Colors.deepOrange,
                               ontap: () {
                                 turn = 1;
+                                storeSelectedRole('Blind');
                                 AppNavigation.push(context, MyWelcomeScreen());
                               },
                             ),
@@ -130,6 +133,7 @@ class MySelfVolunteerHelp extends StatelessWidget {
                               color: Colors.deepOrange,
                               ontap: () {
                                 turn = 2;
+                                storeSelectedRole('Volunteer');
                                 AppNavigation.push(context, MyWelcomeScreen());
                               },
                             )
@@ -143,5 +147,10 @@ class MySelfVolunteerHelp extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  void storeSelectedRole(String role) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedRole', role);
   }
 }
