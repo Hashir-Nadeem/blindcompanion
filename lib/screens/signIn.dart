@@ -5,6 +5,7 @@ import 'package:blind_companion/screens/blind_main_screen.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   late List<Map<String, dynamic>> blindData = [];
   late List<Map<String, dynamic>> volunteerData = [];
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -154,16 +156,81 @@ class _MySigninScreenState extends State<MySigninScreen> {
                         email: emailController.text.toString(),
                         password: passwordController.text.toString(),
                       );
+
                       _auth.signInWithCredential(credential).then((value) {
                         // Sign-in successful
                         setState(() {
                           isLoggedIn = true;
                         });
+                        String language;
                         if (turn == 2) {
+                          DocumentReference docRef = firestore
+                              .collection('volunteer_users')
+                              .doc(value.user?.uid);
+
+                          docRef.get().then((DocumentSnapshot snapshot) {
+                            if (snapshot.exists) {
+                              // Document exists, you can access its data using snapshot.data()
+                              var data = snapshot.data();
+                              // Process the data as needed
+                              //fetch language and then compare it with locale
+                              /*if (language == 'ur PK') {
+                              var locale = const Locale('ur', 'PK');
+                              Get.updateLocale(locale);
+                            } else if (language == 'en US') {
+                              var locale = const Locale('en', 'US');
+                              Get.updateLocale(locale);
+                            }*/
+
+                              print(data);
+                            } else {
+                              // Document does not exist
+                              print('Document does not exist');
+                            }
+                          }).catchError((error) {
+                            print('Error getting document: $error');
+                          });
+
                           GetDocuments.getDocumentsData();
                           AppNavigation.push(context, MyVolunteerScreen());
                         }
                         if (turn == 1) {
+                          DocumentReference docRef = firestore
+                              .collection('blind_users')
+                              .doc(value.user?.uid);
+
+                          docRef.get().then((DocumentSnapshot snapshot) {
+                            if (snapshot.exists) {
+                              // Document exists, you can access its data using snapshot.data()
+                              var data = snapshot.data();
+                              // Process the data as needed
+                              //fetch language and then compare it with locale
+                              /*if (language == 'ur PK') {
+                              var locale = const Locale('ur', 'PK');
+                              Get.updateLocale(locale);
+                            } else if (language == 'en US') {
+                              var locale = const Locale('en', 'US');
+                              Get.updateLocale(locale);
+                            }*/
+
+                              print(data);
+                            } else {
+                              // Document does not exist
+                              print('Document does not exist');
+                            }
+                          }).catchError((error) {
+                            print('Error getting document: $error');
+                          });
+
+                          /*Update the locale based on the retrieved language
+                            if (language == 'ur PK') {
+                              var locale = const Locale('ur', 'PK');
+                              Get.updateLocale(locale);
+                            } else if (language == 'en US') {
+                              var locale = const Locale('en', 'US');
+                              Get.updateLocale(locale);
+                            }*/
+
                           AppNavigation.push(context, MyBlindScreen());
                         }
                       }).catchError((error) {
