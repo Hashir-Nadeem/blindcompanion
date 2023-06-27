@@ -19,7 +19,7 @@ class MySignupScreen extends StatefulWidget {
 class _MySignupScreenState extends State<MySignupScreen> {
   bool _isChecked = false;
   bool isExpanded = false;
-  String selectedLanguage = "en Us";
+  String selectedLanguage = "en US";
   String selectedOption = "English";
 
   final TextEditingController emailController = TextEditingController();

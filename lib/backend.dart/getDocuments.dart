@@ -20,10 +20,10 @@ class GetDocuments {
         print('coming Language' + '${data['language']}');
         if ((data['brief call'] == true &&
                 data['call'] == true &&
-                data['language'] == selectedlang) ||
+                data['language'] == selectedlang.toString()) ||
             (data['extended call'] == true &&
                 data['call'] == true &&
-                data['language'] == selectedlang)) {
+                data['language'] == selectedlang.toString())) {
           documentsData.add(data);
         }
       });
