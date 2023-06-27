@@ -20,6 +20,8 @@ class AppTexts extends Translations {
           'Scam Likely is requesting for help':
               'Scam Likely is requesting for help',
           'Name': 'Name',
+          'extended call': 'extended call',
+          'brief call': 'brief call',
           'Brief Help': 'Brief Help',
           'Your request for brief help call is submitted successfully. You will be notified shortly':
               'Your request for brief help call is submitted successfully. You will be notified shortly',
@@ -87,9 +89,8 @@ class AppTexts extends Translations {
           'Your request for brief help call is submitted succesfully, You will be notified shortly':
               'Your request for brief help call is submitted succesfully, You will be notified shortly',
           'Receiving a call': 'Receiving a call',
-          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.' 
-              :'When someon is requesting you help, you will receieve notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.'
-          
+          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.':
+              'When someon is requesting you help, you will receieve notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.'
         },
         'ur_PK': {
           'Sign In': 'سائن ان کریں',
@@ -114,6 +115,8 @@ class AppTexts extends Translations {
           'Your request for extended help call is submitted successfully. You will be notified shortly':
               'آپ کی توسیع یافتہ مدد کی درخواست کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد مطلع کیا جائے گا',
           'Email Address': 'ای میل ایڈریس',
+          'extended call': 'ایکسٹینڈڈ کال',
+          'brief call': 'بریف کال',
           'Old Password': 'پرانا پاس ورڈ',
           'New Password': 'نیا پاس ورڈ',
           'Confirm Password': 'پاس ورڈ کی تصدیق کریں',
@@ -175,9 +178,9 @@ class AppTexts extends Translations {
               'یہ ایک مستقل حقیقت ہے کہ جب صفحے کی ترتیب دیکھتے ہیں تو قارئین کو صفحے کے قابل پڑھنے کی موجودہ مواد پر توجہ دینے سے مشغول کردیا جاتا ہے"',
           'Your request for brief help call is submitted succesfully, You will be notified shortly':
               'آپ کی کم وقتی مدد کی درخواست کامیابی سے جمع کروائی گئی ہے۔ آپ کو جلد ہی مطلع کیا جائے گا۔',
-          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.' :
-            'جب کوئی آپ سے مدد کی درخواست کر رہا ہے تو ، اگر آپ کی آواز آن ہے تو آپ کو اطلاع موصول ہوگی اور رنگ ٹون سنیں گے۔ جواب دینے کے لئے ، صرف نوٹیفکیشن دبائیں اور آپ کو کال پر لے جایا جائے گا۔',
-          'Receiving a call': 'کال موصول ہو رہی ہے'    
+          'When someone is requesting you help, you will receive notification and hear the ringtone if your sound is on. To answer, simply press the notification and you will be taken to the call.':
+              'جب کوئی آپ سے مدد کی درخواست کر رہا ہے تو ، اگر آپ کی آواز آن ہے تو آپ کو اطلاع موصول ہوگی اور رنگ ٹون سنیں گے۔ جواب دینے کے لئے ، صرف نوٹیفکیشن دبائیں اور آپ کو کال پر لے جایا جائے گا۔',
+          'Receiving a call': 'کال موصول ہو رہی ہے'
         },
       };
 }
