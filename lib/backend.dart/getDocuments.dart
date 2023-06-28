@@ -11,11 +11,15 @@ import '../screens/self_volunteerHelp.dart';
 import '../screens/volunteer_main_screen.dart';
 import 'auth_service.dart';
 export 'package:the_apple_sign_in/the_apple_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GetDocuments {
   static Future<List<Map<String, dynamic>>> getDocumentsData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? selectedlang = prefs.getString('selectedlang');
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     String collection = 'blind_users';
+    print('Selected Language' + '$selectedlang');
 
     List<Map<String, dynamic>> documentsData = [];
 
@@ -24,9 +28,13 @@ class GetDocuments {
 
       snapshot.docs.forEach((DocumentSnapshot document) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-
-        if ((data['brief call'] == true && data['call'] == true) ||
-            (data['extended call'] == true && data['call'] == true)) {
+        print('coming Language' + '${data['language']}');
+        if ((data['brief call'] == true &&
+                data['call'] == true &&
+                data['language'] == selectedlang.toString()) ||
+            (data['extended call'] == true &&
+                data['call'] == true &&
+                data['language'] == selectedlang.toString())) {
           documentsData.add(data);
         }
       });

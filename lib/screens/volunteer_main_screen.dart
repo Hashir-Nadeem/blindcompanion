@@ -184,7 +184,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                                 });
                               },
                               text: documentsData[index]['name'],
-                              callType: documentsData[index]['call type'],
+                              callType: documentsData[index]['call type'].tr,
                               uid: documentsData[index]['uid'],
                             );
                           }

@@ -5,16 +5,19 @@ import 'package:blind_companion/screens/blind_main_screen.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Assets/Navigation.dart';
 import '../components/double_icontextButton.dart';
 import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
 bool isLoggedIn = false;
+String? lang;
 
 class MySigninScreen extends StatefulWidget {
   @override
@@ -29,6 +32,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
   late List<Map<String, dynamic>> blindData = [];
   late List<Map<String, dynamic>> volunteerData = [];
   var isLoading = false;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -157,16 +161,79 @@ class _MySigninScreenState extends State<MySigninScreen> {
                         email: emailController.text.toString(),
                         password: passwordController.text.toString(),
                       );
+
                       _auth.signInWithCredential(credential).then((value) {
                         // Sign-in successful
                         setState(() {
                           isLoggedIn = true;
                         });
+
                         if (turn == 2) {
+                          DocumentReference docRef = firestore
+                              .collection('volunteer_users')
+                              .doc(_auth.currentUser!.uid);
+                          print('hello' + '${_auth.currentUser!.uid}');
+
+                          docRef.get().then((DocumentSnapshot snapshot) {
+                            if (snapshot.exists) {
+                              // Document exists, you can access its data using snapshot.data()
+                              var data = (snapshot.data()
+                                  as Map<String, dynamic>)['language'];
+                              lang = data;
+                              storeSelectedlang(data);
+
+                              // Process the data as needed
+                              //fetch language and then compare it with locale
+                              if (data == 'ur PK') {
+                                var locale = const Locale('ur', 'PK');
+                                Get.updateLocale(locale);
+                              } else if (data == 'en US') {
+                                var locale = const Locale('en', 'US');
+                                Get.updateLocale(locale);
+                              }
+                            } else {
+                              // Document does not exist
+                              print('Document does not exist');
+                            }
+                          }).catchError((error) {
+                            print('Error getting document: $error');
+                          });
+
                           GetDocuments.getDocumentsData();
                           AppNavigation.push(context, MyVolunteerScreen());
                         }
                         if (turn == 1) {
+                          DocumentReference docRef = firestore
+                              .collection('blind_users')
+                              .doc(_auth.currentUser!.uid);
+
+                          docRef.get().then((DocumentSnapshot snapshot) {
+                            if (snapshot.exists) {
+                              // Document exists, you can access its data using snapshot.data()
+                              var data = (snapshot.data()
+                                  as Map<String, dynamic>)['language'];
+                              lang = data;
+                              storeSelectedlang(data);
+
+                              // Process the data as needed
+                              //fetch language and then compare it with locale
+                              if (data == 'ur PK') {
+                                var locale = const Locale('ur', 'PK');
+                                Get.updateLocale(locale);
+                              } else if (data == 'en US') {
+                                var locale = const Locale('en', 'US');
+                                Get.updateLocale(locale);
+                              }
+
+                              print(data);
+                            } else {
+                              // Document does not exist
+                              print('Document does not exist');
+                            }
+                          }).catchError((error) {
+                            print('Error getting document: $error');
+                          });
+
                           AppNavigation.push(context, MyBlindScreen());
                         }
                       }).catchError((error) {
@@ -272,6 +339,11 @@ class _MySigninScreenState extends State<MySigninScreen> {
         ),
       ),
     );
+  }
+
+  void storeSelectedlang(String lang) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selectedlang', lang);
   }
 
   bool isEmailValid(String email) {

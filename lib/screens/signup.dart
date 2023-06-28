@@ -18,6 +18,9 @@ class MySignupScreen extends StatefulWidget {
 
 class _MySignupScreenState extends State<MySignupScreen> {
   bool _isChecked = false;
+  bool isExpanded = false;
+  String selectedLanguage = "en US";
+  String selectedOption = "English";
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -26,6 +29,13 @@ class _MySignupScreenState extends State<MySignupScreen> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final List<String> languageOptions = ['English', 'Urdu'];
+
+  void toggleExpanded() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +105,66 @@ class _MySignupScreenState extends State<MySignupScreen> {
                             }
                             return null;
                           },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: selectedOption,
+                          onChanged: (newValue) {
+                            setState(() {
+                              selectedOption = newValue!;
+                              if (selectedOption == "English") {
+                                this.selectedLanguage = "en US";
+                              } else {
+                                this.selectedLanguage = "ur PK";
+                              }
+                            });
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.language),
+                            fillColor: Colors.white,
+                            //hintText: hint,
+                            hintStyle: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            filled: true,
+                            labelStyle: const TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  width: 1, color: Colors.black12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  width: 0.5, color: Colors.black12),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  width: 1, color: Colors.black12),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(
+                                  width: 1, color: Colors.black12),
+                            ),
+                          ),
+                          items: languageOptions.map<DropdownMenuItem<String>>(
+                            (String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            },
+                          ).toList(),
                         ),
                       ],
                     ),
@@ -170,7 +240,8 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                 'call': false,
                                 'brief call': false,
                                 'extended call': false,
-                                'call type': null
+                                'call type': null,
+                                'language': selectedLanguage
                               });
                             } else if (turn == 2) {
                               // Add user to volunteer_users collection
@@ -181,6 +252,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                 'uid': user?.uid,
                                 'name': nameController.text,
                                 'email': user?.email,
+                                'language': selectedLanguage
                               });
                             }
 
