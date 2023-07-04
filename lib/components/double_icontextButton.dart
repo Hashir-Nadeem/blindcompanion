@@ -30,7 +30,7 @@ class MyDoubleIconTextButton extends StatelessWidget {
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.08,
+                  height: screenHeight * 0.15,
                   width: screenSize.width * 0.8,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(1.0)),
@@ -44,12 +44,14 @@ class MyDoubleIconTextButton extends StatelessWidget {
                           height: screenHeight * 0.06,
                         ),
                       ),
-                      const Spacer(),
-                      Text(
-                        this.text,
-                        style: textStyle,
+                      Expanded(
+                        child: Text(
+                          text,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: textStyle,
+                        ),
                       ),
-                      const Spacer(),
                       const Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,
