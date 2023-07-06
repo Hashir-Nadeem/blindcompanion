@@ -56,7 +56,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow Location to access the app functionality</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow camera access to use photo for app functionality</string>
+	<string>To take photos and video with your camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We require microphone access to connect</string>
 	<key>CFBundleURLTypes</key>
@@ -72,5 +72,7 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To access your photos in your Library</string>
 </dict>
 </plist>
