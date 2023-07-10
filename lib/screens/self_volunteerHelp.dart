@@ -63,166 +63,164 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
       body: SafeArea(
         child: Stack(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('images/bg4.png'), fit: BoxFit.fill)),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: screenHeight * 0.2,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('images/logo.png'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      color: Colors.deepOrange,
-                      child: Row(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: const Text(
-                                  'Blinds',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                              Countup(
-                                begin: 0,
-                                end: blindData.length * 1.0,
-                                duration: const Duration(seconds: 3),
-                                separator: ',',
+            Image.asset(
+              'images/bg_eyes.png',
+              fit: BoxFit.cover,
+              // height: 250,
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    height: screenHeight * 0.2,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('images/logo.png'),
+                            fit: BoxFit.cover)),
+                  ),
+                  Container(
+                    color: Colors.deepOrange,
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: const Text(
+                                'Blinds',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                    fontSize: 24, fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
-                          const Spacer(),
-                          // Column(
-                          //   children: [
-                          //     const Text(
-                          //       'UK',
-                          //       style: TextStyle(
-                          //           fontSize: 24, fontWeight: FontWeight.bold),
-                          //     ),
-                          //     Countup(
-                          //       begin: 0,
-                          //       end: 8000,
-                          //       duration: const Duration(seconds: 3),
-                          //       separator: ',',
-                          //       style: const TextStyle(
-                          //         color: Colors.orange,
-                          //         fontWeight: FontWeight.w600,
-                          //         fontSize: 18,
-                          //       ),
-                          //     ),
-                          //   ],
-                          // ),
-                          const Spacer(),
-                          Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Text(
-                                  'Volunteers',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                            ),
+                            Countup(
+                              begin: 0,
+                              end: blindData.length * 1.0,
+                              duration: const Duration(seconds: 3),
+                              separator: ',',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
                               ),
-                              Countup(
-                                begin: 0,
-                                end: volunteerData.length * 1.0,
-                                duration: const Duration(seconds: 3),
-                                separator: ',',
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        // Column(
+                        //   children: [
+                        //     const Text(
+                        //       'UK',
+                        //       style: TextStyle(
+                        //           fontSize: 24, fontWeight: FontWeight.bold),
+                        //     ),
+                        //     Countup(
+                        //       begin: 0,
+                        //       end: 8000,
+                        //       duration: const Duration(seconds: 3),
+                        //       separator: ',',
+                        //       style: const TextStyle(
+                        //         color: Colors.orange,
+                        //         fontWeight: FontWeight.w600,
+                        //         fontSize: 18,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        const Spacer(),
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Text(
+                                'Volunteers',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 24,
-                                ),
+                                    fontSize: 24, fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                            Countup(
+                              begin: 0,
+                              end: volunteerData.length * 1.0,
+                              duration: const Duration(seconds: 3),
+                              separator: ',',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Card(
-                        elevation: 10,
-                        child: SizedBox(
-                            height: screenHeight * 0.6,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Discover the Community. See the World Together'
-                                        .tr,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: screenHeight * 0.05,
-                                  ),
-                                  MyDoubleIconTextButton(
-                                    text: 'I am a Blind'.tr,
-                                    image: 'images/blind_icon.png',
-                                    color: Colors.deepOrange,
-                                    ontap: () async {
-                                      turn = 1;
-                                      storeSelectedRole('Blind');
-                                      if (_auth.currentUser != null) {
-                                        GetDocuments.getDocumentsData();
-                                        await storeSelectedlang();
-                                        AppNavigation.push(
-                                            context, MyBlindScreen());
-                                      } else {
-                                        AppNavigation.push(
-                                            context, MyWelcomeScreen());
-                                      }
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: screenHeight * 0.05,
-                                  ),
-                                  MyDoubleIconTextButton(
-                                    text: 'I am a Volunteer'.tr,
-                                    image: 'images/volunteer_icon.png',
-                                    color: Colors.deepOrange,
-                                    ontap: () async {
-                                      turn = 2;
-                                      storeSelectedRole('Volunteer');
-                                      if (_auth.currentUser != null) {
-                                        GetDocuments.getDocumentsData();
-                                        await storeSelectedlang();
-                                        AppNavigation.push(
-                                            context, MyVolunteerScreen());
-                                      } else {
-                                        AppNavigation.push(
-                                            context, MyWelcomeScreen());
-                                      }
-                                    },
-                                  )
-                                ],
-                              ),
-                            )),
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Card(
+                      elevation: 10,
+                      child: SizedBox(
+                          height: screenHeight * 0.6,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Discover the Community. See the World Together'
+                                      .tr,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: screenHeight * 0.05,
+                                ),
+                                MyDoubleIconTextButton(
+                                  text: 'I am a Blind'.tr,
+                                  image: 'images/blind_icon.png',
+                                  color: Colors.deepOrange,
+                                  ontap: () async {
+                                    turn = 1;
+                                    storeSelectedRole('Blind');
+                                    if (_auth.currentUser != null) {
+                                      GetDocuments.getDocumentsData();
+                                      await storeSelectedlang();
+                                      AppNavigation.push(
+                                          context, MyBlindScreen());
+                                    } else {
+                                      AppNavigation.push(
+                                          context, MyWelcomeScreen());
+                                    }
+                                  },
+                                ),
+                                SizedBox(
+                                  height: screenHeight * 0.05,
+                                ),
+                                MyDoubleIconTextButton(
+                                  text: 'I am a Volunteer'.tr,
+                                  image: 'images/volunteer_icon.png',
+                                  color: Colors.deepOrange,
+                                  ontap: () async {
+                                    turn = 2;
+                                    storeSelectedRole('Volunteer');
+                                    if (_auth.currentUser != null) {
+                                      GetDocuments.getDocumentsData();
+                                      await storeSelectedlang();
+                                      AppNavigation.push(
+                                          context, MyVolunteerScreen());
+                                    } else {
+                                      AppNavigation.push(
+                                          context, MyWelcomeScreen());
+                                    }
+                                  },
+                                )
+                              ],
+                            ),
+                          )),
+                    ),
+                  )
+                ],
               ),
             ),
             isLoading
