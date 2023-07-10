@@ -78,7 +78,10 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                     text: 'Continue with Email',
                     color: Colors.deepOrange,
                     ontap: () {
-                      AppNavigation.push(context, MySignupScreen());
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MySignupScreen();
+                      }));
                     },
                   ),
                   SizedBox(
@@ -160,10 +163,14 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
 
   void navigate(BuildContext context) {
     if (turn == 2) {
-      AppNavigation.push(context, MyVolunteerScreen());
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MyVolunteerScreen();
+      }));
     }
     if (turn == 1) {
-      AppNavigation.push(context, MyBlindScreen());
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MyBlindScreen();
+      }));
     }
   }
 }

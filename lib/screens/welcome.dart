@@ -69,7 +69,11 @@ class MyWelcomeScreen extends StatelessWidget {
                   ),
                   MyTextButton(
                     ontap: () {
-                      AppNavigation.push(context, MySigninScreen());
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MySigninScreen();
+                      }));
+                      // AppNavigation.push(context, MySigninScreen());
                     },
                     text: 'Sign In'.tr,
                     color: Colors.deepOrange,
@@ -81,7 +85,11 @@ class MyWelcomeScreen extends StatelessWidget {
                     text: 'Sign Up'.tr,
                     color: Colors.orangeAccent,
                     ontap: () {
-                      AppNavigation.push(context, MyEmailScreen());
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) {
+                        return MyEmailScreen();
+                      }));
+                      // AppNavigation.push(context, MyEmailScreen());
                     },
                   )
                 ],

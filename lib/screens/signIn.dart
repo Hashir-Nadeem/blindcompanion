@@ -200,7 +200,10 @@ class _MySigninScreenState extends State<MySigninScreen> {
                           });
 
                           GetDocuments.getDocumentsData();
-                          AppNavigation.push(context, MyVolunteerScreen());
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return MyVolunteerScreen();
+                          }));
                         }
                         if (turn == 1) {
                           DocumentReference docRef = firestore
@@ -233,8 +236,10 @@ class _MySigninScreenState extends State<MySigninScreen> {
                           }).catchError((error) {
                             print('Error getting document: $error');
                           });
-
-                          AppNavigation.push(context, MyBlindScreen());
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return MyBlindScreen();
+                          }));
                         }
                       }).catchError((error) {
                         // Sign-in error
@@ -326,7 +331,10 @@ class _MySigninScreenState extends State<MySigninScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        AppNavigation.push(context, MyEmailScreen());
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return MyEmailScreen();
+                        }));
                       },
                       child: Text('Sign Up'.tr),
                     ),
@@ -379,10 +387,14 @@ class _MySigninScreenState extends State<MySigninScreen> {
 
   void navigate(BuildContext context) {
     if (turn == 2) {
-      AppNavigation.push(context, MyVolunteerScreen());
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MyVolunteerScreen();
+      }));
     }
     if (turn == 1) {
-      AppNavigation.push(context, MyBlindScreen());
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return MyBlindScreen();
+      }));
     }
   }
 }

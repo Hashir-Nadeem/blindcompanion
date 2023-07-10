@@ -1,7 +1,9 @@
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
+import 'package:blind_companion/screens/blind_main_screen.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -224,9 +226,9 @@ class _MySignupScreenState extends State<MySignupScreen> {
                               .createUserWithEmailAndPassword(
                                   email: emailController.text.toString(),
                                   password: passwordController.text.toString())
-                              .then((value) {
+                              .then((value) async {
                             final user = value.user;
-                            user?.updateDisplayName(nameController.text);
+                            await user?.updateDisplayName(nameController.text);
 
                             if (turn == 1) {
                               // Add user to blind_users collection
@@ -243,6 +245,10 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                 'call type': null,
                                 'language': selectedLanguage
                               });
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return MyBlindScreen();
+                              }));
                             } else if (turn == 2) {
                               // Add user to volunteer_users collection
                               _firestore
@@ -254,6 +260,10 @@ class _MySignupScreenState extends State<MySignupScreen> {
                                 'email': user?.email,
                                 'language': selectedLanguage
                               });
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return MyVolunteerScreen();
+                              }));
                             }
 
                             Fluttertoast.showToast(
@@ -263,7 +273,6 @@ class _MySignupScreenState extends State<MySignupScreen> {
                               backgroundColor: Colors.green,
                               textColor: Colors.white,
                             );
-                            AppNavigation.push(context, MySigninScreen());
                           }).catchError((error) {
                             Fluttertoast.showToast(
                               msg: error.toString(),

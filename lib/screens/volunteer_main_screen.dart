@@ -4,7 +4,7 @@ import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/blind_call_request_container.dart';
 import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
-import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/test_call_screen.dart';
 import 'package:blind_companion/screens/videocalling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -184,7 +184,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                                 });
                               },
                               text: documentsData[index]['name'],
-                              callType: documentsData[index]['call type'].tr,
+                              callType: documentsData[index]['call type'],
                               uid: documentsData[index]['uid'],
                             );
                           }
@@ -237,7 +237,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                 ),
               ),
               onTap: () {
-                // Handle item 1 press
+                Navigator.pop(context);
                 AppNavigation.push(context, const MyEditProfile());
               },
             ),
@@ -257,8 +257,12 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                 ),
               ),
               onTap: () {
-                // Handle Logout tap
-                AppNavigation.push(context, MySigninScreen());
+                _auth.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MySelfVolunteerHelp()),
+                    ModalRoute.withName("/Home"));
               },
             ),
             const Divider(

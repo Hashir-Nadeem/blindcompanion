@@ -135,7 +135,7 @@ class _MyEditProfileState extends State<MyEditProfile> {
         backgroundColor: Colors.green,
         textColor: Colors.white,
       );
-      AppNavigation.push(context, MySigninScreen());
+      Navigator.pop(context);
     } catch (error) {
       Fluttertoast.showToast(
         msg: error.toString(),

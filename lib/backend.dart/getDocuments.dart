@@ -178,7 +178,8 @@ class GetDocuments {
         'call': false,
         'brief call': false,
         'extended call': false,
-        'call type': null
+        'call type': null,
+        'language': "en US"
       });
     } else if (turn == 2) {
       // Add user to volunteer_users collection
@@ -189,6 +190,7 @@ class GetDocuments {
         'uid': user.uid,
         'name': user.displayName,
         'email': user.email,
+        'language': "en US"
       });
     }
   }

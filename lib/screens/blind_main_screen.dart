@@ -4,6 +4,7 @@ import 'package:blind_companion/backend.dart/getDocuments.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/components/languageDropdown.dart';
 import 'package:blind_companion/screens/edit_profile.dart';
+import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:blind_companion/screens/trace_me_OCR.dart';
 import 'package:blind_companion/screens/track_me.dart';
@@ -173,7 +174,7 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
                 ),
               ),
               onTap: () {
-                // Handle item 1 press
+                Navigator.pop(context);
                 AppNavigation.push(context, const MyEditProfile());
               },
             ),
@@ -193,8 +194,12 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
                 ),
               ),
               onTap: () {
-                // Handle Logout tap
-                AppNavigation.push(context, MySigninScreen());
+                _auth.signOut();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MySelfVolunteerHelp()),
+                    ModalRoute.withName("/Home"));
               },
             ),
             const Divider(
