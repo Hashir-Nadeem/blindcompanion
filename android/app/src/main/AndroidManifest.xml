@@ -5,7 +5,7 @@
     </intent>
 </queries>
     <application
-        android:label="blind_companion"
+        android:label="Blind Companion"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
