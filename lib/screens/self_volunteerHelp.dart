@@ -193,6 +193,7 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                                           context, MyWelcomeScreen());
                                     }
                                   },
+                                  desc: 'Blind Desc'.tr,
                                 ),
                                 SizedBox(
                                   height: screenHeight * 0.05,
@@ -214,6 +215,7 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                                           context, MyWelcomeScreen());
                                     }
                                   },
+                                  desc: 'Volunteer Desc'.tr,
                                 )
                               ],
                             ),

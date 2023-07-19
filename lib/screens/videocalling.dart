@@ -102,9 +102,9 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: ZegoUIKitPrebuiltCall(
-      appID: 646391929,
+      appID: 1773727381,
       appSign:
-          '4fc04bda50567666c3bee6a781cfe490c3ce7af9ac5f13da0decbf1900803e55',
+          '75f9e149d964ab25844e1858cb18065bc1c7251bdc5f72da8ae0b2e9cdcd786f',
       userID: localUserID,
       userName: "user_$localUserID",
       callID: widget.callID,
