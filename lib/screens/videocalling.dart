@@ -38,7 +38,7 @@ class _VideoCallingState extends State<VideoCalling> {
                 child: TextFormField(
                   controller: callIDTextCtrl,
                   decoration:
-                      const InputDecoration(labelText: "join a call by id"),
+                      const InputDecoration(labelText: "join a call by ID"),
                 ),
               ),
               ElevatedButton(
