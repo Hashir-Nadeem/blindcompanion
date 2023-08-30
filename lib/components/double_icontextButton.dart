@@ -26,11 +26,12 @@ class MyDoubleIconTextButton extends StatelessWidget {
             fontSize: fontSize, color: textcolor, fontWeight: FontWeight.bold);
 
         return FractionallySizedBox(
-            widthFactor: 0.9, // Adjust the width factor as per your preference
+            // widthFactor: 0.9, // Adjust the width factor as per your preference
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.2,
+                  height: screenHeight * 0.15,
+                  width: screenSize.width * 0.8,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(1.0)),
                   child: Row(
@@ -43,12 +44,14 @@ class MyDoubleIconTextButton extends StatelessWidget {
                           height: screenHeight * 0.06,
                         ),
                       ),
-                      const Spacer(),
-                      Text(
-                        this.text,
-                        style: textStyle,
+                      Expanded(
+                        child: Text(
+                          text,
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          style: textStyle,
+                        ),
                       ),
-                      const Spacer(),
                       const Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,

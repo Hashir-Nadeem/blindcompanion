@@ -1,16 +1,23 @@
 import 'package:blind_companion/components/double_icontextButton.dart';
-import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signup.dart';
+import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:blind_companion/backend.dart/getDocuments.dart';
+import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
 import '../Assets/Navigation.dart';
+import 'blind_main_screen.dart';
 
-class MyEmailScreen extends StatelessWidget {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+class MyEmailScreen extends StatefulWidget {
+  const MyEmailScreen({Key? key}) : super(key: key);
 
-  MyEmailScreen({Key? key}) : super(key: key);
+  @override
+  State<MyEmailScreen> createState() => _MyEmailScreenState();
+}
+
+class _MyEmailScreenState extends State<MyEmailScreen> {
+  var isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +84,71 @@ class MyEmailScreen extends StatelessWidget {
                   SizedBox(
                     height: screenHeight * 0.05,
                   ),
-                  MyDoubleIconTextButton(
-                    text: 'Continue with Google',
-                    image: 'images/g_icon.png',
-                    color: const Color.fromARGB(255, 179, 169, 169),
-                    ontap: () {
-                      //_signInWithGoogle(context);
-                    },
-                  ),
+                  isLoading
+                      ? Center(
+                          child: SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                            color: Colors.deepOrange,
+                            strokeWidth: 3,
+                          ),
+                        ))
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            appleSignInAvailable.isAvailable
+                                ? MyDoubleIconTextButton(
+                                    text: 'Continue with Apple',
+                                    image: 'images/appleLogo.png',
+                                    color: const Color.fromARGB(
+                                        255, 179, 169, 169),
+                                    ontap: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      if (await GetDocuments.signInWithApple(
+                                          context)) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        navigate(context);
+                                      } else {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      }
+                                    },
+                                  )
+                                : Container(),
+                            appleSignInAvailable.isAvailable
+                                ? const SizedBox(
+                                    height: 10,
+                                  )
+                                : Container(),
+                            MyDoubleIconTextButton(
+                              text: 'Continue with Google',
+                              image: 'images/g_icon.png',
+                              color: const Color.fromARGB(255, 179, 169, 169),
+                              ontap: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                if (await GetDocuments.signInWithGoogle(
+                                    context)) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  navigate(context);
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                            )
+                          ],
+                        ),
                 ],
               ),
             ),
@@ -94,29 +158,12 @@ class MyEmailScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
-
-      Fluttertoast.showToast(
-        msg: 'Sign in successful',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-      );
-
-      AppNavigation.push(context, MySigninScreen());
-    } catch (error) {
-      Fluttertoast.showToast(
-        msg: error.toString(),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-      );
+  void navigate(BuildContext context) {
+    if (turn == 2) {
+      AppNavigation.push(context, MyVolunteerScreen());
+    }
+    if (turn == 1) {
+      AppNavigation.push(context, MyBlindScreen());
     }
   }
 }

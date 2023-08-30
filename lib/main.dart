@@ -6,9 +6,12 @@ import 'package:get/get.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Assets/texts.dart';
+import 'backend.dart/apple_sign_in_available.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  runApp(const MyApp());
+  appleSignInAvailable.check();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

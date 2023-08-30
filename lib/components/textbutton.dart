@@ -20,13 +20,14 @@ class MyTextButton extends StatelessWidget {
       onTap: ontap,
       child: Container(
         alignment: Alignment.center,
-        height: screenHeight * 0.12,
+        height: screenHeight * 0.15,
         width: screenWidth * 0.8,
         decoration: BoxDecoration(
             color: color, borderRadius: BorderRadius.circular(8.0)),
         child: Text(
           text,
           textAlign: TextAlign.center,
+          maxLines: 2,
           style: const TextStyle(
               fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
         ),
