@@ -66,20 +66,21 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                   color: Colors.deepOrange,
                   child: Row(
                     children: [
+                      Spacer(),
                       Column(
                         children: [
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 5.0),
                             child: const Text(
-                              'Blinds',
+                              'UK',
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Countup(
                             begin: 0,
-                            end: blindData.length * 1.0,
+                            end: 1000000 * 1.0,
                             duration: const Duration(seconds: 3),
                             separator: ',',
                             style: TextStyle(
@@ -90,7 +91,6 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                           ),
                         ],
                       ),
-                      const Spacer(),
                       // Column(
                       //   children: [
                       //     const Text(
@@ -118,14 +118,14 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Text(
-                              'Volunteers',
+                              'US',
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                           ),
                           Countup(
                             begin: 0,
-                            end: volunteerData.length * 1.0,
+                            end: 2000000 * 1.0,
                             duration: const Duration(seconds: 3),
                             separator: ',',
                             style: TextStyle(
@@ -136,6 +136,32 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                           ),
                         ],
                       ),
+                      const Spacer(),
+                      Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              'Europe',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Countup(
+                            begin: 0,
+                            end: 30000000 * 1.0,
+                            duration: const Duration(seconds: 3),
+                            separator: ',',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Spacer(),
                     ],
                   ),
                 ),
