@@ -8,12 +8,17 @@ import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/test_call_screen.dart';
 import 'package:blind_companion/screens/videocalling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:countup/countup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../backend.dart/getDocuments.dart';
+import '../components/textbutton.dart';
+import '../theme.dart';
 
 class MyVolunteerScreen extends StatefulWidget {
+  const MyVolunteerScreen({super.key});
+
   @override
   State<MyVolunteerScreen> createState() => _MyVolunteerScreenState();
 }
@@ -23,8 +28,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showNoCallsText = false;
-  List<Map<String, dynamic>> documentsData =
-      []; // Declare documentsData as a class member
+  List<Map<String, dynamic>> documentsData = []; // Declare documentsData as a class member
   List<Map<String, dynamic>> rejectData = [];
   List<int> rejectedIndices = [];
   var uid = null;
@@ -77,23 +81,22 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
-        leading: Image.asset(
-          'images/logo.png',
-          fit: BoxFit.cover,
-        ),
+        automaticallyImplyLeading: false,
+        title: Image.asset("images/new_logo.png"),
+        backgroundColor: backgroundColor,
         actions: [
           IconButton(
-            onPressed: () {
-              _scaffoldKey.currentState?.openEndDrawer();
-            },
-            icon: const Icon(Icons.menu),
-          ),
+              onPressed: () {
+                _scaffoldKey.currentState?.openEndDrawer();
+              },
+              icon: const Icon(Icons.menu))
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
         child: SingleChildScrollView(
           child: RefreshIndicator(
             onRefresh: () {
@@ -101,198 +104,258 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
             },
             child: Column(
               children: [
-                ListTile(
-                  title: Text(
-                    _user?.displayName?.toString().toUpperCase() ?? '',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w600, fontSize: 18),
-                  ),
-                  titleTextStyle: const TextStyle(color: Colors.deepOrange),
-                  subtitle: Text(
-                    _user?.email?.toString() ?? '',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                  ),
-                  tileColor: const Color.fromARGB(31, 154, 153, 153),
+                notificationContainer(context, screenHeight, screenWidth),
+                SizedBox(
+                  height: screenHeight * 0.03,
                 ),
-                const SizedBox(
-                  height: 10,
+                globeContainer(context, screenHeight, screenWidth),
+                SizedBox(
+                  height: screenHeight * 0.03,
                 ),
-                Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade50,
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          AppNavigation.push(context, TestCall());
-                        },
-                        child: const Text('Learn to answer a call'),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Help Request From Blind'.tr,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: screenWidth * 0.07,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    if (documentsData.isEmpty && !showNoCallsText)
-                      Container(
-                        child: const CircularProgressIndicator(),
-                      )
-                    else if (documentsData.isEmpty && showNoCallsText)
-                      const Text('No calls right now')
-                    else
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: documentsData.length,
-                        itemBuilder: (context, index) {
-                          if (rejectedIndices.contains(index)) {
-                            return Container(); // Return an empty container for rejected items
-                          } else {
-                            return MyBlindCallRequestContainer(
-                              ontap: () {
-                                setState(() {
-                                  uid = documentsData[index]['uid'];
-                                  updateBriefCallStatus();
-                                  fetchDocumentsData();
-                                });
-                                AppNavigation.push(
-                                    context,
-                                    CallPage(
-                                      callID: documentsData[index]['uid'],
-                                    ));
-                              },
-                              ontaprej: () {
-                                setState(() {
-                                  rejectedIndices.add(
-                                      index); // Add the index to rejectedIndices
-                                });
-                              },
-                              text: documentsData[index]['name'],
-                              callType: documentsData[index]['call type'],
-                              uid: documentsData[index]['uid'],
-                            );
-                          }
-                        },
-                      ),
-                  ],
+                personContainer(context, screenHeight, screenWidth, _user),
+                SizedBox(
+                  height: screenHeight * 0.03,
                 ),
               ],
             ),
           ),
         ),
       ),
-      endDrawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.deepOrange, // Customize the background color
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                      'images/profile.jpg', // Replace with your image URL
-                    ),
+      endDrawer: buildDrawer(_user, context),
+    );
+  }
+
+  Drawer buildDrawer(User? user, BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: buttonColor, // Customize the background color
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage(
+                    'images/profile.jpg', // Replace with your image URL
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    _user!.displayName
-                        .toString()
-                        .toUpperCase(), // Replace with user's name
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  user!.displayName
+                      .toString()
+                      .toUpperCase(), // Replace with user's name
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.edit),
-              title: Text(
-                'Edit Profile'.tr,
-                style: const TextStyle(
-                  fontSize: 16,
                 ),
+              ],
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.edit),
+            title: Text(
+              'Edit Profile'.tr,
+              style: const TextStyle(
+                fontSize: 16,
               ),
-              onTap: () {
-                Navigator.pop(context);
-                AppNavigation.push(context, const MyEditProfile());
-              },
             ),
-            const Divider(
-              color: Colors.grey, // Customize the divider color
-            ),
-            LanguageDropdown(), // Assuming LanguageDropdown is a custom widget
-            const Divider(
-              color: Colors.grey,
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: Text(
-                'Logout'.tr,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
+            onTap: () {
+              Navigator.pop(context);
+              AppNavigation.push(context, const MyEditProfile());
+            },
+          ),
+          const Divider(
+            color: Colors.grey, // Customize the divider color
+          ),
+          LanguageDropdown(), // Assuming LanguageDropdown is a custom widget
+          const Divider(
+            color: Colors.grey,
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: Text(
+              'Logout'.tr,
+              style: const TextStyle(
+                fontSize: 16,
               ),
-              onTap: () {
-                _auth.signOut();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MySelfVolunteerHelp()),
-                    ModalRoute.withName("/Home"));
-              },
             ),
-            const Divider(
-              color: Colors.grey,
-            ),
-          ],
-        ),
+            onTap: () {
+              // _auth.signOut();
+              // Navigator.pushAndRemoveUntil(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => MySelfVolunteerHelp()),
+              //     ModalRoute.withName("/Home"));
+            },
+          ),
+          const Divider(
+            color: Colors.grey,
+          ),
+        ],
       ),
     );
   }
 
-  void updateBriefCallStatus() {
-    // Get the Firestore instance
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
+  // void updateBriefCallStatus() {
+  //   // Get the Firestore instance
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //
+  //   // Specify the collection and document ID
+  //   String collection = 'blind_users';
+  //   String? documentId = uid;
+  //
+  //   // Update the document based on the call type
+  //
+  //   firestore.collection(collection).doc(documentId).update({
+  //     'brief call': false,
+  //     'extended call': false,
+  //     'call': false,
+  //     'call type': null,
+  //   }).then((value) {
+  //     print('Document updated successfully.');
+  //   }).catchError((error) {
+  //     print('Failed to update document: $error');
+  //   });
+  // }
 
-    // Specify the collection and document ID
-    String collection = 'blind_users';
-    String? documentId = uid;
+  Widget notificationContainer(BuildContext context, double screenHeight, double screenWidth){
+    return InkWell(
+      onTap: (){
 
-    // Update the document based on the call type
+      },
+      child: Container(
+          decoration: BoxDecoration(
+            color: buttonColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Image.asset("images/bell.png",
+                      fit: BoxFit.cover,
+                      height: screenHeight * 0.035
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth * 0.03,
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Allow notification".tr,style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white)),
+                      Text("Allow notifications in order to receive calls when someone needs your help.".tr, style: const TextStyle(fontSize: 16, color: Colors.white))
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+      ),
+    );
+  }
 
-    firestore.collection(collection).doc(documentId).update({
-      'brief call': false,
-      'extended call': false,
-      'call': false,
-      'call type': null,
-    }).then((value) {
-      print('Document updated successfully.');
-    }).catchError((error) {
-      print('Failed to update document: $error');
-    });
+  Widget globeContainer(BuildContext context, double screenHeight, double screenWidth){
+    return Container(
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              SizedBox(
+                child: Image.asset("images/White_Globe_Icon.png",
+                    fit: BoxFit.cover,
+                    height: 120
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  buildCounterRow("Blind", 10000),
+                  buildCounterRow("Volunteers", 1000),
+                ],
+              ),
+            //  buildRow("522,575\nBlind", "6,858,788\nVolunteers")
+            ],
+          ),
+        )
+    );
+  }
+
+  Column buildCounterRow(String typeText, double countText) {
+    return Column(
+      children: [
+        Countup(
+          begin: 0,
+          // end: blindData.length * 1.0,
+          end: countText,
+          duration: const Duration(seconds: 3),
+          separator: ',',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Padding(
+          padding:
+          const EdgeInsets.symmetric(horizontal: 5.0),
+          child: Text(
+            typeText,
+            style: const TextStyle(
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget personContainer(BuildContext context, double screenHeight, double screenWidth, User? user){
+    return Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+              color: Colors.black,
+              width: 2
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              Text(user?.displayName.toString() ?? '',
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.center,
+              ),
+              Text(user?.email.toString() ?? "",
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        )
+    );
   }
 }

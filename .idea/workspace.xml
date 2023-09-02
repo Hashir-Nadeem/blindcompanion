@@ -5,15 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0f93d68-8559-4853-b69f-bd1769ac35c8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/bell.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/terms_and_conditions.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/blindcompanion-dev_hashir.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blindcompanion-dev_hashir.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/backend.dart/getDocuments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/backend.dart/getDocuments.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/double_icontextButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/double_icontextButton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/textbutton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/textbutton.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/components/textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/textfield.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/email.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/email.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/self_volunteerHelp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/self_volunteerHelp.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/signIn.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signIn.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/welcome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/welcome.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dart File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="development" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/lib/screens/ocr.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/screens/trace_me_OCR.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/backend.dart/apple_sign_in_available.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/backend.dart/auth_service.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/screens/self_volunteerHelp.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/screens/email.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/screens/volunteer_help.dart" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/lib/components/blind_call_request_container.dart" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -23,18 +77,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "D:/flutterProjects/monit",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "show.migrate.to.gradle.popup": "false"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/images" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
       <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
@@ -51,5 +108,41 @@
       <updated>1687606367101</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>21</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>61</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>122</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>119</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>123</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
+          <line>145</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

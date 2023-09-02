@@ -4,17 +4,22 @@ class MyDoubleIconTextButton extends StatelessWidget {
   const MyDoubleIconTextButton(
       {super.key,
       required this.text,
-      required this.image,
+        this.image,
       required this.color,
       required this.ontap,
       this.textcolor = Colors.white,
-      this.desc = ""});
-  final String image;
+      this.desc = "",
+        this.isIconRequired = true,
+        this.isLeadingImageRequired = true
+      });
+  final String? image;
   final String text;
   final Color color;
   final Color textcolor;
   final String desc;
   final void Function() ontap;
+  final bool isIconRequired;
+  final bool isLeadingImageRequired;
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -23,7 +28,7 @@ class MyDoubleIconTextButton extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
         double fontSize = constraints.maxWidth *
-            0.06; // Adjust the multiplication factor as per your preference
+            0.05; // Adjust the multiplication factor as per your preference
         TextStyle textStyle = TextStyle(
             fontSize: fontSize, color: textcolor, fontWeight: FontWeight.bold);
 
@@ -32,19 +37,19 @@ class MyDoubleIconTextButton extends StatelessWidget {
             child: InkWell(
                 onTap: ontap,
                 child: Container(
-                  height: screenHeight * 0.18,
-                  width: screenSize.width * 0.8,
+                  height: screenHeight * 0.10,
+                  width: screenSize.width * 0.9,
                   decoration: BoxDecoration(
                       color: color, borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Image.asset(
-                          this.image,
+                        padding: const EdgeInsets.only(left: 20),
+                        child: isLeadingImageRequired ? Image.asset(
+                          image ?? "",
                           fit: BoxFit.cover,
                           height: screenHeight * 0.06,
-                        ),
+                        ) : null
                       ),
                       Expanded(
                         child: Column(
@@ -70,10 +75,10 @@ class MyDoubleIconTextButton extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Icon(
+                      isIconRequired ? const Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,
-                      )
+                      ) : SizedBox.shrink()
                     ],
                   ),
                 )));

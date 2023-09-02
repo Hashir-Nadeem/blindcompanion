@@ -57,6 +57,7 @@ dependencies:
   zego_uikit_prebuilt_live_streaming: ^2.3.6
   the_apple_sign_in: ^1.1.1
   shared_preferences: ^2.0.7
+  flutter_markdown: ^0.6.17+1
 
 dev_dependencies:
   flutter_test:

@@ -2,11 +2,15 @@ import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/signup.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:blind_companion/backend.dart/getDocuments.dart';
 import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
 import '../Assets/Navigation.dart';
+import '../components/textbutton.dart';
+import '../theme.dart';
+import '../utils/privacy_policy_dialog.dart';
 import 'blind_main_screen.dart';
 
 class MyEmailScreen extends StatefulWidget {
@@ -23,49 +27,69 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
-
+    final screenWidth = screenSize.width;
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        toolbarHeight: 70,
+        title: const Text(
+          "Get Started",
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+        ),
+        backgroundColor: backgroundColor,
+        automaticallyImplyLeading: true,
+      ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+          child: SingleChildScrollView(
+            child: Center(
               child: Column(
                 children: [
                   SizedBox(
-                    height: screenHeight * 0.34,
-                    child: Image.asset('images/logo.png'),
+                    height: screenHeight * 0.23,
+                    child: Image.asset('images/new_logo2.1.png'),
                   ),
                   RichText(
                     textAlign: TextAlign.center,
-                    text: const TextSpan(
+                    text: TextSpan(
                       children: [
-                        TextSpan(
+                        const TextSpan(
                           text:
-                              'By continuing, I confirm I am at least 15 years old, and I agree to and accept the ',
+                              'By continuing, I confirm I am at least '
+                                  '17 years old, and I agree to and accept the ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: 'Blind Companion ',
+                          style: TextStyle(
+                            color: buttonColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         TextSpan(
-                          text: 'Blind Companion',
-                          style: TextStyle(
-                            color: Colors.orange,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ' Terms & Privacy Policy',
-                          style: TextStyle(
-                            color: Colors.deepOrange,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          text: 'Terms & Privacy Policy',
+                          style: const TextStyle(
+                            color: buttonColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
                             decoration: TextDecoration.underline,
                           ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return PolicyDialog(
+                                          mdFileName:
+                                          'terms_and_conditions.md');
+                                    });
+                              },
                         ),
                       ],
                     ),
@@ -74,9 +98,10 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                     height: screenHeight * 0.05,
                   ),
                   MyDoubleIconTextButton(
-                    image: 'images/email_icon.png',
+                    isIconRequired: false,
+                    isLeadingImageRequired: false,
                     text: 'Continue with Email',
-                    color: Colors.deepOrange,
+                    color: buttonColor,
                     ontap: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
@@ -85,10 +110,10 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                     },
                   ),
                   SizedBox(
-                    height: screenHeight * 0.05,
+                    height: screenHeight * 0.02,
                   ),
                   isLoading
-                      ? Center(
+                      ? const Center(
                           child: SizedBox(
                           height: 30,
                           width: 30,
@@ -100,39 +125,11 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                       : Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            appleSignInAvailable.isAvailable
-                                ? MyDoubleIconTextButton(
-                                    text: 'Continue with Apple',
-                                    image: 'images/appleLogo.png',
-                                    color: const Color.fromARGB(
-                                        255, 179, 169, 169),
-                                    ontap: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
-                                      if (await GetDocuments.signInWithApple(
-                                          context)) {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                        navigate(context);
-                                      } else {
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                      }
-                                    },
-                                  )
-                                : Container(),
-                            appleSignInAvailable.isAvailable
-                                ? const SizedBox(
-                                    height: 10,
-                                  )
-                                : Container(),
                             MyDoubleIconTextButton(
                               text: 'Continue with Google',
                               image: 'images/g_icon.png',
-                              color: const Color.fromARGB(255, 179, 169, 169),
+                              isIconRequired: false,
+                              color: buttonColor,
                               ontap: () async {
                                 setState(() {
                                   isLoading = true;
@@ -149,9 +146,39 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                                   });
                                 }
                               },
-                            )
+                            ),
+                             SizedBox(
+                              height: screenHeight * 0.02,
+                            ),
+                            appleSignInAvailable.isAvailable
+                                ? MyDoubleIconTextButton(
+                                    text: 'Continue with Apple',
+                                    image: 'images/appleLogo.png',
+                                    isIconRequired: false,
+                                    color: buttonColor,
+                                    ontap: () async {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      if (await GetDocuments.signInWithApple(
+                                          context)) {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                        navigate(context);
+                                      } else {
+                                        setState(() {
+                                          isLoading = false;
+                                        });
+                                      }
+                                    },
+                                   ) : Container(),
+                            appleSignInAvailable.isAvailable
+                                ? const SizedBox(
+                                    height: 10,
+                                  ) : Container(),
                           ],
-                        ),
+                  ),
                 ],
               ),
             ),

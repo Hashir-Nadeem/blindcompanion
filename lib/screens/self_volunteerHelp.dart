@@ -10,7 +10,9 @@ import 'package:get/get.dart';
 import 'package:countup/countup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Assets/texts.dart';
 import '../backend.dart/getDocuments.dart';
+import '../theme.dart';
 import 'blind_main_screen.dart';
 
 int turn = 0;
@@ -60,180 +62,29 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     return (Scaffold(
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        toolbarHeight: 70,
+        automaticallyImplyLeading: false,
+        title: Image.asset("images/new_logo.png"),
+        centerTitle: true,
+        backgroundColor: backgroundColor,
+      ),
       body: SafeArea(
         child: Stack(
           children: [
-            Image.asset(
-              'images/bg_eyes.png',
-              fit: BoxFit.cover,
-              // height: 250,
-            ),
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    height: screenHeight * 0.2,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/logo.png'),
-                            fit: BoxFit.cover)),
-                  ),
-                  Container(
-                    color: Colors.deepOrange,
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: const Text(
-                                'Blinds',
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Countup(
-                              begin: 0,
-                              end: blindData.length * 1.0,
-                              duration: const Duration(seconds: 3),
-                              separator: ',',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        // Column(
-                        //   children: [
-                        //     const Text(
-                        //       'UK',
-                        //       style: TextStyle(
-                        //           fontSize: 24, fontWeight: FontWeight.bold),
-                        //     ),
-                        //     Countup(
-                        //       begin: 0,
-                        //       end: 8000,
-                        //       duration: const Duration(seconds: 3),
-                        //       separator: ',',
-                        //       style: const TextStyle(
-                        //         color: Colors.orange,
-                        //         fontWeight: FontWeight.w600,
-                        //         fontSize: 18,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        const Spacer(),
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Text(
-                                'Volunteers',
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Countup(
-                              begin: 0,
-                              end: volunteerData.length * 1.0,
-                              duration: const Duration(seconds: 3),
-                              separator: ',',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 24,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Card(
-                      elevation: 10,
-                      child: SizedBox(
-                          height: screenHeight * 0.6,
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Discover the Community. See the World Together'
-                                      .tr,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  height: screenHeight * 0.05,
-                                ),
-                                MyDoubleIconTextButton(
-                                  text: 'I am a Blind'.tr,
-                                  image: 'images/blind_icon.png',
-                                  color: Colors.deepOrange,
-                                  ontap: () async {
-                                    turn = 1;
-                                    storeSelectedRole('Blind');
-                                    if (_auth.currentUser != null) {
-                                      GetDocuments.getDocumentsData();
-                                      await storeSelectedlang();
-                                      AppNavigation.push(
-                                          context, MyBlindScreen());
-                                    } else {
-                                      AppNavigation.push(
-                                          context, MyWelcomeScreen());
-                                    }
-                                  },
-                                  desc: 'Blind Desc'.tr,
-                                ),
-                                SizedBox(
-                                  height: screenHeight * 0.05,
-                                ),
-                                MyDoubleIconTextButton(
-                                  text: 'I am a Volunteer'.tr,
-                                  image: 'images/volunteer_icon.png',
-                                  color: Colors.deepOrange,
-                                  ontap: () async {
-                                    turn = 2;
-                                    storeSelectedRole('Volunteer');
-                                    if (_auth.currentUser != null) {
-                                      GetDocuments.getDocumentsData();
-                                      await storeSelectedlang();
-                                      AppNavigation.push(
-                                          context, MyVolunteerScreen());
-                                    } else {
-                                      AppNavigation.push(
-                                          context, MyWelcomeScreen());
-                                    }
-                                  },
-                                  desc: 'Volunteer Desc'.tr,
-                                )
-                              ],
-                            ),
-                          )),
-                    ),
-                  )
-                ],
-              ),
+              child: buildBody(screenHeight, context),
             ),
             isLoading
                 ? Container(
                     color: Colors.black.withOpacity(.5),
-                    child: Center(
+                    child: const Center(
                         child: SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: CircularProgressIndicator(
-                        color: Colors.deepOrange,
+                          height: 30,
+                          width: 30,
+                          child: CircularProgressIndicator(
+                        color: buttonColor,
                         strokeWidth: 3,
                       ),
                     )),
@@ -286,5 +137,112 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
       // Handle error
       print(error);
     });
+  }
+
+  Column buildBody(double screenHeight, BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: screenHeight * 0.01, horizontal: 15.0),
+          child: Text(
+            'Discover the Community. See the World Together'.tr,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
+          )),
+          // SizedBox(
+          //   height: screenHeight * 0.05,
+          // ),
+        Image.asset("images/Group1.png"),
+        SizedBox(
+          height: screenHeight * 0.03,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            buildCounterRow("Blind", blindData.length * 1.0),
+            buildCounterRow("Volunteers", volunteerData.length * 1.0),
+          ],
+        ),
+        SizedBox(
+          height: screenHeight * 0.05,
+        ),
+        MyDoubleIconTextButton(
+          text: 'I am a Blind'.tr,
+          isIconRequired: false,
+          isLeadingImageRequired: false,
+          color: Colors.deepOrange,
+          ontap: () async {
+            turn = 1;
+            storeSelectedRole('Blind');
+            if (_auth.currentUser != null) {
+              GetDocuments.getDocumentsData();
+              await storeSelectedlang();
+              AppNavigation.push(
+                  context, MyBlindScreen());
+            } else {
+              AppNavigation.push(
+                  context, MyWelcomeScreen());
+            }
+          },
+          desc: 'Call a company or Volunteer'.tr,
+        ),
+        SizedBox(
+          height: screenHeight * 0.03,
+        ),
+        MyDoubleIconTextButton(
+          text: 'I am a Volunteer'.tr,
+          isIconRequired: false,
+          isLeadingImageRequired: false,
+          color: Colors.deepOrange,
+          ontap: () async {
+            turn = 2;
+            storeSelectedRole('Volunteer');
+            if (_auth.currentUser != null) {
+              GetDocuments.getDocumentsData();
+              await storeSelectedlang();
+              AppNavigation.push(
+                  context, MyVolunteerScreen());
+            } else {
+              AppNavigation.push(
+                  context, MyWelcomeScreen());
+            }
+          },
+          desc: 'Share your eyesight'.tr,
+        ),
+        SizedBox(
+          height: screenHeight * 0.01,
+        ),
+      ],
+    );
+  }
+  Column buildCounterRow(String typeText, double countText) {
+    return Column(
+        children: [
+          Padding(
+            padding:
+            const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Text(
+              typeText,
+              style: const TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Countup(
+            begin: 0,
+            end: blindData.length * 1.0,
+        //    end: countText,
+            duration: const Duration(seconds: 3),
+            separator: ',',
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      );
   }
 }

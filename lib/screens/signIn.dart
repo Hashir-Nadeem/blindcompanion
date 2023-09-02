@@ -5,6 +5,7 @@ import 'package:blind_companion/screens/blind_main_screen.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/self_volunteerHelp.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
+import 'package:blind_companion/screens/welcome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,10 +17,14 @@ import '../Assets/Navigation.dart';
 import '../components/double_icontextButton.dart';
 import 'package:blind_companion/backend.dart/apple_sign_in_available.dart';
 
+import '../theme.dart';
+
 bool isLoggedIn = false;
 String? lang;
 
 class MySigninScreen extends StatefulWidget {
+  const MySigninScreen({super.key});
+
   @override
   _MySigninScreenState createState() => _MySigninScreenState();
 }
@@ -31,8 +36,15 @@ class _MySigninScreenState extends State<MySigninScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   late List<Map<String, dynamic>> blindData = [];
   late List<Map<String, dynamic>> volunteerData = [];
-  var isLoading = false;
+   var isLoading = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Future<void> loadStoredCredentials() async {
+    String? storedEmail = await GetDocuments.loadEmail(); // Implement loadEmail() to retrieve the stored email
+    String? storedPassword = await GetDocuments.loadPassword(); // Implement loadPassword() to retrieve the stored password
+    emailController.text = storedEmail ?? '';
+    passwordController.text = storedPassword ?? '';
+  }
 
   @override
   void initState() {
@@ -53,7 +65,10 @@ class _MySigninScreenState extends State<MySigninScreen> {
       // Handle error
       print(error);
     });
+    loadStoredCredentials();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +81,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
       Future.delayed(Duration.zero, () {
         setState(() {
           isLoggedIn = true;
+          loadStoredCredentials();
         });
 
         // Navigate to the appropriate screen based on the turn value
@@ -79,267 +95,105 @@ class _MySigninScreenState extends State<MySigninScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      backgroundColor: backgroundColor,
+      appBar:  AppBar(
+        toolbarHeight: 70,
+        automaticallyImplyLeading: false,
+        title: Image.asset("images/new_logo.png"),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 248, 243, 239),
+        backgroundColor: backgroundColor,
       ),
-      body: Container(
+      body: SizedBox(
         height: screenHeight,
         width: screenWidth,
-        color: const Color.fromARGB(255, 248, 243, 239),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: 200,
-                  child: Image.asset('images/logo.png'),
-                ),
-                Form(
-                  key: formKey,
-                  child: Column(
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                      return MyWelcomeScreen();
+                    }));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start, // Aligns children to the start of the row
                     children: [
-                      MyTextField(
-                        hint: 'Email Address'.tr,
-                        prefixIcon: const Icon(Icons.email_outlined),
-                        controller: emailController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your email address';
-                          }
-                          if (!isEmailValid(value)) {
-                            return 'Please enter a valid email address';
-                          }
-
-                          return null;
-                        },
-                      ),
+                      const Icon(Icons.arrow_back_ios_sharp, size: 16),
                       const SizedBox(
-                        height: 30,
+                        width: 2,
                       ),
-                      MyTextField(
-                        hint: 'Password'.tr,
-                        prefixIcon: const Icon(Icons.password_outlined),
-                        obscure: true,
-                        controller: passwordController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-
-                          return null;
-                        },
-                      ),
+                      Text('Back'.tr,style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
                     ],
                   ),
                 ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        _resetPassword();
-                      },
-                      child: Text(
-                        'Forget Password?'.tr,
-                        style: const TextStyle(
-                            decoration: TextDecoration.underline),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                MyTextButton(
-                  text: 'Sign In'.tr,
-                  color: Colors.deepOrange,
-                  ontap: () {
-                    if (formKey.currentState!.validate()) {
-                      final credential = EmailAuthProvider.credential(
-                        email: emailController.text.toString(),
-                        password: passwordController.text.toString(),
-                      );
-
-                      _auth.signInWithCredential(credential).then((value) {
-                        // Sign-in successful
-                        setState(() {
-                          isLoggedIn = true;
-                        });
-
-                        if (turn == 2) {
-                          DocumentReference docRef = firestore
-                              .collection('volunteer_users')
-                              .doc(_auth.currentUser!.uid);
-                          print('hello' + '${_auth.currentUser!.uid}');
-
-                          docRef.get().then((DocumentSnapshot snapshot) {
-                            if (snapshot.exists) {
-                              // Document exists, you can access its data using snapshot.data()
-                              var data = (snapshot.data()
-                                  as Map<String, dynamic>)['language'];
-                              lang = data;
-                              storeSelectedlang(data);
-
-                              // Process the data as needed
-                              //fetch language and then compare it with locale
-                              if (data == 'ur PK') {
-                                var locale = const Locale('ur', 'PK');
-                                Get.updateLocale(locale);
-                              } else if (data == 'en US') {
-                                var locale = const Locale('en', 'US');
-                                Get.updateLocale(locale);
-                              }
-                            } else {
-                              // Document does not exist
-                              print('Document does not exist');
-                            }
-                          }).catchError((error) {
-                            print('Error getting document: $error');
-                          });
-
-                          GetDocuments.getDocumentsData();
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return MyVolunteerScreen();
-                          }));
-                        }
-                        if (turn == 1) {
-                          DocumentReference docRef = firestore
-                              .collection('blind_users')
-                              .doc(_auth.currentUser!.uid);
-
-                          docRef.get().then((DocumentSnapshot snapshot) {
-                            if (snapshot.exists) {
-                              // Document exists, you can access its data using snapshot.data()
-                              var data = (snapshot.data()
-                                  as Map<String, dynamic>)['language'];
-                              lang = data;
-                              storeSelectedlang(data);
-
-                              // Process the data as needed
-                              //fetch language and then compare it with locale
-                              if (data == 'ur PK') {
-                                var locale = const Locale('ur', 'PK');
-                                Get.updateLocale(locale);
-                              } else if (data == 'en US') {
-                                var locale = const Locale('en', 'US');
-                                Get.updateLocale(locale);
-                              }
-
-                              print(data);
-                            } else {
-                              // Document does not exist
-                              print('Document does not exist');
-                            }
-                          }).catchError((error) {
-                            print('Error getting document: $error');
-                          });
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return MyBlindScreen();
-                          }));
-                        }
-                      }).catchError((error) {
-                        // Sign-in error
-                        Fluttertoast.showToast(
-                          msg: error.toString(),
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.BOTTOM,
-                          backgroundColor: Colors.red,
-                          textColor: Colors.white,
-                        );
-                      });
-                    }
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                isLoading
-                    ? Center(
-                        child: SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: CircularProgressIndicator(
-                          color: Colors.deepOrange,
-                          strokeWidth: 3,
+                Center(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: screenHeight * 0.05,
                         ),
-                      ))
-                    : Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          appleSignInAvailable.isAvailable
-                              ? MyDoubleIconTextButton(
-                                  text: 'Continue with Apple',
-                                  image: 'images/appleLogo.png',
-                                  color:
-                                      const Color.fromARGB(255, 179, 169, 169),
-                                  ontap: () async {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    if (await GetDocuments.signInWithApple(
-                                        context)) {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      navigate(context);
-                                    } else {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }
-                                  },
-                                )
-                              : Container(),
-                          appleSignInAvailable.isAvailable
-                              ? const SizedBox(
-                                  height: 10,
-                                )
-                              : Container(),
-                          MyDoubleIconTextButton(
-                            text: 'Continue with Google',
-                            image: 'images/g_icon.png',
-                            color: const Color.fromARGB(255, 179, 169, 169),
-                            ontap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              if (await GetDocuments.signInWithGoogle(
-                                  context)) {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                                navigate(context);
-                              } else {
-                                setState(() {
-                                  isLoading = false;
-                                });
-                              }
-                            },
-                          )
-                        ],
-                      ),
-                Row(
-                  children: [
-                    const Spacer(),
-                    Text(
-                      'Don\'t have an account?'.tr,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                        Center(
+                          child: Text("Sign In with Email".tr,
+                              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 22)),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.02,
+                        ),
+                        Text("Email".tr, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
+                        SizedBox(
+                          height: screenHeight * 0.01,
+                        ),
+                        MyTextField(
+                          isSignInScreen: true,
+                          hint: 'Email Address'.tr,
+                          prefixIcon: const Icon(Icons.email_outlined),
+                          controller: emailController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email address';
+                            }
+                            if (!isEmailValid(value)) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.03,
+                        ),
+                        Text("Password".tr, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),),
+                        SizedBox(
+                          height: screenHeight * 0.01,
+                        ),
+                        MyTextField(
+                          isSignInScreen: true,
+                          hint: 'Password'.tr,
+                          prefixIcon: const Icon(Icons.password_outlined),
+                          obscure: true,
+                          controller: passwordController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) {
-                          return MyEmailScreen();
-                        }));
-                      },
-                      child: Text('Sign Up'.tr),
-                    ),
-                    const Spacer(),
-                  ],
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * 0.15,
+                ),
+                buildColumn(context, screenHeight),
+                const SizedBox(
+                  height: 10,
                 ),
               ],
             ),
@@ -365,7 +219,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
     final String email = emailController.text.trim();
 
     try {
-      await _auth.sendPasswordResetEmail(email: email);
+    await _auth.sendPasswordResetEmail(email: email);
 
       Fluttertoast.showToast(
         msg: 'Please Check Your Mail',
@@ -383,6 +237,124 @@ class _MySigninScreenState extends State<MySigninScreen> {
         textColor: Colors.white,
       );
     }
+  }
+
+  Column buildColumn(BuildContext context, double screenHeight) {
+    return Column(
+      children: [
+        MyTextButton(
+          text: "Next" .tr,
+          color: buttonColor,
+          ontap: () {
+            if (formKey.currentState!.validate()) {
+              final credential = EmailAuthProvider.credential(
+                email: emailController.text.toString(),
+                password: passwordController.text.toString(),
+              );
+              _auth.signInWithCredential(credential).then((value) {
+                // Sign-in successful
+                setState(() {
+                  isLoggedIn = true;
+                });
+                if (turn == 2) {
+                  DocumentReference docRef = firestore
+                      .collection('volunteer_users')
+                      .doc(_auth.currentUser!.uid);
+                  print('hello' + '${_auth.currentUser!.uid}');
+
+                  docRef.get().then((DocumentSnapshot snapshot) {
+                    if (snapshot.exists) {
+                      // Document exists, you can access its data using snapshot.data()
+                      var data = (snapshot.data()
+                          as Map<String, dynamic>)['language'];
+                      lang = data;
+                      storeSelectedlang(data);
+
+                      // Process the data as needed
+                      //fetch language and then compare it with locale
+                      if (data == 'ur PK') {
+                        var locale = const Locale('ur', 'PK');
+                        Get.updateLocale(locale);
+                      } else if (data == 'en US') {
+                        var locale = const Locale('en', 'US');
+                        Get.updateLocale(locale);
+                      }
+                    } else {
+                      // Document does not exist
+                      print('Document does not exist');
+                    }
+                  }).catchError((error) {
+                    print('Error getting document: $error');
+                  });
+
+                  GetDocuments.getDocumentsData();
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return MyVolunteerScreen();
+                  }));
+                }
+                if (turn == 1) {
+                  DocumentReference docRef = firestore
+                      .collection('blind_users')
+                      .doc(_auth.currentUser!.uid);
+
+                  docRef.get().then((DocumentSnapshot snapshot) {
+                    if (snapshot.exists) {
+                      // Document exists, you can access its data using snapshot.data()
+                      var data = (snapshot.data()
+                          as Map<String, dynamic>)['language'];
+                      lang = data;
+                      storeSelectedlang(data);
+
+                      // Process the data as needed
+                      //fetch language and then compare it with locale
+                      if (data == 'ur PK') {
+                        var locale = const Locale('ur', 'PK');
+                        Get.updateLocale(locale);
+                      } else if (data == 'en US') {
+                        var locale = const Locale('en', 'US');
+                        Get.updateLocale(locale);
+                      }
+
+                      print(data);
+                    } else {
+                      // Document does not exist
+                      print('Document does not exist');
+                    }
+                  }).catchError((error) {
+                    print('Error getting document: $error');
+                  });
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) {
+                    return MyBlindScreen();
+                  }));
+                }
+              }).catchError((error) {
+                // Sign-in error
+                Fluttertoast.showToast(
+                  msg: error.toString(),
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.BOTTOM,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                );
+              });
+            }
+          },
+        ),
+        SizedBox(
+          height: screenHeight * 0.02,
+        ),
+        MyTextButton(
+          isBorderEnabled: true,
+          text: 'Forget Password?'.tr,
+          color: Colors.transparent,
+          ontap: () {
+            _resetPassword();
+          },
+        ),
+      ],
+    );
   }
 
   void navigate(BuildContext context) {

@@ -56,11 +56,11 @@ class GetDocuments {
     try {
       QuerySnapshot snapshot = await firestore.collection(collection).get();
 
-      snapshot.docs.forEach((DocumentSnapshot document) {
+      for (var document in snapshot.docs) {
         Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
         documentsData.add(data);
-      });
+      }
 
       return documentsData;
     } catch (error) {
@@ -236,5 +236,31 @@ class GetDocuments {
       isSuccess = false;
     }
     return isSuccess;
+  }
+
+  // Function to load stored email
+  static Future<String?> loadEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedEmail = prefs.getString('email');
+    return storedEmail;
+  }
+
+// Function to load stored password
+  static Future<String?> loadPassword() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? storedPassword = prefs.getString('password');
+    return storedPassword;
+  }
+
+  // Function to save email
+  static Future<void> saveEmail(String email) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+  }
+
+// Function to save password
+  static Future<void> savePassword(String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('password', password);
   }
 }

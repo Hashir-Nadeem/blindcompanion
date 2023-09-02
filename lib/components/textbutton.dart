@@ -5,10 +5,13 @@ class MyTextButton extends StatelessWidget {
       {super.key,
       required this.text,
       required this.color,
-      required this.ontap});
+      required this.ontap,
+        this.isBorderEnabled = false
+      });
   final String text;
   final Color color;
   final void Function() ontap;
+  final bool isBorderEnabled;
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -20,16 +23,20 @@ class MyTextButton extends StatelessWidget {
       onTap: ontap,
       child: Container(
         alignment: Alignment.center,
-        height: screenHeight * 0.15,
-        width: screenWidth * 0.8,
+        height: screenHeight * 0.08,
+        width: screenWidth * 0.99,
         decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(8.0)),
+            color: color, borderRadius: BorderRadius.circular(8.0),
+            border:  isBorderEnabled ? Border.all(
+                width: 2
+            ) : null
+        ),
         child: Text(
           text,
           textAlign: TextAlign.center,
           maxLines: 2,
-          style: const TextStyle(
-              fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 18, color: isBorderEnabled ? Colors.black : Colors.white, fontWeight: FontWeight.w500),
         ),
       ),
     ));
