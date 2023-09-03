@@ -44,6 +44,17 @@ class _MyBlindScreenState extends State<MyBlindScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            _auth.signOut();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const MySelfVolunteerHelp()),
+                ModalRoute.withName("/Home"));
+          },
+        ),
         toolbarHeight: screenHeight * 0.1,
         actions: [
           IconButton(

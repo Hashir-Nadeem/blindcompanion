@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:countup/countup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Assets/texts.dart';
 import '../backend.dart/getDocuments.dart';
 import '../theme.dart';
 import 'blind_main_screen.dart';
@@ -18,6 +16,8 @@ import 'blind_main_screen.dart';
 int turn = 0;
 
 class MySelfVolunteerHelp extends StatefulWidget {
+  const MySelfVolunteerHelp({super.key});
+
   @override
   State<MySelfVolunteerHelp> createState() => _MySelfVolunteerHelpState();
 }
@@ -38,16 +38,13 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
       GetDocuments.getBlindData().then((data) {
         setState(() {
           blindData = data;
-          print(blindData);
         });
       }).catchError((error) {
-        // Handle error
         print(error);
       });
       GetDocuments.getVolunteerData().then((data) {
         setState(() {
           volunteerData = data;
-          print(volunteerData);
         });
       }).catchError((error) {
         // Handle error
@@ -78,7 +75,7 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
             ),
             isLoading
                 ? Container(
-                    color: Colors.black.withOpacity(.5),
+                    color: Colors.black.withOpacity(0.5),
                     child: const Center(
                         child: SizedBox(
                           height: 30,
@@ -152,9 +149,6 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                 fontSize: 18,
                 fontWeight: FontWeight.w600),
           )),
-          // SizedBox(
-          //   height: screenHeight * 0.05,
-          // ),
         Image.asset("images/Group1.png"),
         SizedBox(
           height: screenHeight * 0.03,
@@ -181,7 +175,9 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
               GetDocuments.getDocumentsData();
               await storeSelectedlang();
               AppNavigation.push(
-                  context, MyBlindScreen());
+                  context, MySigninScreen());
+              // AppNavigation.push(
+              //     context, MyBlindScreen());
             } else {
               AppNavigation.push(
                   context, MyWelcomeScreen());
@@ -204,7 +200,9 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
               GetDocuments.getDocumentsData();
               await storeSelectedlang();
               AppNavigation.push(
-                  context, MyVolunteerScreen());
+                  context, MySigninScreen());
+              // AppNavigation.push(
+              //     context, MyVolunteerScreen());
             } else {
               AppNavigation.push(
                   context, MyWelcomeScreen());
@@ -232,8 +230,7 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
           ),
           Countup(
             begin: 0,
-            end: blindData.length * 1.0,
-        //    end: countText,
+            end: countText,
             duration: const Duration(seconds: 3),
             separator: ',',
             style: const TextStyle(

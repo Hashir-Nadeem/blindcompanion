@@ -1,3 +1,4 @@
+import 'package:blind_companion/backend.dart/getDocuments.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/components/textfield.dart';
 import 'package:blind_companion/screens/blind_main_screen.dart';
@@ -12,6 +13,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../Assets/Navigation.dart';
+import '../theme.dart';
 
 class MySignupScreen extends StatefulWidget {
   @override
@@ -199,7 +201,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                   ),
                   MyTextButton(
                     text: 'Sign Up'.tr,
-                    color: Colors.deepOrange,
+                    color: buttonColor,
                     ontap: () {
                       if (formKey.currentState!.validate()) {
                         if (!_isChecked) {
@@ -229,7 +231,8 @@ class _MySignupScreenState extends State<MySignupScreen> {
                               .then((value) async {
                             final user = value.user;
                             await user?.updateDisplayName(nameController.text);
-
+                            GetDocuments.saveEmail(emailController.text);
+                            GetDocuments.savePassword(passwordController.text);
                             if (turn == 1) {
                               // Add user to blind_users collection
                               _firestore
@@ -262,7 +265,7 @@ class _MySignupScreenState extends State<MySignupScreen> {
                               });
                               Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) {
-                                return MyVolunteerScreen();
+                                return const MyVolunteerScreen();
                               }));
                             }
 

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MyGetStarted extends StatelessWidget {
+  const MyGetStarted({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -20,7 +22,7 @@ class MyGetStarted extends StatelessWidget {
             MyTextIconButton(
               text: 'Get Started'.tr,
               ontap: () {
-                AppNavigation.push(context, MySelfVolunteerHelp());
+                AppNavigation.push(context, const MySelfVolunteerHelp());
               },
             ),
           ],

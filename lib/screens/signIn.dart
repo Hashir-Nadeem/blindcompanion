@@ -31,17 +31,21 @@ class MySigninScreen extends StatefulWidget {
 
 class _MySigninScreenState extends State<MySigninScreen> {
   final emailController = TextEditingController();
+  String? storedEmail, storedPassword;
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  late FirebaseAuth? _auth = FirebaseAuth.instance;
   late List<Map<String, dynamic>> blindData = [];
   late List<Map<String, dynamic>> volunteerData = [];
    var isLoading = false;
+   var isBottomSheetLoading = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Future<void> loadStoredCredentials() async {
-    String? storedEmail = await GetDocuments.loadEmail(); // Implement loadEmail() to retrieve the stored email
-    String? storedPassword = await GetDocuments.loadPassword(); // Implement loadPassword() to retrieve the stored password
+    storedEmail = await GetDocuments.loadEmail(); // Implement loadEmail() to retrieve the stored email
+    print("Email is : $storedEmail");// Implement loadEmail() to retrieve the stored email
+    storedPassword = await GetDocuments.loadPassword();
+    print("Email is : $storedPassword"); // Implement loadPassword() to retrieve the stored password
     emailController.text = storedEmail ?? '';
     passwordController.text = storedPassword ?? '';
   }
@@ -49,6 +53,8 @@ class _MySigninScreenState extends State<MySigninScreen> {
   @override
   void initState() {
     super.initState();
+   _auth = FirebaseAuth.instance;
+
     GetDocuments.getBlindData().then((data) {
       setState(() {
         blindData = data;
@@ -65,7 +71,6 @@ class _MySigninScreenState extends State<MySigninScreen> {
       // Handle error
       print(error);
     });
-    loadStoredCredentials();
   }
 
 
@@ -75,25 +80,30 @@ class _MySigninScreenState extends State<MySigninScreen> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
+    loadStoredCredentials();
     // Check if the user is already authenticated
-    if (_auth.currentUser != null && !isLoggedIn) {
-      // User is already signed in, update the isLoggedIn variable
-      Future.delayed(Duration.zero, () {
-        setState(() {
-          isLoggedIn = true;
-          loadStoredCredentials();
-        });
-
-        // Navigate to the appropriate screen based on the turn value
-        if (turn == 2) {
-          GetDocuments.getDocumentsData();
-          AppNavigation.push(context, MyVolunteerScreen());
-        } else if (turn == 1) {
-          AppNavigation.push(context, MyBlindScreen());
-        }
-      });
-    }
-
+    // if (_auth.currentUser != null && !isLoggedIn) {
+    //   // User is already signed in, update the isLoggedIn variable
+    //   Future.delayed(Duration.zero, () {
+    //     setState(() {
+    //       isLoggedIn = true;
+    //       print("Email is ${emailController.text}");
+    //       loadStoredCredentials();
+    //     });
+    //
+    //     //TODO: I am commenting this part just to make sure everything working smoothly when this screen loads.
+    //     //
+    //     // // Navigate to the appropriate screen based on the turn value
+    //     // if (turn == 2) {
+    //     //   GetDocuments.getDocumentsData();
+    //     //   AppNavigation.push(context, MyVolunteerScreen());
+    //     // } else if (turn == 1) {
+    //     //   AppNavigation.push(context, MyBlindScreen());
+    //     // }
+    //   });
+    // }
+    // emailController.text = storedEmail ?? 'Help';
+    // passwordController.text = storedPassword ?? 'Me';
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar:  AppBar(
@@ -132,7 +142,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                   child: Form(
                     key: formKey,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
@@ -184,12 +194,25 @@ class _MySigninScreenState extends State<MySigninScreen> {
                             return null;
                           },
                         ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: TextButton(
+                            onPressed: () {
+                              settingModalBottomSheet(context, screenHeight);
+                            },
+                            child: Text(
+                              'Try another way'.tr,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.15,
+                  height: screenHeight * 0.22,
                 ),
                 buildColumn(context, screenHeight),
                 const SizedBox(
@@ -219,7 +242,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
     final String email = emailController.text.trim();
 
     try {
-    await _auth.sendPasswordResetEmail(email: email);
+    await _auth?.sendPasswordResetEmail(email: email);
 
       Fluttertoast.showToast(
         msg: 'Please Check Your Mail',
@@ -251,7 +274,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                 email: emailController.text.toString(),
                 password: passwordController.text.toString(),
               );
-              _auth.signInWithCredential(credential).then((value) {
+              _auth?.signInWithCredential(credential).then((value) {
                 // Sign-in successful
                 setState(() {
                   isLoggedIn = true;
@@ -259,8 +282,8 @@ class _MySigninScreenState extends State<MySigninScreen> {
                 if (turn == 2) {
                   DocumentReference docRef = firestore
                       .collection('volunteer_users')
-                      .doc(_auth.currentUser!.uid);
-                  print('hello' + '${_auth.currentUser!.uid}');
+                      .doc(_auth?.currentUser!.uid);
+                  print('hello' + '${_auth?.currentUser!.uid}');
 
                   docRef.get().then((DocumentSnapshot snapshot) {
                     if (snapshot.exists) {
@@ -290,13 +313,13 @@ class _MySigninScreenState extends State<MySigninScreen> {
                   GetDocuments.getDocumentsData();
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) {
-                    return MyVolunteerScreen();
+                    return const MyVolunteerScreen();
                   }));
                 }
                 if (turn == 1) {
                   DocumentReference docRef = firestore
                       .collection('blind_users')
-                      .doc(_auth.currentUser!.uid);
+                      .doc(_auth?.currentUser!.uid);
 
                   docRef.get().then((DocumentSnapshot snapshot) {
                     if (snapshot.exists) {
@@ -360,7 +383,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
   void navigate(BuildContext context) {
     if (turn == 2) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return MyVolunteerScreen();
+        return const MyVolunteerScreen();
       }));
     }
     if (turn == 1) {
@@ -369,4 +392,86 @@ class _MySigninScreenState extends State<MySigninScreen> {
       }));
     }
   }
-}
+
+  void settingModalBottomSheet(context, screenHeight) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+            child: Container(
+              child: isLoading
+                  ? const Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(
+                      color: buttonColor,
+                      strokeWidth: 3,
+                    ),
+                  ))
+                  : Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  MyDoubleIconTextButton(
+                    text: 'Continue with Google',
+                    image: 'images/g_icon.png',
+                    isIconRequired: false,
+                    color: buttonColor,
+                    ontap: () async {
+                      setState(() {
+                        isBottomSheetLoading = true;
+                      });
+                      if (await GetDocuments.signInWithGoogle(
+                          context)) {
+                        setState(() {
+                          isBottomSheetLoading = false;
+                        });
+                        navigate(context);
+                      } else {
+                        setState(() {
+                          isBottomSheetLoading = false;
+                        });
+                      }
+                    },
+                  ),
+                  appleSignInAvailable.isAvailable
+                      ?
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                  ) :
+                  const SizedBox.shrink(),
+                  appleSignInAvailable.isAvailable
+                      ?
+                  MyDoubleIconTextButton(
+                    text: 'Continue with Apple',
+                    image: 'images/appleLogo.png',
+                    isIconRequired: false,
+                    color: buttonColor,
+                    ontap: () async {
+                      setState(() {
+                        isBottomSheetLoading = true;
+                      });
+                      if (await GetDocuments.signInWithApple(
+                          context)) {
+                        setState(() {
+                          isBottomSheetLoading = false;
+                        });
+                        navigate(context);
+                      } else {
+                        setState(() {
+                          isBottomSheetLoading = false;
+                        });
+                      }
+                    },
+                  )
+                      : Container(),
+                  appleSignInAvailable.isAvailable
+                      ? const SizedBox(
+                    height: 10,
+                  ) : Container(),
+                ])),
+          );
+        });}}

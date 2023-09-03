@@ -5,27 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0f93d68-8559-4853-b69f-bd1769ac35c8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/images/bell.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/terms_and_conditions.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/blindcompanion-dev_hashir.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blindcompanion-dev_hashir.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/google-services.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/backend.dart/getDocuments.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/backend.dart/getDocuments.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/double_icontextButton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/double_icontextButton.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/textbutton.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/textbutton.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/components/textfield.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/components/textfield.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/email.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/email.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/blind_main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/blind_main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/getStarted.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/getStarted.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/self_volunteerHelp.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/self_volunteerHelp.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/signIn.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signIn.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/signup.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/signup.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/welcome.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/welcome.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
@@ -107,7 +98,19 @@
       <option name="presentableId" value="Default" />
       <updated>1687606367101</updated>
     </task>
+    <task id="LOCAL-00001" summary="Modified Ui along with some code fixes.&#10;Apple and google sign-in updated.&#10;Shared preferences to auto-fill users credentials.">
+      <created>1693691628125</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1693691628125</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Modified Ui along with some code fixes.&#10;Apple and google sign-in updated.&#10;Shared preferences to auto-fill users credentials." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified Ui along with some code fixes.&#10;Apple and google sign-in updated.&#10;Shared preferences to auto-fill users credentials." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -141,6 +144,21 @@
           <url>file://$PROJECT_DIR$/lib/backend.dart/getDocuments.dart</url>
           <line>145</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/signIn.dart</url>
+          <line>315</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/signIn.dart</url>
+          <line>271</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/volunteer_main_screen.dart</url>
+          <line>105</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

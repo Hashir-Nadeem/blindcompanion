@@ -1,8 +1,6 @@
 import 'package:blind_companion/screens/blind_main_screen.dart';
-import 'package:blind_companion/screens/email.dart';
-import 'package:blind_companion/screens/signIn.dart';
+import 'package:blind_companion/screens/getStarted.dart';
 import 'package:blind_companion/screens/volunteer_main_screen.dart';
-import 'package:blind_companion/screens/welcome.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,50 +11,50 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
- //  appleSignInAvailable.check();
- //  WidgetsFlutterBinding.ensureInitialized();
- //  await Firebase.initializeApp(
- //    options: DefaultFirebaseOptions.currentPlatform,
- //  );
- //  // Retrieve the stored selected role
- //  SharedPreferences prefs = await SharedPreferences.getInstance();
- //  String? selectedRole = prefs.getString('selectedRole');
- //
- //  // Navigate the user based on the stored selected role
- //  if (selectedRole == 'Blind') {
- //    runApp(
- //      GetMaterialApp(
- //          debugShowCheckedModeBanner: false,
- //          translations: AppTexts(),
- //          locale: const Locale('en', 'US'),
- //          title: 'Blind Companion',
- //          theme: ThemeData(
- //            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
- //            useMaterial3: true,
- //          ),
- //          home: MyBlindScreen()),
- //    );
- //  } else if (selectedRole == 'Volunteer') {
- //    runApp(
- //      GetMaterialApp(
- //          debugShowCheckedModeBanner: false,
- //          translations: AppTexts(),
- //          locale: const Locale('en', 'US'),
- //          title: 'Blind Companion',
- //          theme: ThemeData(
- //            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
- //            useMaterial3: true,
- //          ),
- //          home: MyVolunteerScreen()),
- //    );
- //  } else {
- //   runApp(const MyApp());
- // }
+  appleSignInAvailable.check();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // Retrieve the stored selected role
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? selectedRole = prefs.getString('selectedRole');
+
+  // Navigate the user based on the stored selected role
+  if (selectedRole == 'Blind') {
+    runApp(
+      GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          translations: AppTexts(),
+          locale: const Locale('en', 'US'),
+          title: 'Blind Companion',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+            useMaterial3: true,
+          ),
+          home: MyBlindScreen()),
+    );
+  } else if (selectedRole == 'Volunteer') {
+    runApp(
+      GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          translations: AppTexts(),
+          locale: const Locale('en', 'US'),
+          title: 'Blind Companion',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+            useMaterial3: true,
+          ),
+          home: const MyVolunteerScreen()),
+    );
+  } else {
+   runApp(const MyApp());
+ }
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -68,7 +66,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: MyVolunteerScreen(),
+      home: const MyGetStarted(),
     );
   }
 }

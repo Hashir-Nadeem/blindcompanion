@@ -26,28 +26,54 @@ class MyVolunteerScreen extends StatefulWidget {
 class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   bool showNoCallsText = false;
   List<Map<String, dynamic>> documentsData = []; // Declare documentsData as a class member
   List<Map<String, dynamic>> rejectData = [];
+  late FirebaseAuth? _auth;
+  late FirebaseFirestore? firestore;
+  late List<Map<String, dynamic>> blindData = [];
+  late List<Map<String, dynamic>> volunteerData = [];
   List<int> rejectedIndices = [];
   var uid = null;
   Timer? _timer;
 
+  Future<void> loadStoredCredentials() async {
+    String? storedEmail = await GetDocuments.loadEmail();
+    print("Email is : ${storedEmail}");// Implement loadEmail() to retrieve the stored email
+    String? storedPassword = await GetDocuments.loadPassword();
+    print("Email is : $storedPassword");// Implement loadPassword() to retrieve the stored password
+  }
+
   @override
   void initState() {
     super.initState();
-    fetchDocumentsData();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+    _auth = FirebaseAuth.instance;
+    firestore = FirebaseFirestore.instance;
+    Future.delayed(const Duration(milliseconds: 2000), () {
       setState(() {
         fetchDocumentsData();
+      });
+      GetDocuments.getBlindData().then((data) {
+        setState(() {
+          blindData = data;
+        });
+      }).catchError((error) {
+        print(error);
+      });
+      GetDocuments.getVolunteerData().then((data) {
+        setState(() {
+          volunteerData = data;
+        });
+      }).catchError((error) {
+        // Handle error
+        print(error);
       });
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
+   // _timer?.cancel();
     super.dispose();
   }
 
@@ -77,14 +103,24 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    final User? _user = _auth.currentUser;
+    final User? _user = _auth?.currentUser;
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: backgroundColor,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            _auth?.signOut();
+            Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+            builder: (context) => const MySelfVolunteerHelp()),
+            ModalRoute.withName("/Home"));
+          },
+        ),
         title: Image.asset("images/new_logo.png"),
         backgroundColor: backgroundColor,
         actions: [
@@ -115,6 +151,13 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                 personContainer(context, screenHeight, screenWidth, _user),
                 SizedBox(
                   height: screenHeight * 0.03,
+                ),
+                MyTextButton(
+                  text: 'Learn how to answer a call',
+                  color: buttonColor,
+                  ontap: () {
+                    AppNavigation.push(context, TestCall());
+                  },
                 ),
               ],
             ),
@@ -186,12 +229,12 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
               ),
             ),
             onTap: () {
-              // _auth.signOut();
-              // Navigator.pushAndRemoveUntil(
-              //     context,
-              //     MaterialPageRoute(
-              //         builder: (context) => MySelfVolunteerHelp()),
-              //     ModalRoute.withName("/Home"));
+              _auth?.signOut();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MySelfVolunteerHelp()),
+                  ModalRoute.withName("/Home"));
             },
           ),
           const Divider(
@@ -283,8 +326,8 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildCounterRow("Blind", 10000),
-                  buildCounterRow("Volunteers", 1000),
+                  buildCounterRow("Blind", blindData.length * 1.0),
+                  buildCounterRow("Volunteers", volunteerData.length * 1.0 ),
                 ],
               ),
             //  buildRow("522,575\nBlind", "6,858,788\nVolunteers")
