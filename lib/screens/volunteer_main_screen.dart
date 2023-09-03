@@ -107,7 +107,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: backgroundColor,
+      backgroundColor: primaryBackgroundColor,
       appBar: AppBar(
         toolbarHeight: screenHeight * 0.1,
         leading: IconButton(
@@ -122,7 +122,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
           },
         ),
         title: Image.asset("images/new_logo.png"),
-        backgroundColor: backgroundColor,
+        backgroundColor: primaryBackgroundColor,
         actions: [
           IconButton(
               onPressed: () {
@@ -154,7 +154,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
                 ),
                 MyTextButton(
                   text: 'Learn how to answer a call',
-                  color: buttonColor,
+                  color: primaryButtonColor,
                   ontap: () {
                     AppNavigation.push(context, TestCall());
                   },
@@ -175,7 +175,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
         children: <Widget>[
           DrawerHeader(
             decoration: const BoxDecoration(
-              color: buttonColor, // Customize the background color
+              color: primaryButtonColor, // Customize the background color
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -274,7 +274,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
       },
       child: Container(
           decoration: BoxDecoration(
-            color: buttonColor,
+            color: primaryButtonColor,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
@@ -310,7 +310,7 @@ class _MyVolunteerScreenState extends State<MyVolunteerScreen> {
   Widget globeContainer(BuildContext context, double screenHeight, double screenWidth){
     return Container(
         decoration: BoxDecoration(
-          color: buttonColor,
+          color: primaryButtonColor,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Padding(

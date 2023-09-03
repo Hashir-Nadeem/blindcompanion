@@ -29,14 +29,14 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: primaryBackgroundColor,
       appBar: AppBar(
         toolbarHeight: 70,
         title: const Text(
           "Get Started",
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
         ),
-        backgroundColor: backgroundColor,
+        backgroundColor: primaryBackgroundColor,
         automaticallyImplyLeading: true,
       ),
       body: SafeArea(
@@ -67,7 +67,7 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                         const TextSpan(
                           text: 'Blind Companion ',
                           style: TextStyle(
-                            color: buttonColor,
+                            color: primaryButtonColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           ),
@@ -75,7 +75,7 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                         TextSpan(
                           text: 'Terms & Privacy Policy',
                           style: const TextStyle(
-                            color: buttonColor,
+                            color: primaryButtonColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.underline,
@@ -101,7 +101,7 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                     isIconRequired: false,
                     isLeadingImageRequired: false,
                     text: 'Continue with Email',
-                    color: buttonColor,
+                    color: primaryButtonColor,
                     ontap: () {
                       Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
@@ -129,7 +129,7 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                               text: 'Continue with Google',
                               image: 'images/g_icon.png',
                               isIconRequired: false,
-                              color: buttonColor,
+                              color: primaryButtonColor,
                               ontap: () async {
                                 setState(() {
                                   isLoading = true;
@@ -155,7 +155,7 @@ class _MyEmailScreenState extends State<MyEmailScreen> {
                                     text: 'Continue with Apple',
                                     image: 'images/appleLogo.png',
                                     isIconRequired: false,
-                                    color: buttonColor,
+                                    color: primaryButtonColor,
                                     ontap: () async {
                                       setState(() {
                                         isLoading = true;

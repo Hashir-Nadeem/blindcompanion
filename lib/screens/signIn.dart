@@ -54,7 +54,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
   void initState() {
     super.initState();
    _auth = FirebaseAuth.instance;
-
+    loadStoredCredentials();
     GetDocuments.getBlindData().then((data) {
       setState(() {
         blindData = data;
@@ -80,7 +80,6 @@ class _MySigninScreenState extends State<MySigninScreen> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    loadStoredCredentials();
     // Check if the user is already authenticated
     // if (_auth.currentUser != null && !isLoggedIn) {
     //   // User is already signed in, update the isLoggedIn variable
@@ -105,13 +104,13 @@ class _MySigninScreenState extends State<MySigninScreen> {
     // emailController.text = storedEmail ?? 'Help';
     // passwordController.text = storedPassword ?? 'Me';
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: primaryBackgroundColor,
       appBar:  AppBar(
         toolbarHeight: 70,
         automaticallyImplyLeading: false,
         title: Image.asset("images/new_logo.png"),
         centerTitle: true,
-        backgroundColor: backgroundColor,
+        backgroundColor: primaryBackgroundColor,
       ),
       body: SizedBox(
         height: screenHeight,
@@ -124,7 +123,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                 GestureDetector(
                   onTap: (){
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-                      return MyWelcomeScreen();
+                      return const MyWelcomeScreen();
                     }));
                   },
                   child: Row(
@@ -212,7 +211,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * 0.22,
+                  height: screenHeight * 0.1,
                 ),
                 buildColumn(context, screenHeight),
                 const SizedBox(
@@ -267,7 +266,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
       children: [
         MyTextButton(
           text: "Next" .tr,
-          color: buttonColor,
+          color: primaryButtonColor,
           ontap: () {
             if (formKey.currentState!.validate()) {
               final credential = EmailAuthProvider.credential(
@@ -370,7 +369,7 @@ class _MySigninScreenState extends State<MySigninScreen> {
         ),
         MyTextButton(
           isBorderEnabled: true,
-          text: 'Forget Password?'.tr,
+          text: 'Forget Password'.tr,
           color: Colors.transparent,
           ontap: () {
             _resetPassword();

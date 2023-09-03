@@ -1,27 +1,26 @@
-import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/textbutton.dart';
 import 'package:blind_companion/screens/email.dart';
 import 'package:blind_companion/screens/signIn.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../theme.dart';
 
 class MyWelcomeScreen extends StatelessWidget {
+  const MyWelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    // TODO: implement build
     return (Scaffold(
-        backgroundColor: backgroundColor,
+        backgroundColor: primaryBackgroundColor,
         appBar: AppBar(
           title: const Text("Get Started", style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 18
           ),),
-          backgroundColor: backgroundColor,
+          backgroundColor: primaryBackgroundColor,
           automaticallyImplyLeading: true,
         ),
       body: SafeArea(
@@ -60,23 +59,23 @@ class MyWelcomeScreen extends StatelessWidget {
                   ontap: () {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return MySigninScreen();
+                      return const MySigninScreen();
                     }));
                     // AppNavigation.push(context, MySigninScreen());
                   },
                   text: 'Sign In'.tr,
-                  color: buttonColor,
+                  color: primaryButtonColor,
                 ),
                 SizedBox(
                   height: screenHeight * 0.03,
                 ),
                 MyTextButton(
                   text: 'Sign Up'.tr,
-                  color: buttonColor,
+                  color: primaryButtonColor,
                   ontap: () {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (context) {
-                      return MyEmailScreen();
+                      return const MyEmailScreen();
                     }));
                     // AppNavigation.push(context, MyEmailScreen());
                   },

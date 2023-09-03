@@ -1,7 +1,6 @@
 import 'package:blind_companion/Assets/Navigation.dart';
 import 'package:blind_companion/components/double_icontextButton.dart';
 import 'package:blind_companion/screens/signIn.dart';
-import 'package:blind_companion/screens/volunteer_main_screen.dart';
 import 'package:blind_companion/screens/welcome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,7 +10,6 @@ import 'package:countup/countup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../backend.dart/getDocuments.dart';
 import '../theme.dart';
-import 'blind_main_screen.dart';
 
 int turn = 0;
 
@@ -59,13 +57,13 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
     final Size screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     return (Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: primaryBackgroundColor,
       appBar: AppBar(
-        toolbarHeight: 70,
+        toolbarHeight: screenHeight * 0.1,
         automaticallyImplyLeading: false,
         title: Image.asset("images/new_logo.png"),
         centerTitle: true,
-        backgroundColor: backgroundColor,
+        backgroundColor: primaryBackgroundColor,
       ),
       body: SafeArea(
         child: Stack(
@@ -81,7 +79,7 @@ class _MySelfVolunteerHelpState extends State<MySelfVolunteerHelp> {
                           height: 30,
                           width: 30,
                           child: CircularProgressIndicator(
-                        color: buttonColor,
+                        color: primaryButtonColor,
                         strokeWidth: 3,
                       ),
                     )),

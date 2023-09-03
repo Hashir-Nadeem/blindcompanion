@@ -42,7 +42,7 @@ class PolicyDialog extends StatelessWidget {
           ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(buttonColor),
+                  MaterialStateProperty.all<Color>(primaryButtonColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
